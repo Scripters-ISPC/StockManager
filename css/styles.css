@@ -1,0 +1,107 @@
+/* =========================
+   RESET GENERAL
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================
+   BODY
+========================= */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #222222;
+
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header {
+    background-color: #434e5f;
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.logo a {
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* =========================
+   NAVEGACIÓN
+========================= */
+
+.nav-list {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+}
+
+.nav-list a {
+    color: white;
+    text-decoration: none;
+}
+
+/* =========================
+   CONTENIDO PRINCIPAL
+========================= */
+
+.main {
+    padding: 20px;
+    flex: 1;
+}
+
+/* =========================
+   SECTION
+========================= */
+
+
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    background-color: #434e5f;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+/* =========================
+   RESPONSIVE MÓVIL
+========================= */
+
+@media (max-width: 768px) {
+
+    .header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .nav-list {
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+}
