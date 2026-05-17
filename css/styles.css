@@ -23,13 +23,25 @@ body {
 }
 
 /* =========================
+   CONTAINER GLOBAL
+========================= */
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+/* =========================
    HEADER
 ========================= */
 
 .header {
     background-color: #434e5f;
     color: white;
-    padding: 20px;
+    padding: 20px 0;
+}
+
+.header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -44,6 +56,13 @@ body {
     text-decoration: none;
     font-size: 24px;
     font-weight: bold;
+}
+
+.logo img {
+    width: 150px;
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* =========================
@@ -66,7 +85,7 @@ body {
 ========================= */
 
 .main {
-    padding: 20px;
+    padding: 20px 0;
     flex: 1;
 }
 
@@ -85,7 +104,7 @@ body {
     background-color: #434e5f;
     color: white;
     text-align: center;
-    padding: 15px;
+    padding: 15px 0;
 }
 
 /* =========================
@@ -94,7 +113,7 @@ body {
 
 @media (max-width: 768px) {
 
-    .header {
+    .header .container {
         flex-direction: column;
         text-align: center;
     }
