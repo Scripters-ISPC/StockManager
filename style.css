@@ -20,7 +20,7 @@ body {
 
 .sidebar {
     width: 16rem;
-    background-color: #404F66;
+    background-color: #434e5f;
     color: white;
     padding: 1.5rem;
     transition: left 0.3s ease;
@@ -92,6 +92,10 @@ body {
 
     .menu-btn {
         display: block;
+    }
+
+    h1 {
+        text-align: center;
     }
 
     .sidebar {
@@ -195,4 +199,11 @@ body {
     width: 60%;
 
     background-color: #f59e0b;
+}
+
+.footer {
+    background-color: #434e5f;
+    color: white;
+    text-align: center;
+    padding: 1rem 0;
 }
