@@ -92,8 +92,69 @@ body {
 /* =========================
    SECTION
 ========================= */
+.section {
+    margin-bottom: 40px;
+}
 
+.section h1, .section h2 {
+    color: #434e5f; 
+    margin-bottom: 15px;
+}
 
+.section p {
+    line-height: 1.6; 
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+/* =========================
+   GRILLA DE EQUIPO 
+========================= */
+.equipo-miembros {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 25px;       
+    justify-content: space-between;
+    margin-top: 25px;
+}
+
+.miembro {
+    background-color: white; 
+    border: 1px solid #e1e4e6;
+    border-radius: 8px;      
+    padding: 25px;
+    flex: 1 1 280px;        
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05); 
+    text-align: center;
+}
+
+.miembro h3 {
+    color: #222222;
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+
+.miembro p {
+    color: #666666;
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+.miembro a {
+    display: inline-block;
+    background-color: #434e5f; 
+    color: white;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: background-color 0.2s ease; 
+}
+
+.miembro a:hover {
+    background-color: #2e3743; 
+}
 
 
 /* =========================
@@ -122,5 +183,14 @@ body {
         flex-direction: column;
         margin-top: 10px;
     }
+.equipo-miembros {
+        justify-content: center; 
+    }
+
+    .miembro {
+        flex: 1 1 100%; 
+        max-width: 100%;
+    }
+
 
 }
