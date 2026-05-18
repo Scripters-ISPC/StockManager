@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de Materiales - Sistema de Logística</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #a8d0ff;
+            font-size: 1.1em;
+        }
+
+        .form-content {
+            padding: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            color: #1e3c72;
+            margin-bottom: 8px;
+            font-size: 1.05em;
+        }
+
+        label .required {
+            color: #f5576c;
+            margin-left: 4px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background-color: #f8f9fa;
+        }
+
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+            background-color: white;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231e3c72' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 40px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .urgencia-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 8px;
+        }
+
+        .radio-option {
+            flex: 1;
+        }
+
+        .radio-option input[type="radio"] {
+            display: none;
+        }
+
+        .radio-option label {
+            display: block;
+            padding: 12px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            background-color: #f8f9fa;
+        }
+
+        .radio-option input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
+        }
+
+        .radio-option label:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        /* Estilos específicos por urgencia */
+        .urgencia-baja input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
+            border-color: #56ab2f;
+        }
+
+        .urgencia-media input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
+            border-color: #f7971e;
+        }
+
+        .urgencia-alta input[type="radio"]:checked + label {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+            border-color: #eb3349;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.1em;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
+        }
+
+        .helper-text {
+            font-size: 0.9em;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+
+        .form-footer {
+            background: #f8f9fa;
+            padding: 20px 40px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .urgencia-options {
+                flex-direction: column;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .form-content {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📦 Solicitud de Materiales</h1>
+            <p>Sistema de Gestión de Logística Interna</p>
+        </div>
+
+        <div class="form-content">
+            <form id="formMateriales">
+                <!-- Selector de Producto -->
+                <div class="form-group">
+                    <label for="producto">
+                        Producto <span class="required">*</span>
+                    </label>
+                    <select id="producto" name="producto" required>
+                        <option value="">Seleccione un producto...</option>
+                        <option value="papel-a4">Papel A4 - Resma 500 hojas</option>
+                        <option value="toner-hp">Toner HP LaserJet Negro</option>
+                        <option value="toner-hp-color">Toner HP LaserJet Color</option>
+                        <option value="lapiceras">Lapiceras Azul - Caja x50</option>
+                        <option value="marcadores">Marcadores Permanentes - Set x12</option>
+                        <option value="carpetas">Carpetas A4 - Paquete x25</option>
+                        <option value="clips">Clips Metálicos - Caja x100</option>
+                        <option value="post-it">Post-it Notas - Pack x6</option>
+                        <option value="cuadernos">Cuadernos Tapa Dura A4</option>
+                        <option value="grapadora">Grapadoras Metálicas</option>
+                        <option value="cintas">Cinta Adhesiva Transparente</option>
+                        <option value="tijeras">Tijeras de Oficina</option>
+                    </select>
+                    <p class="helper-text">Seleccione el material que necesita solicitar</p>
+                </div>
+
+                <!-- Cantidad y Proveedor -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cantidad">
+                            Cantidad <span class="required">*</span>
+                        </label>
+                        <input 
+                            type="number" 
+                            id="cantidad" 
+                            name="cantidad" 
+                            min="1" 
+                            max="9999" 
+                            placeholder="Ej: 10"
+                            required
+                        >
+                        <p class="helper-text">Unidades a solicitar</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="proveedor">
+                            Proveedor <span class="required">*</span>
+                        </label>
+                        <select id="proveedor" name="proveedor" required>
+                            <option value="">Seleccione proveedor...</option>
+                            <option value="officenet">OfficeNet S.A.</option>
+                            <option value="papelera-central">Papelera Central</option>
+                            <option value="suministros-express">Suministros Express</option>
+                            <option value="distribuidora-omega">Distribuidora Omega</option>
+                            <option value="libreria-tecnica">Librería Técnica</option>
+                            <option value="mundo-oficina">Mundo Oficina</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Nivel de Urgencia -->
+                <div class="form-group">
+                    <label>
+                        Nivel de Urgencia <span class="required">*</span>
+                    </label>
+                    <div class="urgencia-options">
+                        <div class="radio-option urgencia-baja">
+                            <input type="radio" id="urgencia-baja" name="urgencia" value="baja" required>
+                            <label for="urgencia-baja">🟢 Baja</label>
+                        </div>
+                        <div class="radio-option urgencia-media">
+                            <input type="radio" id="urgencia-media" name="urgencia" value="media">
+                            <label for="urgencia-media">🟡 Media</label>
+                        </div>
+                        <div class="radio-option urgencia-alta">
+                            <input type="radio" id="urgencia-alta" name="urgencia" value="alta">
+                            <label for="urgencia-alta">🔴 Alta</label>
+                        </div>
+                    </div>
+                    <p class="helper-text">Baja: 7-10 días | Media: 3-5 días | Alta: 24-48 horas</p>
+                </div>
+
+                <!-- Observaciones -->
+                <div class="form-group">
+                    <label for="observaciones">
+                        Observaciones (Opcional)
+                    </label>
+                    <input 
+                        type="text" 
+                        id="observaciones" 
+                        name="observaciones" 
+                        placeholder="Detalles adicionales sobre la solicitud..."
+                        maxlength="200"
+                    >
+                    <p class="helper-text">Información adicional que considere relevante</p>
+                </div>
+
+                <!-- Botón de Envío -->
+                <button type="submit" class="btn-submit">
+                    ✓ Enviar Solicitud de Material
+                </button>
+            </form>
+        </div>
+
+        <div class="form-footer">
+            Sistema de Logística Interna v1.0 | Rama: feat/pedidos-formulario
+        </div>
+    </div>
+
+</body>
+</html>
