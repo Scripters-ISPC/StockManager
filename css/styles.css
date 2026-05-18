@@ -272,3 +272,57 @@ body {
 .btn-delete:hover {
     background-color: #c0392b;
 }
+
+/* ==========================================================================
+   SECCIÓN HERO (Issue: feat/home-hero)
+   ========================================================================== */
+.hero-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 60px;
+    padding: 40px;
+    background-color: #ffffff; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.hero-content { flex: 1; }
+.hero-title {
+    color: #434e5f;
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+.hero-subtitle {
+    color: #666666;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+.btn-cta {
+    display: inline-block;
+    background-color: #3498db; 
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+.btn-cta:hover { background-color: #2980b9; }
+.hero-image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+.hero-image { max-width: 100%; height: auto; }
+
+@media (max-width: 768px) {
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    .hero-image-container { margin-top: 20px; }
+}
