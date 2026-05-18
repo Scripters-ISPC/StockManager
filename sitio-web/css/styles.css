@@ -269,64 +269,95 @@ body {
     color: #ffffff;
 }
 
+.btn-delete:hover {
+    background-color: #c0392b;
 }
+
 /* ==========================================================================
-   ESTILOS PARA LA SECCIÓN QUIÉNES SOMOS (Mejoras Visuales)
+   SECCIÓN HERO (Issue: feat/home-hero)
    ========================================================================== */
-
-.section p {
-    margin-bottom: 15px;
-    line-height: 1.6;
-    color: #333;
-    font-size: 16px;
-}
-
-.equipo-miembros {
+.hero-section {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 25px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 60px;
+    padding: 40px;
+    background-color: #ffffff; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+.hero-content { flex: 1; }
+.hero-title {
+    color: #404F66; /* Actualizado al nuevo color del sistema */
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+.hero-subtitle {
+    color: #666666;
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+}
+.btn-cta {
+    display: inline-block;
+    background-color: #404F66; /* Botón actualizado a la paleta */
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+.btn-cta:hover { background-color: #1e293b; } /* Hover más oscuro */
+.hero-image-container {
+    flex: 1;
+    display: flex;
     justify-content: center;
 }
+.hero-image { max-width: 100%; height: auto; }
 
-.miembro {
-    background-color: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 20px;
-    width: 220px;
+/* ==========================================================================
+   SECCIÓN BENEFICIOS (Issue: feat/home-detalles)
+   ========================================================================== */
+.benefits-section {
+    margin-bottom: 60px;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.benefits-title {
+    color: #404F66;
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+.benefit-card {
+    background-color: #ffffff;
+    padding: 30px 20px;
+    border-radius: 8px;
+    border: 1px solid #e1e4e6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
     transition: transform 0.2s ease;
 }
-
-.miembro:hover {
-    transform: translateY(-5px);
+.benefit-card:hover { transform: translateY(-5px); }
+.benefit-icon { font-size: 40px; margin-bottom: 15px; }
+.card-title {
+    color: #404F66;
+    font-size: 20px;
+    margin-bottom: 10px;
 }
+.card-description { color: #666666; font-size: 15px; line-height: 1.6; }
 
-.miembro h3 {
-    margin-bottom: 8px;
-    color: #2c3e50;
-    font-size: 18px;
-}
-
-.miembro p {
-    color: #7f8c8d;
-    font-size: 14px;
-    margin-bottom: 15px;
-}
-
-.miembro a {
-    display: inline-block;
-    background-color: #24292e;
-    color: #fff;
-    padding: 8px 12px;
-    border-radius: 5px;
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: bold;
-}
-
-.miembro a:hover {
-    background-color: #555;
+/* RESPONSIVE HERO */
+@media (max-width: 768px) {
+    .hero-section {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    .hero-image-container { margin-top: 20px; }
 }
