@@ -389,3 +389,58 @@ body {
 }
 
 .btn-delete:hover { background-color: #dc2626; }
+
+/* ==========================================================================
+   MÓDULO: ALERTAS DE INVENTARIO Y BADGES (Rama: style/inventario-alertas)
+   ========================================================================== */
+
+.alert-banner {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border-left: 6px solid #ef4444;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    box-shadow: 0 4px 6px rgba(239, 68, 68, 0.1);
+}
+
+.table-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    border: 1px solid #e2e8f0;
+}
+
+.tabla-inventario tbody tr.row-critical {
+    background-color: #fff5f5;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.35rem 0.8rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.badge-ok {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.badge-critical {
+    background-color: #fee2e2;
+    color: #991b1b;
+    animation: alert-pulse 2s infinite;
+}
+
+@keyframes alert-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+}

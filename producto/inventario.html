@@ -1,6 +1,7 @@
 <main class="main-content">
             <h1>📦 Inventario Principal</h1>
 
+            <!-- Criterio 2: Banner de Alerta llamativo -->
             <div class="alert-banner">
                 <strong>⚠️ ¡Alerta! Quiebre de inventario inminente:</strong> Existen materiales con stock crítico que requieren reposición inmediata.
             </div>
@@ -13,6 +14,7 @@
                             <th>Material</th>
                             <th>Categoría</th>
                             <th>Cantidad</th>
+                            <!-- Nueva columna para los Badges -->
                             <th>Estado</th>
                             <th>Acciones</th>
                         </tr>
@@ -23,18 +25,20 @@
                             <td>Resma Papel A4</td>
                             <td>Librería</td>
                             <td>50</td>
+                            <!-- Criterio 1: Badge Verde -->
                             <td><span class="badge badge-ok">Stock Ok</span></td>
                             <td>
                                 <button class="btn-actions btn-edit">Editar</button>
                                 <button class="btn-actions btn-delete">Eliminar</button>
                             </td>
                         </tr>
-
+                        <!-- Fila resaltada por bajo stock -->
                         <tr class="row-critical">
                             <td>#002</td>
                             <td>Cartucho Tinta Negra</td>
                             <td>Insumos</td>
                             <td>2</td>
+                            <!-- Criterio 1: Badge Rojo -->
                             <td><span class="badge badge-critical">Crítico</span></td>
                             <td>
                                 <button class="btn-actions btn-edit">Editar</button>
