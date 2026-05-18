@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f1f5f9;
+}
+
+/* CONTENEDOR PRINCIPAL */
+
+.dashboard-container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* SIDEBAR */
+
+.sidebar {
+    width: 16rem;
+    background-color: #404F66;
+    color: white;
+    padding: 1.5rem;
+    transition: left 0.3s ease;
+}
+
+.logo {
+    margin-bottom: 2rem;
+}
+
+.logo a {
+  color: inherit;
+  text-decoration: none;
+  font-size: inherit;
+  font-weight: inherit;
+  font-family: inherit;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s ease;
+}
+
+.nav-links a:hover {
+    background-color: #1e293b;
+}
+
+/* CONTENIDO PRINCIPAL */
+
+.main-content {
+    flex: 1;
+    padding: 2.5rem;
+}
+
+/* BOTÓN MOBILE */
+
+.menu-btn {
+    display: none;
+
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+
+    z-index: 1000;
+
+    padding: 0.75rem 1rem;
+
+    border: none;
+    border-radius: 0.5rem;
+
+    background-color: #0f172a;
+    color: white;
+
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 48rem) {
+
+    .menu-btn {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -16rem;
+
+        height: 100%;
+
+        z-index: 999;
+    }
+
+    .sidebar.active {
+        left: 0;
+    }
+
+    .logo {
+        margin-top: 4rem;
+    }
+
+    .main-content {
+        width: 100%;
+        padding: 5rem 1.5rem 1.5rem;
+    }
+
+}
