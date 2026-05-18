@@ -183,7 +183,7 @@ body {
         flex-direction: column;
         margin-top: 10px;
     }
-.equipo-miembros {
+    .equipo-miembros {
         justify-content: center; 
     }
 
@@ -269,7 +269,6 @@ body {
     color: #ffffff;
 }
 
-}
 /* ==========================================================================
    ESTILOS PARA LA SECCIÓN QUIÉNES SOMOS (Mejoras Visuales)
    ========================================================================== */
@@ -369,10 +368,13 @@ body {
     transition: background-color 0.2s ease;
 }
 .btn-cta:hover { background-color: #1e293b; } 
+
+.hero-image-container {
     flex: 1;
     display: flex;
     justify-content: center;
 }
+
 .hero-image { max-width: 100%; height: auto; }
 
 /* ==========================================================================
