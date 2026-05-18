@@ -289,7 +289,7 @@ body {
 }
 .hero-content { flex: 1; }
 .hero-title {
-    color: #434e5f;
+    color: #404F66; /* Actualizado al nuevo color del sistema */
     font-size: 36px;
     margin-bottom: 15px;
 }
@@ -301,7 +301,7 @@ body {
 }
 .btn-cta {
     display: inline-block;
-    background-color: #3498db; 
+    background-color: #404F66; /* Botón actualizado a la paleta */
     color: #ffffff;
     text-decoration: none;
     padding: 12px 25px;
@@ -310,7 +310,7 @@ body {
     font-weight: bold;
     transition: background-color 0.2s ease;
 }
-.btn-cta:hover { background-color: #2980b9; }
+.btn-cta:hover { background-color: #1e293b; } /* Hover más oscuro */
 .hero-image-container {
     flex: 1;
     display: flex;
@@ -318,6 +318,41 @@ body {
 }
 .hero-image { max-width: 100%; height: auto; }
 
+/* ==========================================================================
+   SECCIÓN BENEFICIOS (Issue: feat/home-detalles)
+   ========================================================================== */
+.benefits-section {
+    margin-bottom: 60px;
+    text-align: center;
+}
+.benefits-title {
+    color: #404F66;
+    font-size: 28px;
+    margin-bottom: 30px;
+}
+.benefits-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+}
+.benefit-card {
+    background-color: #ffffff;
+    padding: 30px 20px;
+    border-radius: 8px;
+    border: 1px solid #e1e4e6;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+.benefit-card:hover { transform: translateY(-5px); }
+.benefit-icon { font-size: 40px; margin-bottom: 15px; }
+.card-title {
+    color: #404F66;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+.card-description { color: #666666; font-size: 15px; line-height: 1.6; }
+
+/* RESPONSIVE HERO */
 @media (max-width: 768px) {
     .hero-section {
         flex-direction: column;
