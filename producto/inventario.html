@@ -1,84 +1,120 @@
 <main class="main-content">
             <h1>📦 Inventario Principal</h1>
 
-            <!-- Criterio 2: Banner de Alerta llamativo -->
             <div class="alert-banner">
                 <strong>⚠️ ¡Alerta! Quiebre de inventario inminente:</strong> Existen materiales con stock crítico que requieren reposición inmediata.
             </div>
 
-            <div class="table-container">
-                <table class="tabla-inventario">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Material</th>
-                            <th>Categoría</th>
-                            <th>Cantidad</th>
-                            <!-- Nueva columna para los Badges -->
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#001</td>
-                            <td>Resma Papel A4</td>
-                            <td>Librería</td>
-                            <td>50</td>
-                            <!-- Criterio 1: Badge Verde -->
-                            <td><span class="badge badge-ok">Stock Ok</span></td>
-                            <td>
-                                <button class="btn-actions btn-edit">Editar</button>
-                                <button class="btn-actions btn-delete">Eliminar</button>
-                            </td>
-                        </tr>
-                        <!-- Fila resaltada por bajo stock -->
-                        <tr class="row-critical">
-                            <td>#002</td>
-                            <td>Cartucho Tinta Negra</td>
-                            <td>Insumos</td>
-                            <td>2</td>
-                            <!-- Criterio 1: Badge Rojo -->
-                            <td><span class="badge badge-critical">Crítico</span></td>
-                            <td>
-                                <button class="btn-actions btn-edit">Editar</button>
-                                <button class="btn-actions btn-delete">Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#003</td>
-                            <td>Abrochadora Pesada</td>
-                            <td>Bazar y Oficina</td>
-                            <td>12</td>
-                            <td><span class="badge badge-ok">Stock Ok</span></td>
-                            <td>
-                                <button class="btn-actions btn-edit">Editar</button>
-                                <button class="btn-actions btn-delete">Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr class="row-critical">
-                            <td>#004</td>
-                            <td>Cinta Embalar Marrón</td>
-                            <td>Librería</td>
-                            <td>1</td>
-                            <td><span class="badge badge-critical">Crítico</span></td>
-                            <td>
-                                <button class="btn-actions btn-edit">Editar</button>
-                                <button class="btn-actions btn-delete">Eliminar</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>#005</td>
-                            <td>Carpetas Corporativas</td>
-                            <td>Marketing</td>
-                            <td>120</td>
-                            <td><span class="badge badge-ok">Stock Ok</span></td>
-                            <td>
-                                <button class="btn-actions btn-edit">Editar</button>
-                                <button class="btn-actions btn-delete">Eliminar</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+
+<body>
+
+    <button class="menu-btn" id="menuBtn">
+        ☰
+    </button>
+
+    <div class="dashboard-container">
+
+        <aside class="sidebar" id="sidebar">
+
+            <h2 class="logo">
+                <a href="./index.html">StockManager</a>
+            </h2>
+
+            <nav class="nav-links">
+                <a href="./index.html">Inicio</a>
+                <a href="./inventario.html">Inventario</a>
+                <a href="./alertas.html">Alertas</a>
+                <a href="./pedidos.html">Pedidos</a>
+                <a href="../sitio-web/quienes-somos.html" target="_blank">Quienes Somos</a>
+            </nav>
+
+        </aside>
+
+        <main class="main-content">
+
+            <h1>Inventario</h1>
+            
+            <h2>Inventario Principal de Materiales</h2>
+
+            <table class="tabla-inventario">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Material</th>
+                        <th>Categoría</th>
+                        <th>Cantidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                
+                <tbody>
+                    <tr>
+                        <td>#001</td>
+                        <td>Resma Papel A4</td>
+                        <td>Librería</td>
+                        <td>50</td>
+                        <td>
+                            <button class="btn-actions btn-edit">Editar</button>
+                            <button class="btn-actions btn-delete">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#002</td>
+                        <td>Cartucho Tinta Negra</td>
+                        <td>Insumos</td>
+                        <td>2</td>
+                        <td>
+                            <button class="btn-actions btn-edit">Editar</button>
+                            <button class="btn-actions btn-delete">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#003</td>
+                        <td>Abrochadora Pesada</td>
+                        <td>Bazar y Oficina</td>
+                        <td>12</td>
+                        <td>
+                            <button class="btn-actions btn-edit">Editar</button>
+                            <button class="btn-actions btn-delete">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#004</td>
+                        <td>Cinta Embalar Marrón</td>
+                        <td>Librería</td>
+                        <td>1</td>
+                        <td>
+                            <button class="btn-actions btn-edit">Editar</button>
+                            <button class="btn-actions btn-delete">Eliminar</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>#005</td>
+                        <td>Carpetas Corporativas</td>
+                        <td>Marketing</td>
+                        <td>120</td>
+                        <td>
+                            <button class="btn-actions btn-edit">Editar</button>
+                            <button class="btn-actions btn-delete">Eliminar</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
         </main>
+
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            © 2026 - Scripters
+        </div>        
+    </footer>
+
+    <script src="./js/scripts.js"></script>
+
+</body>
+
+</html>
