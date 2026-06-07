@@ -61,7 +61,7 @@ Atendiendo a las buenas prácticas de desarrollo, el repositorio concentra los a
 ├── index.html                  # Landing Page / Inicio público
 ├── quienes-somos.html          # Página institucional del equipo
 └── template.html               # Plantilla base para creación de nuevas vistas
-
+```
 ---
 
 ## 🚀 Instrucciones de Ejecución
