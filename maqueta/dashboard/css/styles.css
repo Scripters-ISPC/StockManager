@@ -5,25 +5,34 @@
     font-family: Arial, sans-serif;
 }
 
+html,
+body {
+    height: 100%;
+}
+
 body {
     background-color: #f1f5f9;
 }
 
-/* CONTENEDOR PRINCIPAL */
+/* =========================
+   MAIN LAYOUT
+========================= */
 
 .dashboard-container {
     display: flex;
     min-height: 100vh;
 }
 
-/* SIDEBAR */
+/* =========================
+   SIDEBAR
+========================= */
 
 .sidebar {
     width: 16rem;
+    min-width: 16rem;
     background-color: #434e5f;
     color: white;
     padding: 1.5rem;
-    transition: left 0.3s ease;
 }
 
 .logo {
@@ -56,37 +65,243 @@ body {
     background-color: #1e293b;
 }
 
-/* CONTENIDO PRINCIPAL */
+/* =========================
+   MAIN CONTENT
+========================= */
 
 .main-content {
     flex: 1;
-    padding: 2.5rem;
+    padding: 2rem;
+    overflow-x: auto;
 }
 
-/* BOTÓN MOBILE */
+.main-content h1 {
+    margin-bottom: 1.5rem;
+}
+
+/* =========================
+   MOBILE MENU BUTTON
+========================= */
 
 .menu-btn {
     display: none;
-
     position: fixed;
     top: 1rem;
     left: 1rem;
-
     z-index: 1000;
-
     padding: 0.75rem 1rem;
-
     border: none;
     border-radius: 0.5rem;
-
     background-color: #0f172a;
     color: white;
-
     cursor: pointer;
     font-size: 1.2rem;
 }
 
-/* RESPONSIVE */
+/* =========================
+   METRICS
+========================= */
+
+.metrics-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1.5rem;
+}
+
+.metric-card {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.metric-card h3 {
+    margin-bottom: 1rem;
+    color: #334155;
+}
+
+.metric-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: #0f172a;
+}
+
+/* =========================
+   PROGRESS BARS
+========================= */
+
+.progress-bar {
+    width: 100%;
+    height: 0.8rem;
+    background-color: #e2e8f0;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    border-radius: 1rem;
+}
+
+.total-products {
+    width: 85%;
+    background-color: #3b82f6;
+}
+
+.low-stock {
+    width: 25%;
+    background-color: #ef4444;
+}
+
+.pending-orders {
+    width: 60%;
+    background-color: #f59e0b;
+}
+
+/* =========================
+   INVENTORY
+========================= */
+
+.inventory-container {
+    width: 100%;
+}
+
+.inventory-container h2 {
+    margin-bottom: 1rem;
+    color: #2c3e50;
+}
+
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.inventory-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.inventory-table th,
+.inventory-table td {
+    padding: 1rem;
+    border: 1px solid #e2e8f0;
+    text-align: left;
+}
+
+.inventory-table th {
+    background-color: #404f66;
+    color: white;
+}
+
+.inventory-table tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.inventory-table tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+.inventory-table tbody tr.row-critical {
+    background-color: #fff5f5;
+}
+
+/* =========================
+   ALERTS
+========================= */
+
+.alert-banner {
+    background-color: #fee2e2;
+    color: #991b1b;
+    border-left: 6px solid #ef4444;
+    padding: 1rem 1.5rem;
+    margin-bottom: 2rem;
+    border-radius: 6px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.35rem 0.8rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.badge-ok {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.badge-critical {
+    background-color: #fee2e2;
+    color: #991b1b;
+    animation: alert-pulse 2s infinite;
+}
+
+@keyframes alert-pulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+    }
+
+    70% {
+        box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+    }
+
+    100% {
+        box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+    }
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-actions {
+    padding: 6px 12px;
+    margin-right: 5px;
+    border: none;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-edit {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.btn-edit:hover {
+    background-color: #2563eb;
+}
+
+.btn-delete {
+    background-color: #ef4444;
+    color: white;
+}
+
+.btn-delete:hover {
+    background-color: #dc2626;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    background-color: #434e5f;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media (max-width: 48rem) {
 
@@ -94,18 +309,13 @@ body {
         display: block;
     }
 
-    h1 {
-        text-align: center;
-    }
-
     .sidebar {
         position: fixed;
         top: 0;
         left: -16rem;
-
         height: 100%;
-
         z-index: 999;
+        transition: left 0.3s ease;
     }
 
     .sidebar.active {
@@ -118,329 +328,10 @@ body {
 
     .main-content {
         width: 100%;
-        padding: 5rem 1.5rem 1.5rem;
+        padding: 5rem 1rem 1rem;
     }
 
-}
-
-/* METRICAS */
-
-.metrics-container {
-    display: grid;
-
-    grid-template-columns:
-        repeat(auto-fit, minmax(16rem, 1fr));
-
-    gap: 1.5rem;
-
-    margin-top: 2rem;
-}
-
-.metric-card {
-    background-color: white;
-
-    padding: 1.5rem;
-
-    border-radius: 1rem;
-
-    box-shadow:
-        0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-}
-
-.metric-card h3 {
-    margin-bottom: 1rem;
-
-    color: #334155;
-}
-
-.metric-number {
-    font-size: 2.5rem;
-
-    font-weight: bold;
-
-    margin-bottom: 1rem;
-
-    color: #0f172a;
-}
-
-/* BARRAS */
-
-.progress-bar {
-    width: 100%;
-
-    height: 0.8rem;
-
-    background-color: #e2e8f0;
-
-    border-radius: 1rem;
-
-    overflow: hidden;
-}
-
-.progress {
-    height: 100%;
-
-    border-radius: 1rem;
-}
-
-.total-products {
-    width: 85%;
-
-    background-color: #3b82f6;
-}
-
-.low-stock {
-    width: 25%;
-
-    background-color: #ef4444;
-}
-
-.pending-orders {
-    width: 60%;
-
-    background-color: #f59e0b;
-}
-
-.footer {
-    background-color: #434e5f;
-    color: white;
-    text-align: center;
-    padding: 1rem 0;
-}
-
-/* ==========================================================================
-   TABLA PRINCIPAL DE INVENTARIO
-   ========================================================================== */
-
-.inventario-container {
-    max-width: 1100px;
-    margin: 40px auto;
-    padding: 0 20px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.inventario-container h2 {
-    color: #2c3e50;
-    margin-bottom: 20px;
-    font-size: 24px;
-}
-
-.tabla-inventario {
-    width: 100%;
-    border-collapse: collapse; 
-    margin-top: 10px;
-    background-color: #ffffff;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
-}
-.tabla-inventario th, 
-.tabla-inventario td {
-    padding: 12px 15px;
-    text-align: left;
-    border: 1px solid #e0e0e0; 
-}
-
-.tabla-inventario th {
-    background-color: #2c3e50; 
-    color: #ffffff;            
-    font-weight: 600;
-}
-
-.tabla-inventario tbody tr:nth-child(even) {
-    background-color: #f8f9fa; 
-}
-
-.tabla-inventario tbody tr:nth-child(odd) {
-    background-color: #ffffff; 
-}
-
-.tabla-inventario tbody tr:hover {
-    background-color: #f1f3f5;
-}
-
-.btn-actions {
-    padding: 6px 12px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-
-.btn-edit {
-    background-color: #3498db;
-    color: #ffffff;
-}
-
-.btn-edit:hover {
-    background-color: #2980b9;
-}
-
-.btn-delete {
-    background-color: #e74c3c;
-    color: #ffffff;
-}
-
-.btn-delete:hover {
-    background-color: #c0392b;
-}
-/* ==========================================================================
-   MÓDULO: ALERTAS DE INVENTARIO Y BADGES (Rama: style/inventario-alertas)
-   ========================================================================== */
-
-.alert-banner {
-    background-color: #fee2e2;
-    color: #991b1b;
-    border-left: 6px solid #ef4444;
-    padding: 1rem 1.5rem;
-    margin-bottom: 2rem;
-    border-radius: 6px;
-    font-size: 1rem;
-    box-shadow: 0 4px 6px rgba(239, 68, 68, 0.1);
-}
-
-.table-container {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    overflow-x: auto; 
-    border: 1px solid #e2e8f0;
-}
-
-.tabla-inventario {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: left;
-}
-
-.tabla-inventario th,
-.tabla-inventario td {
-    padding: 1rem;
-    border-bottom: 1px solid #e2e8f0;
-}
-
-.tabla-inventario th {
-    background-color: #f8fafc;
-    color: #404F66;
-    font-weight: 600;
-}
-
-.tabla-inventario tbody tr:hover {
-    background-color: #f1f5f9;
-}
-
-.tabla-inventario tbody tr.row-critical {
-    background-color: #fff5f5;
-}
-
-
-.badge {
-    display: inline-block;
-    padding: 0.35rem 0.8rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-
-.badge-ok {
-    background-color: #dcfce7;
-    color: #166534;
-}
-
-.badge-critical {
-    background-color: #fee2e2;
-    color: #991b1b;
-    animation: alert-pulse 2s infinite;
-}
-
-@keyframes alert-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-    70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-}
-
-.btn-actions {
-    padding: 6px 12px;
-    margin-right: 5px;
-    border: none;
-    border-radius: 4px;
-    font-size: 13px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.btn-edit {
-    background-color: #3b82f6; 
-    color: #ffffff;
-}
-
-.btn-edit:hover { background-color: #2563eb; }
-
-.btn-delete {
-    background-color: #ef4444; 
-    color: #ffffff;
-}
-
-.btn-delete:hover { background-color: #dc2626; }
-
-/* ==========================================================================
-   MÓDULO: ALERTAS DE INVENTARIO Y BADGES (Rama: style/inventario-alertas)
-   ========================================================================== */
-
-.alert-banner {
-    background-color: #fee2e2;
-    color: #991b1b;
-    border-left: 6px solid #ef4444;
-    padding: 1rem 1.5rem;
-    margin-bottom: 2rem;
-    border-radius: 6px;
-    font-size: 1rem;
-    box-shadow: 0 4px 6px rgba(239, 68, 68, 0.1);
-}
-
-.table-container {
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    overflow-x: auto;
-    border: 1px solid #e2e8f0;
-}
-
-.tabla-inventario tbody tr.row-critical {
-    background-color: #fff5f5;
-}
-
-.badge {
-    display: inline-block;
-    padding: 0.35rem 0.8rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
-
-.badge-ok {
-    background-color: #dcfce7;
-    color: #166534;
-}
-
-.badge-critical {
-    background-color: #fee2e2;
-    color: #991b1b;
-    animation: alert-pulse 2s infinite;
-}
-
-@keyframes alert-pulse {
-    0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); }
-    70% { box-shadow: 0 0 0 6px rgba(239, 68, 68, 0); }
-    100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
+    h1 {
+        text-align: center;
+    }
 }
