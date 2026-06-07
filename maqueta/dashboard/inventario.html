@@ -2,7 +2,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario</title>
-
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="./css/styles.css">
 </head>
 
@@ -104,6 +104,49 @@
                 </tbody>
             </table>
 
+          
+          <details class="form-card">
+
+    <summary class="form-summary">
+        Ingreso de Materiales
+    </summary>
+
+    <form class="material-form">
+
+        <div class="form-group">
+            <label>Material</label>
+            <input type="text">
+        </div>
+
+        <div class="form-group">
+            <label>Categoría</label>
+
+            <select>
+                <option>Librería</option>
+                <option>Insumos</option>
+                <option>Marketing</option>
+                <option>Oficina</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Cantidad</label>
+            <input type="number">
+        </div>
+
+        <div class="form-group">
+            <label>Observaciones</label>
+            <textarea rows="4"></textarea>
+        </div>
+
+        <button class="btn-confirm">
+            Confirmar Ingreso
+        </button>
+
+    </form>
+
+</details>
+
         </main>
 
     </div>
@@ -115,6 +158,7 @@
     </footer>
 
     <script src="./js/scripts.js"></script>
+    <script src="bootstrap/js/bootstrap.bundle.js"></script>
 
 </body>
 
