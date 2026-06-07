@@ -37,19 +37,30 @@ El sistema está diseñado para brindar una excelente experiencia de usuario (UX
 
 ## 📂 Estructura de Carpetas
 
-Atendiendo a las buenas prácticas de desarrollo, el repositorio concentra los archivos estáticos en una única carpeta principal:
+Atendiendo a las buenas prácticas de desarrollo, el repositorio concentra los archivos en una única aplicación principal, separando claramente las vistas públicas del módulo de gestión:
 
 ```text
 /maqueta
 │
-├── index.html              # Home / Landing Page principal
-├── quienes-somos.html      # Página institucional del equipo
-├── inventario.html         # Dashboard (Registro de stock, alertas e historial)
+├── /assets                     # Recursos multimedia globales
+│   ├── /icons                  # Íconos de la interfaz
+│   └── /img                    # Imágenes estáticas
 │
-├── /css
-│   └── style.css           # Hoja de estilos global externalizada
+├── /css                        # Hojas de estilo de las páginas públicas
 │
-└── /img                    # Recursos gráficos e imágenes del proyecto
+├── /dashboard                  # Módulo de administración (Panel de control)
+│   ├── /css                    # Estilos específicos del panel
+│   ├── /js                     # Lógica funcional e interactividad
+│   ├── alertas.html            # Vista de notificaciones de stock crítico
+│   ├── historial-pedidos.html  # Registro de reposiciones anteriores
+│   ├── index.html              # Resumen principal del panel (Home Dashboard)
+│   ├── inventario.html         # Gestión de stock y auditoría
+│   ├── pedidos-formulario.html # Formulario de nueva solicitud
+│   └── pedidos.html            # Gestión de pedidos activos
+│
+├── index.html                  # Landing Page / Inicio público
+├── quienes-somos.html          # Página institucional del equipo
+└── template.html               # Plantilla base para creación de nuevas vistas
 
 ---
 
@@ -78,7 +89,8 @@ Atendiendo a las buenas prácticas de desarrollo, el repositorio concentra los a
 | **Catalas, Luis Gerardo** | Desarrollador Front-End |
 | **Mazur, Luciana Del Milagro** | Desarrolladora Front-End |
 | **Murua, Hector Marcelo** | Desarrollador Front-End |
-|
+
+<br>
 
 <div align="center">
   <small>Instituto Superior Politécnico de Córdoba (ISPC) | Tecnicatura Superior en Desarrollo de Software</small>
