@@ -156,8 +156,14 @@
 
         .role-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(3, 1fr);
             gap: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            .role-buttons {
+                grid-template-columns: 1fr;
+            }
         }
 
         .btn-role {
@@ -188,14 +194,26 @@
             transform: translateY(-2px);
         }
 
-        .btn-role-user {
+        .btn-role-almacen {
             border-color: rgba(16, 185, 129, 0.4);
             color: #064e3b;
         }
 
-        .btn-role-user:hover {
+        .btn-role-almacen:hover {
             background-color: #ecfdf5;
             border-color: #10b981;
+            border-style: solid;
+            transform: translateY(-2px);
+        }
+
+        .btn-role-logistica {
+            border-color: rgba(245, 158, 11, 0.4);
+            color: #78350f;
+        }
+
+        .btn-role-logistica:hover {
+            background-color: #fffbeb;
+            border-color: #f59e0b;
             border-style: solid;
             transform: translateY(-2px);
         }
@@ -261,10 +279,15 @@
                     <strong>Administrador</strong>
                     <small>Acceso total</small>
                 </a>
-                <a href="./dashboard/index.html?role=user" class="btn-role btn-role-user">
-                    <span>👤</span>
-                    <strong>Usuario Estándar</strong>
-                    <small>Acceso limitado</small>
+                <a href="./dashboard/index.html?role=almacen" class="btn-role btn-role-almacen">
+                    <span>📦</span>
+                    <strong>Personal de Almacén</strong>
+                    <small>Inventario</small>
+                </a>
+                <a href="./dashboard/index.html?role=logistica" class="btn-role btn-role-logistica">
+                    <span>🚚</span>
+                    <strong>Encargado de Logística</strong>
+                    <small>Alertas y pedidos</small>
                 </a>
             </div>
         </div>
