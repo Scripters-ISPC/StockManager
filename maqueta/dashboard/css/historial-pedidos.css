@@ -38,8 +38,6 @@
       font-family: 'DM Sans', sans-serif;
       background: var(--bg-page);
       color: var(--text-primary);
-      min-height: 100vh;
-      padding: 2rem;
     }
 
     /* ── Header ── */

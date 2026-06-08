@@ -4,25 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio | Scripters</title>
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="./css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
 </head>
 <body>
 
-    <header class="header">
-        <div class="container">
-            <div class="logo">
-                <a href="./index.html">
-                    <img src="./assets/img/logo.png" alt="Logo de Scripters">
+    <header class="header py-2">
+        <nav class="navbar navbar-expand-md navbar-dark p-0">
+            <div class="container">
+                <a class="navbar-brand logo p-0" href="./index.html">
+                    <img src="./assets/img/logo.png" alt="Logo de Scripters" style="width: 150px; height: auto; display: block;">
                 </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPublic" aria-controls="navbarPublic" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarPublic">
+                    <ul class="navbar-nav align-items-md-center gap-2 mt-3 mt-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link active fw-bold text-white" href="./index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="./quienes-somos.html">Quiénes Somos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-outline-light ms-md-2 px-3 py-1 fw-bold" href="./login.html" target="_blank">Acceder</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <nav class="nav">
-                <ul class="nav-list">
-                    <li><a href="./index.html">Inicio</a></li>
-                    <li><a href="./quienes-somos.html">Quiénes Somos</a></li>
-                </ul>
-            </nav>
-        </div>
+        </nav>
     </header>
 
     <main class="main">
@@ -32,7 +42,7 @@
                 <div class="hero-content">
                     <h1 class="hero-title">Gestión de Inventario Inteligente</h1>
                     <p class="hero-subtitle">Tomá el control absoluto de tu stock. Automatizá tus procesos logísticos internos en tiempo real de forma rápida y segura.</p>
-                    <a href="./dashboard/index.html" class="btn-cta">Ingresar al Sistema</a>
+                    <a href="./login.html" class="btn-cta" target="_blank">Ingresar al Sistema</a>
                 </div>
                 <div class="hero-image-container">
                     <img src="./assets/img/ilustracion-control-inventarios.png" alt="Ilustración de logística y control de stock" class="hero-image">
@@ -72,6 +82,6 @@
             © 2026 - Scripters
         </div>        
     </footer>
-<script src="bootstrap/js/bootstrap.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

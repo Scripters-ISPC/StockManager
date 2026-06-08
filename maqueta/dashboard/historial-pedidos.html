@@ -7,9 +7,30 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/styles.css">
   <link rel="stylesheet" href="./css/historial-pedidos.css">
 </head>
 <body>
+  <button class="menu-btn" id="menuBtn">☰</button>
+
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <h2 class="logo">
+        <a href="./index.html">StockManager</a>
+      </h2>
+      <nav class="nav-links">
+        <a href="./index.html">Inicio Panel</a>
+        <a href="./inventario.html">Inventario</a>
+        <a href="./alertas.html">Alertas</a>
+        <a href="./pedidos-formulario.html">Nueva Solicitud</a>
+        <a href="./pedidos.html" class="admin-only">Pedidos</a>
+        <a href="./historial-pedidos.html" class="admin-only">Historial Pedidos</a>
+        <hr style="border-color: rgba(255,255,255,0.15); margin: 0.5rem 0;">
+        <a href="../index.html">Volver al Sitio</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
 
   <!-- Header -->
   <div class="page-header">
@@ -205,8 +226,10 @@
 
       </div>
     </div>
-
+  </div>
+    </main>
   </div>
 
+  <script src="./js/scripts.js"></script>
 </body>
 </html>

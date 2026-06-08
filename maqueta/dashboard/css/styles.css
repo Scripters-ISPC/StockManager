@@ -65,6 +65,15 @@ body {
     background-color: #1e293b;
 }
 
+.nav-links a.active {
+    background-color: #1e293b;
+    border-left: 4px solid #3b82f6;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding-left: 0.5rem;
+    font-weight: 600;
+}
+
 /* =========================
    MAIN CONTENT
 ========================= */
