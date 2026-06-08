@@ -7,9 +7,35 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/styles.css">
   <link rel="stylesheet" href="./css/historial-pedidos.css">
 </head>
 <body>
+  <button class="menu-btn" id="menuBtn">☰</button>
+
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <h2 class="logo">
+        <a href="./index.html">StockManager</a>
+      </h2>
+      <nav class="nav-links">
+        <a href="./index.html" class="nav-item" data-roles="admin,almacen,logistica">Inicio Panel</a>
+        <a href="./inventario.html" class="nav-item" data-roles="admin,almacen">Inventario</a>
+        <a href="./alertas.html" class="nav-item" data-roles="admin,logistica">Alertas</a>
+        <a href="./pedidos-formulario.html" class="nav-item" data-roles="admin,logistica">Nueva Solicitud</a>
+        <div class="nav-group" id="pedidosGroup" data-roles="admin,logistica">
+          <button type="button" class="nav-group-toggle" id="pedidosToggle" aria-expanded="false">
+            <span>Pedidos</span>
+            <span class="nav-chevron">▾</span>
+          </button>
+          <div class="nav-submenu" id="pedidosSubmenu">
+            <a href="./historial-pedidos.html" class="nav-subitem">Historial de Pedidos</a>
+          </div>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main-content">
 
   <!-- Header -->
   <div class="page-header">
@@ -205,8 +231,10 @@
 
       </div>
     </div>
-
+  </div>
+    </main>
   </div>
 
+  <script src="./js/scripts.js"></script>
 </body>
 </html>

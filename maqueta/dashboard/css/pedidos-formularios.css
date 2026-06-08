@@ -1,220 +1,201 @@
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* ==========================================================================
+   FORMULARIO DE SOLICITUD DE MATERIALES - STOCKMANAGER
+   ========================================================================== */
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
 
-        .container {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            max-width: 600px;
-            width: 100%;
-            overflow: hidden;
-        }
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
 
-        .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
-        }
+label {
+    display: block;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
 
-        .header h1 {
-            font-size: 2em;
-            margin-bottom: 10px;
-        }
+label .required {
+    color: #ef4444;
+    margin-left: 2px;
+}
 
-        .header p {
-            color: #a8d0ff;
-            font-size: 1.1em;
-        }
+/* Campos de Entrada (Input, Select, Textarea) */
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #1f2937;
+    background-color: #ffffff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
 
-        .form-content {
-            padding: 40px;
-        }
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
 
-        .form-group {
-            margin-bottom: 25px;
-        }
+/* Quitar flechas por defecto en input number */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
 
-        label {
-            display: block;
-            font-weight: 600;
-            color: #1e3c72;
-            margin-bottom: 8px;
-            font-size: 1.05em;
-        }
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
 
-        label .required {
-            color: #f5576c;
-            margin-left: 4px;
-        }
+/* Estilo para selector personalizado */
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 2.5rem;
+}
 
-        input[type="text"],
-        input[type="number"],
-        select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid #e0e6ed;
-            border-radius: 8px;
-            font-size: 1em;
-            font-family: inherit;
-            transition: all 0.3s ease;
-            background-color: #f8f9fa;
-        }
+/* Texto de Ayuda / Helper Text */
+.helper-text {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 0.35rem;
+}
 
-        input[type="text"]:focus,
-        input[type="number"]:focus,
-        select:focus {
-            outline: none;
-            border-color: #667eea;
-            background-color: white;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
+/* Opciones de Urgencia (Botones Radio Personalizados) */
+.urgencia-options {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.25rem;
+}
 
-        input[type="number"] {
-            -moz-appearance: textfield;
-        }
+.radio-option {
+    flex: 1;
+}
 
-        input[type="number"]::-webkit-outer-spin-button,
-        input[type="number"]::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
+.radio-option input[type="radio"] {
+    display: none;
+}
 
-        select {
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%231e3c72' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            padding-right: 40px;
-        }
+.radio-option label {
+    display: block;
+    padding: 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.875rem;
+    background-color: #ffffff;
+    color: #475569;
+}
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
+/* Estados Hover en Urgencia */
+.urgencia-baja label:hover {
+    border-color: #10b981;
+    color: #10b981;
+}
 
-        .urgencia-options {
-            display: flex;
-            gap: 15px;
-            margin-top: 8px;
-        }
+.urgencia-media label:hover {
+    border-color: #f59e0b;
+    color: #f59e0b;
+}
 
-        .radio-option {
-            flex: 1;
-        }
+.urgencia-alta label:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+}
 
-        .radio-option input[type="radio"] {
-            display: none;
-        }
+/* Estados Seleccionado (Checked) */
+.urgencia-baja input[type="radio"]:checked + label {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border-color: #10b981;
+    font-weight: 600;
+}
 
-        .radio-option label {
-            display: block;
-            padding: 12px;
-            border: 2px solid #e0e6ed;
-            border-radius: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            background-color: #f8f9fa;
-        }
+.urgencia-media input[type="radio"]:checked + label {
+    background-color: #fffbeb;
+    color: #92400e;
+    border-color: #f59e0b;
+    font-weight: 600;
+}
 
-        .radio-option input[type="radio"]:checked + label {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            border-color: #667eea;
-        }
+.urgencia-alta input[type="radio"]:checked + label {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-color: #ef4444;
+    font-weight: 600;
+}
 
-        .radio-option label:hover {
-            border-color: #667eea;
-            transform: translateY(-2px);
-        }
+/* Botón de Envío */
+.btn-submit {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #404f66;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(64, 79, 102, 0.15);
+    margin-top: 0.5rem;
+}
 
-        /* Estilos específicos por urgencia */
-        .urgencia-baja input[type="radio"]:checked + label {
-            background: linear-gradient(135deg, #56ab2f 0%, #a8e063 100%);
-            border-color: #56ab2f;
-        }
+.btn-submit:hover {
+    background-color: #1e293b;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px -2px rgba(30, 41, 59, 0.25);
+}
 
-        .urgencia-media input[type="radio"]:checked + label {
-            background: linear-gradient(135deg, #f7971e 0%, #ffd200 100%);
-            border-color: #f7971e;
-        }
+.btn-submit:active {
+    transform: translateY(0);
+}
 
-        .urgencia-alta input[type="radio"]:checked + label {
-            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
-            border-color: #eb3349;
-        }
+/* Pie de Tarjeta de Formulario */
+.form-footer {
+    background-color: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    padding: 1rem 2rem;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 2rem;
+    border-radius: 0 0 12px 12px;
+}
 
-        .btn-submit {
-            width: 100%;
-            padding: 15px;
-            font-size: 1.1em;
-            font-weight: 600;
-            color: white;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-            margin-top: 10px;
-        }
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
 
-        .btn-submit:hover {
-            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
-        }
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
 
-        .btn-submit:active {
-            transform: translateY(0);
-            box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4);
-        }
-
-        .helper-text {
-            font-size: 0.9em;
-            color: #6c757d;
-            margin-top: 5px;
-        }
-
-        .form-footer {
-            background: #f8f9fa;
-            padding: 20px 40px;
-            text-align: center;
-            color: #6c757d;
-            font-size: 0.9em;
-        }
-
-        @media (max-width: 600px) {
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-
-            .urgencia-options {
-                flex-direction: column;
-            }
-
-            .header h1 {
-                font-size: 1.5em;
-            }
-
-            .form-content {
-                padding: 25px;
-            }
-        }
+    .urgencia-options {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
