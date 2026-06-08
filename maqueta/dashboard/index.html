@@ -24,11 +24,19 @@
             </h2>
 
             <nav class="nav-links">
-                <a href="./index.html">Inicio</a>
-                <a href="./inventario.html">Inventario</a>
-                <a href="./alertas.html">Alertas</a>
-                <a href="./pedidos.html">Pedidos</a>
-                <a href="../sitio-web/quienes-somos.html" target="_blank">Quienes Somos</a>
+                <a href="./index.html" class="nav-item" data-roles="admin,almacen,logistica">Inicio Panel</a>
+                <a href="./inventario.html" class="nav-item" data-roles="admin,almacen">Inventario</a>
+                <a href="./alertas.html" class="nav-item" data-roles="admin,logistica">Alertas</a>
+                <a href="./pedidos-formulario.html" class="nav-item" data-roles="admin,logistica">Nueva Solicitud</a>
+                <div class="nav-group" id="pedidosGroup" data-roles="admin,logistica">
+                    <button type="button" class="nav-group-toggle" id="pedidosToggle" aria-expanded="false">
+                        <span>Pedidos</span>
+                        <span class="nav-chevron">▾</span>
+                    </button>
+                    <div class="nav-submenu" id="pedidosSubmenu">
+                        <a href="./historial-pedidos.html" class="nav-subitem">Historial de Pedidos</a>
+                    </div>
+                </div>
             </nav>
 
         </aside>

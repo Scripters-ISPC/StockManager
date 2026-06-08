@@ -1,0 +1,201 @@
+/* ==========================================================================
+   FORMULARIO DE SOLICITUD DE MATERIALES - STOCKMANAGER
+   ========================================================================== */
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    display: block;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+}
+
+label .required {
+    color: #ef4444;
+    margin-left: 2px;
+}
+
+/* Campos de Entrada (Input, Select, Textarea) */
+input[type="text"],
+input[type="number"],
+select {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    color: #1f2937;
+    background-color: #ffffff;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+/* Quitar flechas por defecto en input number */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Estilo para selector personalizado */
+select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23475569'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    padding-right: 2.5rem;
+}
+
+/* Texto de Ayuda / Helper Text */
+.helper-text {
+    font-size: 0.8rem;
+    color: #64748b;
+    margin-top: 0.35rem;
+}
+
+/* Opciones de Urgencia (Botones Radio Personalizados) */
+.urgencia-options {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.25rem;
+}
+
+.radio-option {
+    flex: 1;
+}
+
+.radio-option input[type="radio"] {
+    display: none;
+}
+
+.radio-option label {
+    display: block;
+    padding: 0.75rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.875rem;
+    background-color: #ffffff;
+    color: #475569;
+}
+
+/* Estados Hover en Urgencia */
+.urgencia-baja label:hover {
+    border-color: #10b981;
+    color: #10b981;
+}
+
+.urgencia-media label:hover {
+    border-color: #f59e0b;
+    color: #f59e0b;
+}
+
+.urgencia-alta label:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+}
+
+/* Estados Seleccionado (Checked) */
+.urgencia-baja input[type="radio"]:checked + label {
+    background-color: #ecfdf5;
+    color: #065f46;
+    border-color: #10b981;
+    font-weight: 600;
+}
+
+.urgencia-media input[type="radio"]:checked + label {
+    background-color: #fffbeb;
+    color: #92400e;
+    border-color: #f59e0b;
+    font-weight: 600;
+}
+
+.urgencia-alta input[type="radio"]:checked + label {
+    background-color: #fef2f2;
+    color: #991b1b;
+    border-color: #ef4444;
+    font-weight: 600;
+}
+
+/* Botón de Envío */
+.btn-submit {
+    width: 100%;
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #404f66;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(64, 79, 102, 0.15);
+    margin-top: 0.5rem;
+}
+
+.btn-submit:hover {
+    background-color: #1e293b;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px -2px rgba(30, 41, 59, 0.25);
+}
+
+.btn-submit:active {
+    transform: translateY(0);
+}
+
+/* Pie de Tarjeta de Formulario */
+.form-footer {
+    background-color: #f8fafc;
+    border-top: 1px solid #e2e8f0;
+    padding: 1rem 2rem;
+    text-align: center;
+    color: #64748b;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-top: 2rem;
+    border-radius: 0 0 12px 12px;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+
+@media (max-width: 600px) {
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .urgencia-options {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

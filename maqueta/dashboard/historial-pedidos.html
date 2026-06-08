@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Historial de Pedidos — StockManager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="./css/historial-pedidos.css">
+</head>
+<body>
+  <button class="menu-btn" id="menuBtn">☰</button>
+
+  <div class="dashboard-container">
+    <aside class="sidebar" id="sidebar">
+      <h2 class="logo">
+        <a href="./index.html">StockManager</a>
+      </h2>
+      <nav class="nav-links">
+        <a href="./index.html" class="nav-item" data-roles="admin,almacen,logistica">Inicio Panel</a>
+        <a href="./inventario.html" class="nav-item" data-roles="admin,almacen">Inventario</a>
+        <a href="./alertas.html" class="nav-item" data-roles="admin,logistica">Alertas</a>
+        <a href="./pedidos-formulario.html" class="nav-item" data-roles="admin,logistica">Nueva Solicitud</a>
+        <div class="nav-group" id="pedidosGroup" data-roles="admin,logistica">
+          <button type="button" class="nav-group-toggle" id="pedidosToggle" aria-expanded="false">
+            <span>Pedidos</span>
+            <span class="nav-chevron">▾</span>
+          </button>
+          <div class="nav-submenu" id="pedidosSubmenu">
+            <a href="./historial-pedidos.html" class="nav-subitem">Historial de Pedidos</a>
+          </div>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+
+  <!-- Header -->
+  <div class="page-header">
+    <div>
+      <h1>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Historial de Pedidos
+      </h1>
+      <p>Seguimiento logístico · Periodicidad de compras</p>
+    </div>
+    <div class="header-actions">
+      <a href="#" class="btn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        Mayo 2026
+      </a>
+      <a href="#" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Exportar
+      </a>
+    </div>
+  </div>
+
+  <!-- Métricas -->
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-label">Total pedidos</div>
+      <div class="metric-value">148</div>
+      <div class="metric-sub"><span class="up">↑ 12%</span> vs. mes anterior</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Alta rotación</div>
+      <div class="metric-value">23</div>
+      <div class="metric-sub">materiales frecuentes</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-label">Frecuencia prom.</div>
+      <div class="metric-value">4.2d</div>
+      <div class="metric-sub">entre reposiciones</div>
+    </div>
+  </div>
+
+  <!-- Contenido -->
+  <div class="content-grid">
+
+    <!-- Línea de tiempo -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="17" y1="10" x2="3" y2="10"/><line x1="21" y1="6" x2="3" y2="6"/><line x1="21" y1="14" x2="3" y2="14"/><line x1="17" y1="18" x2="3" y2="18"/></svg>
+          Línea de tiempo
+        </span>
+        <a href="#" class="card-link">Ver todo →</a>
+      </div>
+
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-spine">
+            <div class="tl-dot dot-amber"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-body">
+            <div class="tl-meta">15 may 2026 · 09:14</div>
+            <div class="tl-name">Cemento Portland — 50 bolsas</div>
+            <div class="tl-detail">
+              Proveedor: Construmax
+              <span class="badge badge-hot">🔥 Alta rotación</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-spine">
+            <div class="tl-dot dot-amber"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-body">
+            <div class="tl-meta">12 may 2026 · 14:30</div>
+            <div class="tl-name">Varilla de acero 1/2" — 200 u.</div>
+            <div class="tl-detail">
+              Proveedor: AceroSur
+              <span class="badge badge-hot">🔥 Alta rotación</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-spine">
+            <div class="tl-dot dot-blue"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-body">
+            <div class="tl-meta">10 may 2026 · 11:05</div>
+            <div class="tl-name">Pintura látex blanco — 20 lts</div>
+            <div class="tl-detail">
+              Proveedor: ColorMax
+              <span class="badge badge-mid">Rotación media</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-spine">
+            <div class="tl-dot dot-teal"></div>
+            <div class="tl-line"></div>
+          </div>
+          <div class="tl-body">
+            <div class="tl-meta">07 may 2026 · 08:50</div>
+            <div class="tl-name">Cable eléctrico 2.5mm — 300m</div>
+            <div class="tl-detail">
+              Proveedor: ElectroPlus
+              <span class="badge badge-low">Baja rotación</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-spine">
+            <div class="tl-dot dot-gray"></div>
+          </div>
+          <div class="tl-body">
+            <div class="tl-meta">03 may 2026 · 16:22</div>
+            <div class="tl-name">Caño galvanizado 1" — 80 m</div>
+            <div class="tl-detail">
+              Proveedor: MetalTech
+              <span class="badge badge-none">Sin rotación reciente</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Materiales frecuentes -->
+    <div class="card">
+      <div class="card-header">
+        <span class="card-title">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          Materiales frecuentes
+        </span>
+        <a href="#" class="card-link">Gestionar →</a>
+      </div>
+
+      <div class="mat-list">
+
+        <div class="mat-item">
+          <div class="mat-icon icon-hot">🔥</div>
+          <div class="mat-info">
+            <div class="mat-name">Cemento Portland</div>
+            <div class="mat-freq">Pedido cada 3 días · 12 veces/mes</div>
+            <div class="mat-bar-wrap">
+              <div class="mat-bar bar-92"></div>
+            </div>
+          </div>
+          <div class="mat-pct">92%</div>
+        </div>
+
+        <div class="mat-item">
+          <div class="mat-icon icon-hot">🔥</div>
+          <div class="mat-info">
+            <div class="mat-name">Varilla de acero 1/2"</div>
+            <div class="mat-freq">Pedido cada 4 días · 9 veces/mes</div>
+            <div class="mat-bar-wrap">
+              <div class="mat-bar bar-76"></div>
+            </div>
+          </div>
+          <div class="mat-pct">76%</div>
+        </div>
+
+        <div class="mat-item">
+          <div class="mat-icon icon-mid">💧</div>
+          <div class="mat-info">
+            <div class="mat-name">Pintura látex blanco</div>
+            <div class="mat-freq">Pedido cada 7 días · 5 veces/mes</div>
+            <div class="mat-bar-wrap">
+              <div class="mat-bar bar-54"></div>
+            </div>
+          </div>
+          <div class="mat-pct">54%</div>
+        </div>
+
+        <div class="mat-item">
+          <div class="mat-icon icon-low">⚡</div>
+          <div class="mat-info">
+            <div class="mat-name">Cable eléctrico 2.5mm</div>
+            <div class="mat-freq">Pedido cada 14 días · 3 veces/mes</div>
+            <div class="mat-bar-wrap">
+              <div class="mat-bar bar-32"></div>
+            </div>
+          </div>
+          <div class="mat-pct">32%</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+    </main>
+  </div>
+
+  <script src="./js/scripts.js"></script>
+</body>
+</html>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | Scripters</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+    <header class="header py-3 shadow-sm bg-white">
+        <div class="container d-flex justify-content-between align-items-center">
+            <div class="logo">
+                <a href="./index.html">
+                    <img src="./assets/img/logo.png" alt="Logo de Scripters" style="max-height: 50px;">
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarPublic" aria-controls="navbarPublic" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarPublic">
+                    <ul class="navbar-nav align-items-md-center gap-2 mt-3 mt-md-0">
+                        <li class="nav-item">
+                            <a class="nav-link active fw-bold text-white" href="./index.html">Inicio</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="./quienes-somos.html">Quiénes Somos</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+            <nav class="nav">
+                <ul class="nav-list d-flex gap-3 list-unstyled mb-0">
+                    <li><a href="./index.html" class="text-decoration-none text-dark fw-semibold">Inicio</a></li>
+                    <li><a href="./quienes-somos.html" class="text-decoration-none text-dark fw-semibold">Quiénes Somos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="main py-5 flex-grow-1">
+        <div class="container">
+
+            <section class="hero-section mb-5">
+                <div class="row align-items-center text-center text-lg-start">
+                    <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+                        <h1 class="hero-title display-4 fw-bold text-dark">Gestión de Inventario Inteligente</h1>
+                        <p class="hero-subtitle lead text-secondary">Tomá el control absoluto de tu stock. Automatizá tus procesos logísticos internos en tiempo real de forma rápida y segura.</p>
+                        <a href="./dashboard/index.html" class="btn btn-primary btn-lg mt-3 px-4 py-2">Ingresar al Sistema</a>
+                    </div>
+                    <div class="col-lg-6 col-md-12 text-center">
+                        <img src="./assets/img/ilustracion-control-inventarios.png" alt="Ilustración de logística y control de stock" class="hero-image img-fluid">
+                    </div>
+                </div>
+            </section>
+    
+            <section class="benefits-section text-center py-5">
+                <h2 class="benefits-title mb-5 fw-bold">¿Por qué automatizar tu control de stock?</h2>
+                
+                <div class="row g-4">
+                    
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <article class="benefit-card p-4 shadow-sm h-100 rounded bg-white border border-light">
+                            <div class="benefit-icon display-4 mb-3">📦</div>
+                            <h3 class="card-title h5 fw-bold">Control Total</h3>
+                            <p class="card-description text-secondary">Mantené un registro exacto y actualizado de la mercadería entrante y saliente en todo momento.</p>
+                        </article>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-12">
+                        <article class="benefit-card p-4 shadow-sm h-100 rounded bg-white border border-light">
+                            <div class="benefit-icon display-4 mb-3">🔍</div>
+                            <h3 class="card-title h5 fw-bold">Transparencia</h3>
+                            <p class="card-description text-secondary">Obtené trazabilidad completa en cada uno de los movimientos dentro de tu depósito o almacén.</p>
+                        </article>
+                    </div>
+
+                    <div class="col-lg-4 col-md-6 col-sm-12 mx-auto">
+                        <article class="benefit-card p-4 shadow-sm h-100 rounded bg-white border border-light">
+                            <div class="benefit-icon display-4 mb-3">⚙️</div>
+                            <h3 class="card-title h5 fw-bold">Automatización</h3>
+                            <p class="card-description text-secondary">Reducí la carga de trabajo manual, optimizá los tiempos y minimizá los errores operativos.</p>
+                        </article>
+                    </div>
+
+                </div>
+            </section>
+        
+        </div>        
+    </main>
+
+    <footer class="footer bg-dark text-white text-center py-3">
+        <div class="container">
+            © 2026 - Scripters
+        </div>        
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
