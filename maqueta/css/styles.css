@@ -1,4 +1,21 @@
 /* =========================
+   VARIABLES DE PALETA
+========================= */
+
+:root {
+    --color-primary: #434e5f;
+    --color-primary-dark: #2e3743;
+    --color-accent: #404f66;
+    --color-text: #222222;
+    --color-text-secondary: #666666;
+    --color-bg: #f4f4f4;
+    --color-surface: #ffffff;
+    --color-border: #e1e4e6;
+    --shadow-soft: 0 4px 8px rgba(0, 0, 0, 0.05);
+    --radius: 8px;
+}
+
+/* =========================
    RESET GENERAL
 ========================= */
 
@@ -14,69 +31,42 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #222222;
+    background-color: var(--color-bg);
+    color: var(--color-text);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
 }
 
 /* =========================
-   CONTAINER GLOBAL
+   HEADER / NAVEGACIÓN
 ========================= */
 
-.container {
-    width: 80%;
-    margin: 0 auto;
+.site-header {
+    background-color: var(--color-primary);
+    padding: 16px 0;
+    margin-bottom: 2em;
 }
 
-/* =========================
-   HEADER
-========================= */
-
-.header {
-    background-color: #434e5f;
-    color: white;
-    padding: 20px 0;
-}
-
-.header .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-/* =========================
-   LOGO
-========================= */
-
-.logo a {
-    color: white;
-    text-decoration: none;
-    font-size: 24px;
-    font-weight: bold;
-}
-
-.logo img {
+.brand-logo {
     width: 150px;
     max-width: 100%;
     height: auto;
     display: block;
 }
 
-/* =========================
-   NAVEGACIÓN
-========================= */
-
-.nav-list {
-    list-style: none;
-    display: flex;
-    gap: 15px;
+.site-nav .nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 6px 4px;
+    border-bottom: 2px solid transparent;
 }
 
-.nav-list a {
-    color: white;
-    text-decoration: none;
+.site-nav .nav-link:hover {
+    border-bottom-color: rgba(255, 255, 255, 0.6);
+}
+
+.site-nav .nav-link.active {
+    border-bottom-color: #ffffff;
 }
 
 /* =========================
@@ -85,20 +75,15 @@ body {
 
 .main {
     padding: 20px 0;
-    flex: 1;
 }
 
 /* =========================
-   SECTION
+   SECTION (texto general)
 ========================= */
-
-.section {
-    margin-bottom: 40px;
-}
 
 .section h1,
 .section h2 {
-    color: #434e5f;
+    color: var(--color-primary);
     margin-bottom: 15px;
 }
 
@@ -107,58 +92,31 @@ body {
     line-height: 1.6;
     color: #333;
     font-size: 16px;
-    font-weight: bold;
 }
 
 /* =========================
-   GRILLA DE EQUIPO
+   EQUIPO (Quiénes Somos)
 ========================= */
 
-.team-members {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 25px;
-    justify-content: space-between;
-    margin-top: 25px;
-}
-
 .member {
-    background-color: #ffffff;
-    border: 1px solid #e1e4e6;
-    border-radius: 8px;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
     padding: 25px;
-    flex: 1 1 280px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-soft);
     text-align: center;
 }
 
 .member h3 {
-    color: #222222;
+    color: var(--color-text);
     margin-bottom: 8px;
     font-size: 20px;
 }
 
 .member p {
-    color: #666666;
+    color: var(--color-text-secondary);
     font-size: 15px;
     margin-bottom: 20px;
-    font-weight: normal;
-}
-
-.member a {
-    display: inline-block;
-    background-color: #434e5f;
-    color: white;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
-}
-
-.member a:hover {
-    background-color: #2e3743;
 }
 
 /* =========================
@@ -166,8 +124,8 @@ body {
 ========================= */
 
 .footer {
-    background-color: #434e5f;
-    color: white;
+    background-color: var(--color-primary);
+    color: #ffffff;
     text-align: center;
     padding: 15px 0;
 }
@@ -176,55 +134,12 @@ body {
    HERO
 ========================= */
 
-.hero-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 40px;
-    margin-bottom: 60px;
-    padding: 40px;
-    background-color: #ffffff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-}
-
-.hero-content {
-    flex: 1;
-}
-
 .hero-title {
-    color: #404f66;
-    font-size: 36px;
-    margin-bottom: 15px;
+    color: var(--color-accent);
 }
 
 .hero-subtitle {
-    color: #666666;
-    font-size: 18px;
     line-height: 1.6;
-    margin-bottom: 25px;
-}
-
-.btn-cta {
-    display: inline-block;
-    background-color: #404f66;
-    color: #ffffff;
-    text-decoration: none;
-    padding: 12px 25px;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    transition: background-color 0.2s ease;
-}
-
-.btn-cta:hover {
-    background-color: #1e293b;
-}
-
-.hero-image-container {
-    flex: 1;
-    display: flex;
-    justify-content: center;
 }
 
 .hero-image {
@@ -232,46 +147,33 @@ body {
     height: auto;
 }
 
-/* =========================
-   BOTONES
-========================= */
-
-.btn-edit:hover {
-    background-color: #2980b9;
+/* Botón principal */
+.btn-brand {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #ffffff;
 }
 
-.btn-delete {
-    background-color: #e74c3c;
+.btn-brand:hover,
+.btn-brand:focus {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
     color: #ffffff;
 }
 
 /* =========================
-   BENEFITS
+   BENEFICIOS
 ========================= */
 
-.benefits-section {
-    margin-bottom: 60px;
-    text-align: center;
-}
-
 .benefits-title {
-    color: #404f66;
-    font-size: 28px;
-    margin-bottom: 30px;
-}
-
-.benefits-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 25px;
+    color: var(--color-accent);
 }
 
 .benefit-card {
-    background-color: #ffffff;
-    padding: 30px 20px;
-    border-radius: 8px;
-    border: 1px solid #e1e4e6;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
     transition: transform 0.2s ease;
 }
 
@@ -279,55 +181,21 @@ body {
     transform: translateY(-5px);
 }
 
-.benefit-icon {
-    font-size: 40px;
-    margin-bottom: 15px;
-}
-
 .card-title {
-    color: #404f66;
-    font-size: 20px;
-    margin-bottom: 10px;
+    color: var(--color-accent);
 }
 
 .card-description {
-    color: #666666;
-    font-size: 15px;
-    line-height: 1.6;
+    color: var(--color-text-secondary);
 }
 
 /* =========================
    RESPONSIVE
 ========================= */
 
-@media (max-width: 768px) {
-
-    .header .container {
+@media (max-width: 576px) {
+    .site-header .container {
         flex-direction: column;
         text-align: center;
-    }
-
-    .nav-list {
-        flex-direction: column;
-        margin-top: 10px;
-    }
-
-    .team-members {
-        justify-content: center;
-    }
-
-    .member {
-        flex: 1 1 100%;
-        max-width: 100%;
-    }
-
-    .hero-section {
-        flex-direction: column;
-        text-align: center;
-        padding: 20px;
-    }
-
-    .hero-image-container {
-        margin-top: 20px;
     }
 }
