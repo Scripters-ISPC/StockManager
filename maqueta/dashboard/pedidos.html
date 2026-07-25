@@ -1,66 +1,88 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pedidos</title>
-
-    <link rel="stylesheet" href="./css/styles.css">
+    <title>Pedidos | Stock Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/dashboard.css">
 </head>
-
 <body>
 
-    <button class="menu-btn" id="menuBtn">
-        ☰
-    </button>
+    <div class="dashboard-shell">
 
-    <div class="dashboard-container">
-
-        <aside class="sidebar" id="sidebar">
-
-            <h2 class="logo">
-                <a href="./index.html">StockManager</a>
-            </h2>
-
-            <nav class="nav-links">
-                <a href="./index.html" class="nav-item" data-roles="admin,almacen,logistica">Inicio Panel</a>
-                <a href="./inventario.html" class="nav-item" data-roles="admin,almacen">Inventario</a>
-                <a href="./alertas.html" class="nav-item" data-roles="admin,logistica">Alertas</a>
-                <a href="./pedidos-formulario.html" class="nav-item" data-roles="admin,logistica">Nueva Solicitud</a>
-                <div class="nav-group" id="pedidosGroup" data-roles="admin,logistica">
-                    <button type="button" class="nav-group-toggle" id="pedidosToggle" aria-expanded="false">
-                        <span>Pedidos</span>
-                        <span class="nav-chevron">▾</span>
-                    </button>
-                    <div class="nav-submenu" id="pedidosSubmenu">
-                        <a href="./historial-pedidos.html" class="nav-subitem">Historial de Pedidos</a>
-                    </div>
-                </div>
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <a href="./index.html">Stock<span>Manager</span></a>
+            </div>
+            <nav class="sidebar-nav" aria-label="Navegación del panel">
+                <a href="./index.html" class="nav-item">Inicio</a>
+                <a href="./inventario.html" class="nav-item">Inventario</a>
+                <a href="./alertas.html" class="nav-item">Alertas</a>
+                <a href="./pedidos-formulario.html" class="nav-item">Nueva Solicitud</a>
+                <a href="./pedidos.html" class="nav-item active" aria-current="page">Pedidos</a>
+                <a href="./historial-pedidos.html" class="nav-item">Historial de Pedidos</a>
+                <!-- visible solo para rol Administrador -->
+                <a href="./usuarios.html" class="nav-item">Usuarios</a>
             </nav>
-
+            <div class="sidebar-footer">
+                <a href="./login.html" class="nav-item nav-item-exit">Cerrar sesión</a>
+            </div>
         </aside>
 
         <main class="main-content">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                <h1 class="mb-0">📋 Pedidos</h1>
+                <a href="./pedidos-formulario.html" class="btn btn-brand btn-sm">+ Nueva Solicitud</a>
+            </div>
+            <p class="page-lead">Seguimiento de las solicitudes de reposición generadas al proveedor.</p>
 
-            <h1>Pedidos</h1>
+            <div class="table-responsive shadow-sm rounded">
+                <table class="table table-hover mb-0 bg-white">
+                    <thead class="card-header-brand">
+                        <tr>
+                            <th>N° Solicitud</th>
+                            <th>Material</th>
+                            <th>Cantidad</th>
+                            <th>Proveedor</th>
+                            <th>Urgencia</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#1048</td>
+                            <td>Cartucho Tinta Negra</td>
+                            <td>20</td>
+                            <td>OfficeNet S.A.</td>
+                            <td><span class="badge badge-critical">🔴 Alta</span></td>
+                            <td><span class="badge bg-secondary">Pendiente</span></td>
+                        </tr>
+                        <tr>
+                            <td>#1047</td>
+                            <td>Cinta Embalar Marrón</td>
+                            <td>30</td>
+                            <td>Papelera Central</td>
+                            <td><span class="badge badge-warning">🟡 Media</span></td>
+                            <td><span class="badge bg-info text-dark">Enviado</span></td>
+                        </tr>
+                        <tr>
+                            <td>#1046</td>
+                            <td>Carpetas Corporativas</td>
+                            <td>50</td>
+                            <td>Distribuidora Omega</td>
+                            <td><span class="badge badge-ok">🟢 Baja</span></td>
+                            <td><span class="badge bg-success">Recibido</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-            <p>
-                Gestión y seguimiento de pedidos del sistema.
-            </p>
+            <p class="text-muted mt-3">¿Buscás el detalle completo por fecha y frecuencia de compra? Visitá el <a href="./historial-pedidos.html">Historial de Pedidos</a>.</p>
 
         </main>
 
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            © 2026 - Scripters
-        </div>        
-    </footer>
-
-    <script src="./js/scripts.js"></script>
-
 </body>
-
 </html>

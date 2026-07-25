@@ -1,56 +1,46 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario</title>
-
+    <title>Inventario | Stock Manager</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/styles.css">
+    <link rel="stylesheet" href="./css/dashboard.css">
 </head>
-
 <body>
 
-    <button class="menu-btn" id="menuBtn">
-        ☰
-    </button>
+    <div class="dashboard-shell">
 
-    <div class="dashboard-container">
-        <aside class="sidebar" id="sidebar">
-
-            <h2 class="logo">
-                <a href="./index.html">StockManager</a>
-            </h2>
-
-            <nav class="nav-links">
-                <a href="./index.html" class="nav-item" data-roles="admin,almacen,logistica">Inicio Panel</a>
-                <a href="./inventario.html" class="nav-item" data-roles="admin,almacen">Inventario</a>
-                <a href="./alertas.html" class="nav-item" data-roles="admin,logistica">Alertas</a>
-                <a href="./pedidos-formulario.html" class="nav-item" data-roles="admin,logistica">Nueva Solicitud</a>
-                <div class="nav-group" id="pedidosGroup" data-roles="admin,logistica">
-                    <button type="button" class="nav-group-toggle" id="pedidosToggle" aria-expanded="false">
-                        <span>Pedidos</span>
-                        <span class="nav-chevron">▾</span>
-                    </button>
-                    <div class="nav-submenu" id="pedidosSubmenu">
-                        <a href="./historial-pedidos.html" class="nav-subitem">Historial de Pedidos</a>
-                    </div>
-                </div>
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <a href="./index.html">Stock<span>Manager</span></a>
+            </div>
+            <nav class="sidebar-nav" aria-label="Navegación del panel">
+                <a href="./index.html" class="nav-item">Inicio</a>
+                <a href="./inventario.html" class="nav-item active" aria-current="page">Inventario</a>
+                <a href="./alertas.html" class="nav-item">Alertas</a>
+                <a href="./pedidos-formulario.html" class="nav-item">Nueva Solicitud</a>
+                <a href="./pedidos.html" class="nav-item">Pedidos</a>
+                <a href="./historial-pedidos.html" class="nav-item">Historial de Pedidos</a>
+                <!-- visible solo para rol Administrador -->
+                <a href="./usuarios.html" class="nav-item">Usuarios</a>
             </nav>
-
+            <div class="sidebar-footer">
+                <a href="./login.html" class="nav-item nav-item-exit">Cerrar sesión</a>
+            </div>
         </aside>
 
         <main class="main-content">
-            <h1 class="mb-4">📦 Inventario Principal</h1>
+            <h1>📦 Inventario Principal</h1>
+            <p class="page-lead">Registro de materiales y control de stock crítico.</p>
 
-            <div class="alert-banner">
-                <strong>⚠️ ¡Alerta! Quiebre de inventario inminente:</strong> Existen materiales con stock crítico que requieren reposición inmediata.
+            <div class="alert alert-danger" role="alert">
+                <strong>⚠️ ¡Alerta! Quiebre de inventario inminente:</strong> existen materiales con stock crítico que requieren reposición inmediata. <a href="./alertas.html" class="alert-link">Ver alertas</a>.
             </div>
 
-            <div class="table-container mb-5">
-                <table class="tabla-inventario w-100">
-                    <thead>
+            <div class="table-responsive shadow-sm rounded mb-5">
+                <table class="table table-hover mb-0 bg-white">
+                    <thead class="table-light">
                         <tr>
                             <th>ID</th>
                             <th>Material</th>
@@ -63,72 +53,74 @@
                     <tbody>
                         <tr>
                             <td>#001</td>
-                            <td>Resma Papel A4</td>
+                            <td><a href="./detalle-material.html">Resma Papel A4</a></td>
                             <td>Librería</td>
                             <td>50</td>
                             <td><span class="badge badge-ok">Stock Ok</span></td>
                             <td>
-                                <button class="btn-actions btn-edit">Editar</button>
-                                <button class="btn-actions btn-delete">Eliminar</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
                             </td>
                         </tr>
                         <tr class="row-critical">
                             <td>#002</td>
-                            <td>Cartucho Tinta Negra</td>
+                            <td><a href="./detalle-material.html">Cartucho Tinta Negra</a></td>
                             <td>Insumos</td>
                             <td>2</td>
                             <td><span class="badge badge-critical">Crítico</span></td>
                             <td>
-                                <button class="btn-actions btn-edit">Editar</button>
-                                <button class="btn-actions btn-delete">Eliminar</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
                             </td>
                         </tr>
                         <tr>
                             <td>#003</td>
-                            <td>Abrochadora Pesada</td>
+                            <td><a href="./detalle-material.html">Abrochadora Pesada</a></td>
                             <td>Bazar y Oficina</td>
                             <td>12</td>
                             <td><span class="badge badge-ok">Stock Ok</span></td>
                             <td>
-                                <button class="btn-actions btn-edit">Editar</button>
-                                <button class="btn-actions btn-delete">Eliminar</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
                             </td>
                         </tr>
                         <tr class="row-critical">
                             <td>#004</td>
-                            <td>Cinta Embalar Marrón</td>
+                            <td><a href="./detalle-material.html">Cinta Embalar Marrón</a></td>
                             <td>Librería</td>
                             <td>1</td>
                             <td><span class="badge badge-critical">Crítico</span></td>
                             <td>
-                                <button class="btn-actions btn-edit">Editar</button>
-                                <button class="btn-actions btn-delete">Eliminar</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
                             </td>
                         </tr>
                         <tr>
                             <td>#005</td>
-                            <td>Carpetas Corporativas</td>
+                            <td><a href="./detalle-material.html">Carpetas Corporativas</a></td>
                             <td>Marketing</td>
                             <td>120</td>
                             <td><span class="badge badge-ok">Stock Ok</span></td>
                             <td>
-                                <button class="btn-actions btn-edit">Editar</button>
-                                <button class="btn-actions btn-delete">Eliminar</button>
+                                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div> <hr class="my-5 text-secondary">
+            </div>
+
+            <hr class="my-5 text-secondary">
 
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2>🕒 Historial de Modificaciones (Auditoría)</h2>
-                <button class="btn btn-outline-secondary btn-sm">Exportar PDF</button>
+                <h2 class="h4 fw-bold mb-0">🕒 Historial de Modificaciones (Auditoría)</h2>
+                <button type="button" class="btn btn-outline-secondary btn-sm">Exportar PDF</button>
             </div>
             <p class="text-muted mb-4">Registro de trazabilidad de ingresos, egresos y ajustes de stock realizados por los usuarios del sistema.</p>
 
             <div class="table-responsive shadow-sm rounded">
-                <table class="table table-hover table-striped mb-0" style="background-color: white;">
-                    <thead style="background-color: #404f66; color: white;">
+                <table class="table table-hover table-striped mb-0 bg-white">
+                    <thead class="card-header-brand">
                         <tr>
                             <th scope="col">Fecha y Hora</th>
                             <th scope="col">Usuario (Rol)</th>
@@ -139,81 +131,47 @@
                     <tbody>
                         <tr>
                             <td>07/06/2026 - 14:30</td>
-                            <td>Yamila Angelo (Almacén)</td>
+                            <td>Yamila Angelo (Operario)</td>
                             <td><span class="badge bg-success">Ingreso (+50)</span></td>
                             <td>Recepción de remito #1042 - Resma Papel A4</td>
                         </tr>
                         <tr>
                             <td>07/06/2026 - 10:15</td>
-                            <td>Santiago Ortega (Admin)</td>
+                            <td>Santiago Ortega (Administrador)</td>
                             <td><span class="badge bg-danger">Egreso (-2)</span></td>
                             <td>Retiro para sector Gerencia - Cartucho Tinta Negra</td>
                         </tr>
                         <tr>
                             <td>06/06/2026 - 16:45</td>
-                            <td>Luciana Mazur (Logística)</td>
+                            <td>Luciana Mazur (Operario)</td>
                             <td><span class="badge bg-success">Ingreso (+120)</span></td>
                             <td>Llegada de pedido urgente - Carpetas Corporativas</td>
                         </tr>
                         <tr>
                             <td>06/06/2026 - 11:20</td>
-                            <td>Hector Murua (Almacén)</td>
+                            <td>Hector Murua (Operario)</td>
                             <td><span class="badge bg-warning text-dark">Ajuste (-1)</span></td>
                             <td>Merma por rotura de empaque - Cinta Embalar Marrón</td>
                         </tr>
                         <tr>
                             <td>05/06/2026 - 09:10</td>
-                            <td>Santiago Delebecq (Admin)</td>
+                            <td>Santiago Delebecq (Administrador)</td>
                             <td><span class="badge bg-danger">Egreso (-5)</span></td>
                             <td>Distribución mensual a oficinas - Abrochadora Pesada</td>
                         </tr>
                         <tr>
                             <td>04/06/2026 - 15:30</td>
-                            <td>Luis Catalas (Logística)</td>
+                            <td>Luis Catalas (Operario)</td>
                             <td><span class="badge bg-success">Ingreso (+10)</span></td>
                             <td>Devolución de sector Marketing - Resma Papel A4</td>
                         </tr>
-                        <tr>
-                            <td>03/06/2026 - 13:00</td>
-                            <td>Yamila Angelo (Almacén)</td>
-                            <td><span class="badge bg-danger">Egreso (-1)</span></td>
-                            <td>Reemplazo por fallo en impresora RRHH - Cartucho Tinta</td>
-                        </tr>
-                        <tr>
-                            <td>02/06/2026 - 10:05</td>
-                            <td>Santiago Ortega (Admin)</td>
-                            <td><span class="badge bg-warning text-dark">Ajuste (+2)</span></td>
-                            <td>Sobrante de inventario físico mensual - Abrochadora Pesada</td>
-                        </tr>
-                        <tr>
-                            <td>01/06/2026 - 17:50</td>
-                            <td>Luciana Mazur (Logística)</td>
-                            <td><span class="badge bg-danger">Egreso (-50)</span></td>
-                            <td>Preparación para evento corporativo - Carpetas Corporativas</td>
-                        </tr>
-                        <tr>
-                            <td>01/06/2026 - 08:15</td>
-                            <td>Hector Murua (Almacén)</td>
-                            <td><span class="badge bg-success">Ingreso (+5)</span></td>
-                            <td>Compra por caja chica directa - Cinta Embalar Marrón</td>
-                        </tr>
                     </tbody>
                 </table>
-                </div>
+            </div>
 
-            </main>
+        </main>
 
     </div>
 
-    <footer class="footer">
-        <div class="container text-center py-3">
-            © 2026 - Scripters
-        </div>        
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="./js/scripts.js"></script>
-
 </body>
-
 </html>
