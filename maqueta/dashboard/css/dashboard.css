@@ -61,7 +61,7 @@ a {
     color: #ffffff;
 }
 
-/* Encabezado de card con color de marca */
+/* Encabezado de card con color de marca, para reemplazar estilos inline */
 .card-header-brand {
     background-color: var(--color-accent);
     color: #ffffff;
@@ -132,6 +132,78 @@ a {
     font-weight: 600;
 }
 
+/* Grupos desplegables del sidebar (Inventario, Pedidos) usando <details>/<summary>
+   nativo de HTML5: se abren y cierran solo con CSS, sin JavaScript. */
+.nav-group {
+    margin: 0;
+}
+
+.nav-group-toggle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    list-style: none;
+    color: #cbd5e1;
+    padding: 0.65rem 0.9rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.925rem;
+    font-weight: 500;
+}
+
+.nav-group-toggle::-webkit-details-marker {
+    display: none;
+}
+
+.nav-group-toggle::marker {
+    content: '';
+}
+
+.nav-group-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    color: #ffffff;
+}
+
+.nav-chevron {
+    font-size: 0.75rem;
+    transition: transform 0.2s ease;
+}
+
+.nav-group[open] > .nav-group-toggle .nav-chevron {
+    transform: rotate(180deg);
+}
+
+.nav-submenu {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-left: 0.9rem;
+    margin-top: 0.15rem;
+}
+
+.nav-subitem {
+    display: block;
+    color: #94a3b8;
+    text-decoration: none;
+    padding: 0.5rem 0.9rem;
+    border-radius: var(--radius-sm);
+    font-size: 0.875rem;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+}
+
+.nav-subitem:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+}
+
+.nav-subitem.active {
+    background-color: var(--color-primary-dark);
+    color: #ffffff;
+    border-left-color: var(--color-accent-light);
+    font-weight: 600;
+}
+
 .sidebar-footer {
     margin-top: 1.5rem;
     padding-top: 1rem;
@@ -192,6 +264,10 @@ a {
         margin-left: auto;
         padding-top: 0;
         border-top: none;
+    }
+
+    .nav-group {
+        width: 100%;
     }
 }
 
