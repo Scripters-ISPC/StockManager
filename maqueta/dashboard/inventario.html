@@ -17,11 +17,34 @@
             </div>
             <nav class="sidebar-nav" aria-label="Navegación del panel">
                 <a href="./index.html" class="nav-item">Inicio</a>
-                <a href="./inventario.html" class="nav-item active" aria-current="page">Inventario</a>
+
+                <details class="nav-group" open>
+                    <summary class="nav-group-toggle">
+                        <span>Inventario</span>
+                        <span class="nav-chevron">▾</span>
+                    </summary>
+                    <div class="nav-submenu">
+                        <a href="./inventario.html" class="nav-subitem active" aria-current="page">Ver Inventario</a>
+                        <a href="./auditoria.html" class="nav-subitem">Auditoría</a>
+                        <!-- visible solo para rol Administrador -->
+                        <a href="./material-formulario.html" class="nav-subitem">Agregar Material</a>
+                    </div>
+                </details>
+
                 <a href="./alertas.html" class="nav-item">Alertas</a>
-                <a href="./pedidos-formulario.html" class="nav-item">Nueva Solicitud</a>
-                <a href="./pedidos.html" class="nav-item">Pedidos</a>
-                <a href="./historial-pedidos.html" class="nav-item">Historial de Pedidos</a>
+
+                <details class="nav-group">
+                    <summary class="nav-group-toggle">
+                        <span>Pedidos</span>
+                        <span class="nav-chevron">▾</span>
+                    </summary>
+                    <div class="nav-submenu">
+                        <a href="./pedidos.html" class="nav-subitem">Ver Pedidos</a>
+                        <a href="./pedidos-formulario.html" class="nav-subitem">Nueva Solicitud</a>
+                        <a href="./historial-pedidos.html" class="nav-subitem">Historial de Pedidos</a>
+                    </div>
+                </details>
+
                 <!-- visible solo para rol Administrador -->
                 <a href="./usuarios.html" class="nav-item">Usuarios</a>
             </nav>
@@ -31,14 +54,14 @@
         </aside>
 
         <main class="main-content">
-            <h1>📦 Inventario Principal</h1>
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+                <h1 class="mb-0">📦 Inventario Principal</h1>
+                <!-- visible solo para rol Administrador -->
+                <a href="./material-formulario.html" class="btn btn-brand btn-sm">+ Agregar Material</a>
+            </div>
             <p class="page-lead">Registro de materiales y control de stock crítico.</p>
 
-            <div class="alert alert-danger" role="alert">
-                <strong>⚠️ ¡Alerta! Quiebre de inventario inminente:</strong> existen materiales con stock crítico que requieren reposición inmediata. <a href="./alertas.html" class="alert-link">Ver alertas</a>.
-            </div>
-
-            <div class="table-responsive shadow-sm rounded mb-5">
+            <div class="table-responsive shadow-sm rounded">
                 <table class="table table-hover mb-0 bg-white">
                     <thead class="table-light">
                         <tr>
@@ -58,7 +81,7 @@
                             <td>50</td>
                             <td><span class="badge badge-ok">Stock Ok</span></td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                <a href="./material-formulario.html" class="btn btn-sm btn-outline-secondary">Editar</a>
                                 <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
                             </td>
                         </tr>
@@ -69,7 +92,7 @@
                             <td>2</td>
                             <td><span class="badge badge-critical">Crítico</span></td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                <a href="./material-formulario.html" class="btn btn-sm btn-outline-secondary">Editar</a>
                                 <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
                             </td>
                         </tr>
@@ -80,7 +103,7 @@
                             <td>12</td>
                             <td><span class="badge badge-ok">Stock Ok</span></td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                <a href="./material-formulario.html" class="btn btn-sm btn-outline-secondary">Editar</a>
                                 <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
                             </td>
                         </tr>
@@ -91,7 +114,7 @@
                             <td>1</td>
                             <td><span class="badge badge-critical">Crítico</span></td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                <a href="./material-formulario.html" class="btn btn-sm btn-outline-secondary">Editar</a>
                                 <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
                             </td>
                         </tr>
@@ -102,7 +125,7 @@
                             <td>120</td>
                             <td><span class="badge badge-ok">Stock Ok</span></td>
                             <td>
-                                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
+                                <a href="./material-formulario.html" class="btn btn-sm btn-outline-secondary">Editar</a>
                                 <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
                             </td>
                         </tr>
@@ -110,64 +133,7 @@
                 </table>
             </div>
 
-            <hr class="my-5 text-secondary">
-
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="h4 fw-bold mb-0">🕒 Historial de Modificaciones (Auditoría)</h2>
-                <button type="button" class="btn btn-outline-secondary btn-sm">Exportar PDF</button>
-            </div>
-            <p class="text-muted mb-4">Registro de trazabilidad de ingresos, egresos y ajustes de stock realizados por los usuarios del sistema.</p>
-
-            <div class="table-responsive shadow-sm rounded">
-                <table class="table table-hover table-striped mb-0 bg-white">
-                    <thead class="card-header-brand">
-                        <tr>
-                            <th scope="col">Fecha y Hora</th>
-                            <th scope="col">Usuario (Rol)</th>
-                            <th scope="col">Acción</th>
-                            <th scope="col">Observaciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>07/06/2026 - 14:30</td>
-                            <td>Yamila Angelo (Operario)</td>
-                            <td><span class="badge bg-success">Ingreso (+50)</span></td>
-                            <td>Recepción de remito #1042 - Resma Papel A4</td>
-                        </tr>
-                        <tr>
-                            <td>07/06/2026 - 10:15</td>
-                            <td>Santiago Ortega (Administrador)</td>
-                            <td><span class="badge bg-danger">Egreso (-2)</span></td>
-                            <td>Retiro para sector Gerencia - Cartucho Tinta Negra</td>
-                        </tr>
-                        <tr>
-                            <td>06/06/2026 - 16:45</td>
-                            <td>Luciana Mazur (Operario)</td>
-                            <td><span class="badge bg-success">Ingreso (+120)</span></td>
-                            <td>Llegada de pedido urgente - Carpetas Corporativas</td>
-                        </tr>
-                        <tr>
-                            <td>06/06/2026 - 11:20</td>
-                            <td>Hector Murua (Operario)</td>
-                            <td><span class="badge bg-warning text-dark">Ajuste (-1)</span></td>
-                            <td>Merma por rotura de empaque - Cinta Embalar Marrón</td>
-                        </tr>
-                        <tr>
-                            <td>05/06/2026 - 09:10</td>
-                            <td>Santiago Delebecq (Administrador)</td>
-                            <td><span class="badge bg-danger">Egreso (-5)</span></td>
-                            <td>Distribución mensual a oficinas - Abrochadora Pesada</td>
-                        </tr>
-                        <tr>
-                            <td>04/06/2026 - 15:30</td>
-                            <td>Luis Catalas (Operario)</td>
-                            <td><span class="badge bg-success">Ingreso (+10)</span></td>
-                            <td>Devolución de sector Marketing - Resma Papel A4</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <p class="text-muted mt-3">¿Buscás el registro de ingresos, egresos y ajustes? Revisá la <a href="./auditoria.html">Auditoría</a>.</p>
 
         </main>
 

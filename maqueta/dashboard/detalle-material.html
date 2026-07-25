@@ -17,11 +17,34 @@
             </div>
             <nav class="sidebar-nav" aria-label="Navegación del panel">
                 <a href="./index.html" class="nav-item">Inicio</a>
-                <a href="./inventario.html" class="nav-item active" aria-current="page">Inventario</a>
+
+                <details class="nav-group" open>
+                    <summary class="nav-group-toggle">
+                        <span>Inventario</span>
+                        <span class="nav-chevron">▾</span>
+                    </summary>
+                    <div class="nav-submenu">
+                        <a href="./inventario.html" class="nav-subitem active" aria-current="page">Ver Inventario</a>
+                        <a href="./auditoria.html" class="nav-subitem">Auditoría</a>
+                        <!-- visible solo para rol Administrador -->
+                        <a href="./material-formulario.html" class="nav-subitem">Agregar Material</a>
+                    </div>
+                </details>
+
                 <a href="./alertas.html" class="nav-item">Alertas</a>
-                <a href="./pedidos-formulario.html" class="nav-item">Nueva Solicitud</a>
-                <a href="./pedidos.html" class="nav-item">Pedidos</a>
-                <a href="./historial-pedidos.html" class="nav-item">Historial de Pedidos</a>
+
+                <details class="nav-group">
+                    <summary class="nav-group-toggle">
+                        <span>Pedidos</span>
+                        <span class="nav-chevron">▾</span>
+                    </summary>
+                    <div class="nav-submenu">
+                        <a href="./pedidos.html" class="nav-subitem">Ver Pedidos</a>
+                        <a href="./pedidos-formulario.html" class="nav-subitem">Nueva Solicitud</a>
+                        <a href="./historial-pedidos.html" class="nav-subitem">Historial de Pedidos</a>
+                    </div>
+                </details>
+
                 <!-- visible solo para rol Administrador -->
                 <a href="./usuarios.html" class="nav-item">Usuarios</a>
             </nav>
@@ -32,8 +55,9 @@
 
         <main class="main-content">
 
-            <div class="mb-4">
+            <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4">
                 <a href="./inventario.html" class="btn btn-outline-secondary btn-sm">← Volver al Inventario</a>
+                <a href="./material-formulario.html" class="btn btn-brand btn-sm">Editar Material</a>
             </div>
 
             <h1 class="h3">📄 Detalle del Material: #001</h1>
@@ -92,7 +116,7 @@
             <div class="card shadow-sm border-0">
                 <div class="card-header card-header-brand d-flex justify-content-between align-items-center">
                     <h2 class="mb-0 fs-6">Historial Resumido de Movimientos</h2>
-                    <a href="./inventario.html" class="btn btn-sm btn-light text-dark">Ver Auditoría Completa</a>
+                    <a href="./auditoria.html" class="btn btn-sm btn-light text-dark">Ver Auditoría Completa</a>
                 </div>
                 <div class="card-body p-0">
                     <div class="table-responsive">

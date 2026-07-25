@@ -17,11 +17,34 @@
             </div>
             <nav class="sidebar-nav" aria-label="Navegación del panel">
                 <a href="./index.html" class="nav-item">Inicio</a>
-                <a href="./inventario.html" class="nav-item">Inventario</a>
+
+                <details class="nav-group">
+                    <summary class="nav-group-toggle">
+                        <span>Inventario</span>
+                        <span class="nav-chevron">▾</span>
+                    </summary>
+                    <div class="nav-submenu">
+                        <a href="./inventario.html" class="nav-subitem">Ver Inventario</a>
+                        <a href="./auditoria.html" class="nav-subitem">Auditoría</a>
+                        <!-- visible solo para rol Administrador -->
+                        <a href="./material-formulario.html" class="nav-subitem">Agregar Material</a>
+                    </div>
+                </details>
+
                 <a href="./alertas.html" class="nav-item">Alertas</a>
-                <a href="./pedidos-formulario.html" class="nav-item">Nueva Solicitud</a>
-                <a href="./pedidos.html" class="nav-item">Pedidos</a>
-                <a href="./historial-pedidos.html" class="nav-item active" aria-current="page">Historial de Pedidos</a>
+
+                <details class="nav-group" open>
+                    <summary class="nav-group-toggle">
+                        <span>Pedidos</span>
+                        <span class="nav-chevron">▾</span>
+                    </summary>
+                    <div class="nav-submenu">
+                        <a href="./pedidos.html" class="nav-subitem">Ver Pedidos</a>
+                        <a href="./pedidos-formulario.html" class="nav-subitem">Nueva Solicitud</a>
+                        <a href="./historial-pedidos.html" class="nav-subitem active" aria-current="page">Historial de Pedidos</a>
+                    </div>
+                </details>
+
                 <!-- visible solo para rol Administrador -->
                 <a href="./usuarios.html" class="nav-item">Usuarios</a>
             </nav>

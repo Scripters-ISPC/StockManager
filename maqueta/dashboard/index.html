@@ -17,11 +17,34 @@
             </div>
             <nav class="sidebar-nav" aria-label="Navegación del panel">
                 <a href="./index.html" class="nav-item active" aria-current="page">Inicio</a>
-                <a href="./inventario.html" class="nav-item">Inventario</a>
+
+                <details class="nav-group">
+                    <summary class="nav-group-toggle">
+                        <span>Inventario</span>
+                        <span class="nav-chevron">▾</span>
+                    </summary>
+                    <div class="nav-submenu">
+                        <a href="./inventario.html" class="nav-subitem">Ver Inventario</a>
+                        <a href="./auditoria.html" class="nav-subitem">Auditoría</a>
+                        <!-- visible solo para rol Administrador -->
+                        <a href="./material-formulario.html" class="nav-subitem">Agregar Material</a>
+                    </div>
+                </details>
+
                 <a href="./alertas.html" class="nav-item">Alertas</a>
-                <a href="./pedidos-formulario.html" class="nav-item">Nueva Solicitud</a>
-                <a href="./pedidos.html" class="nav-item">Pedidos</a>
-                <a href="./historial-pedidos.html" class="nav-item">Historial de Pedidos</a>
+
+                <details class="nav-group">
+                    <summary class="nav-group-toggle">
+                        <span>Pedidos</span>
+                        <span class="nav-chevron">▾</span>
+                    </summary>
+                    <div class="nav-submenu">
+                        <a href="./pedidos.html" class="nav-subitem">Ver Pedidos</a>
+                        <a href="./pedidos-formulario.html" class="nav-subitem">Nueva Solicitud</a>
+                        <a href="./historial-pedidos.html" class="nav-subitem">Historial de Pedidos</a>
+                    </div>
+                </details>
+
                 <!-- visible solo para rol Administrador -->
                 <a href="./usuarios.html" class="nav-item">Usuarios</a>
             </nav>
@@ -33,6 +56,11 @@
         <main class="main-content">
             <h1>Dashboard</h1>
             <p class="page-lead">Resumen general del estado del inventario y la logística interna.</p>
+
+            <div class="alert alert-danger d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4" role="alert">
+                <span><strong>⚠️ 2 materiales</strong> con stock crítico requieren reposición inmediata.</span>
+                <a href="./alertas.html" class="btn btn-sm btn-brand">Ver alertas</a>
+            </div>
 
             <div class="row g-4">
                 <div class="col-md-4">
