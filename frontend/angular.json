@@ -3,7 +3,11 @@
   "version": 1,
   "cli": {
     "packageManager": "npm",
+<<<<<<< HEAD
     "analytics": false
+=======
+    "analytics": "3b4c3e70-bd07-4a21-b91d-ad05d425ade3"
+>>>>>>> origin/feature/producto
   },
   "newProjectRoot": "projects",
   "projects": {
