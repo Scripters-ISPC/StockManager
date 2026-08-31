@@ -1,0 +1,45 @@
+<div class="dashboard-shell">
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <a routerLink="/">Stock<span>Manager</span></a>
+        </div>
+        <nav class="sidebar-nav" aria-label="Navegación del panel">
+            <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">Inicio</a>
+
+            <details class="nav-group">
+                <summary class="nav-group-toggle">
+                    <span>Inventario</span>
+                    <span class="nav-chevron">▾</span>
+                </summary>
+                <div class="nav-submenu">
+                    <a routerLink="/dashboard/inventario" class="nav-subitem">Ver Inventario</a>
+                    <a routerLink="/dashboard/auditoria" class="nav-subitem">Auditoría</a>
+                    <a routerLink="/dashboard/material-formulario" class="nav-subitem">Agregar Material</a>
+                </div>
+            </details>
+
+            <a routerLink="/dashboard/alertas" class="nav-item">Alertas</a>
+
+            <details class="nav-group">
+                <summary class="nav-group-toggle">
+                    <span>Pedidos</span>
+                    <span class="nav-chevron">▾</span>
+                </summary>
+                <div class="nav-submenu">
+                    <a routerLink="/dashboard/pedidos" class="nav-subitem">Ver Pedidos</a>
+                    <a routerLink="/dashboard/pedidos-formulario" class="nav-subitem">Nueva Solicitud</a>
+                    <a routerLink="/dashboard/historial-pedidos" class="nav-subitem">Historial de Pedidos</a>
+                </div>
+            </details>
+
+            <a routerLink="/dashboard/usuarios" class="nav-item">Usuarios</a>
+        </nav>
+        <div class="sidebar-footer">
+            <a routerLink="/login" class="nav-item nav-item-exit">Cerrar sesión</a>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <router-outlet></router-outlet>
+    </main>
+</div>

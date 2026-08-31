@@ -1,0 +1,33 @@
+<div class="login-shell">
+    <div class="login-wrapper">
+        <div class="login-brand">
+            <h1>Stock<span>Manager</span></h1>
+            <p>Sistema de Gestión de Logística Interna</p>
+        </div>
+        <div class="login-card">
+            <form>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="email" placeholder="nombre@empresa.com" required>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-brand py-2">Iniciar Sesión</button>
+                </div>
+            </form>
+            <div class="login-divider">ó ingresá directo (demo)</div>
+            <div class="role-access-title">Acceso por rol</div>
+            <div class="role-buttons">
+                <a routerLink="/dashboard" class="btn-role">
+                    <span>🔑</span><strong>Administrador</strong><small>Acceso total</small>
+                </a>
+                <a routerLink="/dashboard" class="btn-role">
+                    <span>📦</span><strong>Operario</strong><small>Inventario y pedidos</small>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

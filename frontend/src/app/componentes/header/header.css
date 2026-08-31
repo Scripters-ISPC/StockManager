@@ -1,0 +1,35 @@
+.site-header {
+    background-color: var(--color-primary);
+    padding: 16px 0;
+    margin-bottom: 2em;
+}
+
+.brand-logo {
+    width: 150px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.site-nav .nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 6px 4px;
+    border-bottom: 2px solid transparent;
+}
+
+.site-nav .nav-link:hover {
+    border-bottom-color: rgba(255, 255, 255, 0.6);
+}
+
+.site-nav .nav-link.active {
+    border-bottom-color: #ffffff;
+}
+
+@media (max-width: 576px) {
+    .site-header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+}

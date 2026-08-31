@@ -1,0 +1,26 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+    <h1 class="mb-0">📋 Pedidos</h1>
+    <a routerLink="/dashboard/pedidos-formulario" class="btn btn-brand btn-sm">+ Nueva Solicitud</a>
+</div>
+<p class="page-lead">Seguimiento de las solicitudes de reposición generadas al proveedor.</p>
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover mb-0 bg-white">
+        <thead class="card-header-brand">
+            <tr>
+                <th>N° Solicitud</th><th>Material</th><th>Cantidad</th><th>Proveedor</th><th>Urgencia</th><th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>#1048</td><td>Cartucho Tinta Negra</td><td>20</td><td>OfficeNet S.A.</td><td><span class="badge badge-critical">🔴 Alta</span></td><td><span class="badge bg-secondary">Pendiente</span></td>
+            </tr>
+            <tr>
+                <td>#1047</td><td>Cinta Embalar Marrón</td><td>30</td><td>Papelera Central</td><td><span class="badge badge-warning">🟡 Media</span></td><td><span class="badge bg-info text-dark">Enviado</span></td>
+            </tr>
+            <tr>
+                <td>#1046</td><td>Carpetas Corporativas</td><td>50</td><td>Distribuidora Omega</td><td><span class="badge badge-ok">🟢 Baja</span></td><td><span class="badge bg-success">Recibido</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p class="text-muted mt-3">¿Buscás el detalle completo por fecha y frecuencia de compra? Visitá el <a routerLink="/dashboard/historial-pedidos">Historial de Pedidos</a>.</p>

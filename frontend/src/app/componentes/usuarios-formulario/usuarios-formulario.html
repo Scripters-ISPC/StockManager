@@ -1,0 +1,29 @@
+<div class="mb-3">
+    <a routerLink="/dashboard/usuarios" class="btn btn-outline-secondary btn-sm">← Volver a Usuarios</a>
+</div>
+<h1>👤 Nuevo Operario</h1>
+<p class="page-lead">Creá una cuenta de acceso para el personal de almacén o logística.</p>
+<div class="card shadow-sm border-0" style="max-width: 560px;">
+    <div class="card-body p-4">
+        <form>
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre completo <span class="text-danger">*</span></label>
+                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej: Yamila Angelo" required>
+            </div>
+            <div class="mb-3">
+                <label for="correo" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
+                <input type="email" id="correo" name="correo" class="form-control" placeholder="nombre@stockmanager.com" required>
+            </div>
+            <div class="mb-3">
+                <label for="clave-temporal" class="form-label">Contraseña temporal <span class="text-danger">*</span></label>
+                <input type="password" id="clave-temporal" name="clave-temporal" class="form-control" required>
+                <div class="form-text">El operario deberá cambiarla en su primer inicio de sesión.</div>
+            </div>
+            <div class="mb-4">
+                <label for="rol" class="form-label">Rol</label>
+                <input type="text" id="rol" class="form-control" value="Operario" disabled>
+            </div>
+            <button type="submit" class="btn btn-brand w-100 py-2">Crear cuenta de Operario</button>
+        </form>
+    </div>
+</div>
