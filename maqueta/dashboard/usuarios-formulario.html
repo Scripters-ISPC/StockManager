@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Stock Manager</title>
+    <title>Nuevo Operario | Stock Manager</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/dashboard.css">
 </head>
@@ -16,7 +16,7 @@
                 <a href="./index.html">Stock<span>Manager</span></a>
             </div>
             <nav class="sidebar-nav" aria-label="Navegación del panel">
-                <a href="./index.html" class="nav-item active" aria-current="page">Inicio</a>
+                <a href="./index.html" class="nav-item">Inicio</a>
 
                 <details class="nav-group">
                     <summary class="nav-group-toggle">
@@ -46,7 +46,7 @@
                 </details>
 
                 <!-- visible solo para rol Administrador -->
-                <a href="./usuarios.html" class="nav-item">Usuarios</a>
+                <a href="./usuarios.html" class="nav-item active" aria-current="page">Usuarios</a>
             </nav>
             <div class="sidebar-footer">
                 <a href="./login.html" class="nav-item nav-item-exit">Cerrar sesión</a>
@@ -54,48 +54,44 @@
         </aside>
 
         <main class="main-content">
-            <h1>Dashboard</h1>
-            <p class="page-lead">Resumen general del estado del inventario y la logística interna.</p>
-
-            <div class="alert alert-danger d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4" role="alert">
-                <span><strong>⚠️ 2 materiales</strong> con stock crítico requieren reposición inmediata.</span>
-                <a href="./alertas.html" class="btn btn-sm btn-brand">Ver alertas</a>
+            <div class="mb-3">
+                <a href="./usuarios.html" class="btn btn-outline-secondary btn-sm">← Volver a Usuarios</a>
             </div>
 
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="metric-card">
-                        <h3>Total de productos</h3>
-                        <p class="metric-number">1.240</p>
-                        <div class="progress" role="progressbar" aria-label="Total de productos" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" style="height: 8px;">
-                            <div class="progress-bar bg-brand" style="width: 85%;"></div>
-                        </div>
-                    </div>
-                </div>
+            <h1>👤 Nuevo Operario</h1>
+            <p class="page-lead">Creá una cuenta de acceso para el personal de almacén o logística.</p>
 
-                <div class="col-md-4">
-                    <div class="metric-card">
-                        <h3>Productos bajo stock</h3>
-                        <p class="metric-number">18</p>
-                        <div class="progress" role="progressbar" aria-label="Productos bajo stock" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="height: 8px;">
-                            <div class="progress-bar bg-danger" style="width: 25%;"></div>
+            <div class="card shadow-sm border-0" style="max-width: 560px;">
+                <div class="card-body p-4">
+                    <form>
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre completo <span class="text-danger">*</span></label>
+                            <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej: Yamila Angelo" required>
                         </div>
-                    </div>
-                </div>
 
-                <div class="col-md-4">
-                    <div class="metric-card">
-                        <h3>Pedidos pendientes</h3>
-                        <p class="metric-number">35</p>
-                        <div class="progress" role="progressbar" aria-label="Pedidos pendientes" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="height: 8px;">
-                            <div class="progress-bar bg-warning" style="width: 60%;"></div>
+                        <div class="mb-3">
+                            <label for="correo" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
+                            <input type="email" id="correo" name="correo" class="form-control" placeholder="nombre@stockmanager.com" required>
                         </div>
-                    </div>
+
+                        <div class="mb-3">
+                            <label for="clave-temporal" class="form-label">Contraseña temporal <span class="text-danger">*</span></label>
+                            <input type="password" id="clave-temporal" name="clave-temporal" class="form-control" required>
+                            <div class="form-text">El operario deberá cambiarla en su primer inicio de sesión.</div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="rol" class="form-label">Rol</label>
+                            <input type="text" id="rol" class="form-control" value="Operario" disabled>
+                            <div class="form-text">El rol Administrador solo puede asignarse manualmente desde la base de datos.</div>
+                        </div>
+
+                        <button type="submit" class="btn btn-brand w-100 py-2">Crear cuenta de Operario</button>
+                    </form>
                 </div>
             </div>
 
         </main>
-
     </div>
 
 </body>
