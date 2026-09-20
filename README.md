@@ -4,6 +4,9 @@
 
 *Sistema integral de gestión de inventario interno desarrollado como una Aplicación de Página Única (SPA) en Angular (v17+), diseñado para optimizar la administración de recursos, el control de stock crítico y la trazabilidad de reposiciones.*
 
+![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
@@ -29,6 +32,9 @@ El sistema está desarrollado con componentes standalone y rutas dinámicas, inc
 
 ## 🛠️ Tecnologías Utilizadas
 
+* **HTML5:** Estructuración semántica de las vistas principales.
+* **CSS3:** Estilos visuales externalizados y diseño responsivo.
+* **Bootstrap 5:** Sistema de grillas y componentes para garantizar la adaptabilidad móvil (*mobile-first*).
 * **Angular (v17+):** Framework principal basado en componentes *standalone*, Signals y sistema avanzado de ruteo.
 * **TypeScript:** Lenguaje base para la lógica de componentes, servicios y validación de formularios reactivos.
 * **Bootstrap 5:** Sistema de grillas y componentes para garantizar la adaptabilidad móvil (*mobile-first*).
