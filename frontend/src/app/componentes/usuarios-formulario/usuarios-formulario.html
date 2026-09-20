@@ -3,27 +3,62 @@
 </div>
 <h1>👤 Nuevo Operario</h1>
 <p class="page-lead">Creá una cuenta de acceso para el personal de almacén o logística.</p>
+
 <div class="card shadow-sm border-0" style="max-width: 560px;">
     <div class="card-body p-4">
-        <form>
+    
+        <form [formGroup]="formularioUsuario" (ngSubmit)="onSubmit()">
+            
             <div class="mb-3">
                 <label for="nombre" class="form-label">Nombre completo <span class="text-danger">*</span></label>
-                <input type="text" id="nombre" name="nombre" class="form-control" placeholder="Ej: Yamila Angelo" required>
+                <input type="text" id="nombre" formControlName="nombre" class="form-control" 
+                       [class.is-invalid]="formularioUsuario.get('nombre')?.invalid && formularioUsuario.get('nombre')?.touched"
+                       placeholder="Ej: Yamila Angelo">
+                @if (formularioUsuario.get('nombre')?.invalid && formularioUsuario.get('nombre')?.touched) {
+                    <div class="invalid-feedback d-block">
+                        @if (formularioUsuario.get('nombre')?.hasError('required')) { <small>El nombre es obligatorio.</small> }
+                        @if (formularioUsuario.get('nombre')?.hasError('minlength')) { <small>Debe tener al menos 3 caracteres.</small> }
+                    </div>
+                }
             </div>
+
             <div class="mb-3">
                 <label for="correo" class="form-label">Correo electrónico <span class="text-danger">*</span></label>
-                <input type="email" id="correo" name="correo" class="form-control" placeholder="nombre@stockmanager.com" required>
+                <input type="email" id="correo" formControlName="correo" class="form-control" 
+                       [class.is-invalid]="formularioUsuario.get('correo')?.invalid && formularioUsuario.get('correo')?.touched"
+                       placeholder="nombre@stockmanager.com">
+                @if (formularioUsuario.get('correo')?.invalid && formularioUsuario.get('correo')?.touched) {
+                    <div class="invalid-feedback d-block">
+                        @if (formularioUsuario.get('correo')?.hasError('required')) { <small>El correo es obligatorio.</small> }
+                        @if (formularioUsuario.get('correo')?.hasError('email')) { <small>El formato del correo no es válido.</small> }
+                        @if (formularioUsuario.get('correo')?.hasError('dominioInvalido')) { <small>Debe pertenecer al dominio @stockmanager.com.</small> }
+                    </div>
+                }
             </div>
+
             <div class="mb-3">
-                <label for="clave-temporal" class="form-label">Contraseña temporal <span class="text-danger">*</span></label>
-                <input type="password" id="clave-temporal" name="clave-temporal" class="form-control" required>
-                <div class="form-text">El operario deberá cambiarla en su primer inicio de sesión.</div>
+                <label for="clave" class="form-label">Contraseña temporal <span class="text-danger">*</span></label>
+                <input type="password" id="clave" formControlName="clave" class="form-control"
+                       [class.is-invalid]="formularioUsuario.get('clave')?.invalid && formularioUsuario.get('clave')?.touched">
+                @if (formularioUsuario.get('clave')?.invalid && formularioUsuario.get('clave')?.touched) {
+                    <div class="invalid-feedback d-block">
+                        @if (formularioUsuario.get('clave')?.hasError('required')) { <small>La contraseña es obligatoria.</small> }
+                        @if (formularioUsuario.get('clave')?.hasError('minlength')) { <small>Debe tener al menos 6 caracteres.</small> }
+                    </div>
+                }
+                @if (formularioUsuario.get('clave')?.valid || !formularioUsuario.get('clave')?.touched) {
+                    <div class="form-text">El operario deberá cambiarla en su primer inicio de sesión.</div>
+                }
             </div>
+
             <div class="mb-4">
                 <label for="rol" class="form-label">Rol</label>
-                <input type="text" id="rol" class="form-control" value="Operario" disabled>
+                <input type="text" id="rol" formControlName="rol" class="form-control">
             </div>
-            <button type="submit" class="btn btn-brand w-100 py-2">Crear cuenta de Operario</button>
+
+            <button type="submit" class="btn btn-brand w-100 py-2" [disabled]="formularioUsuario.invalid">
+                Crear cuenta de Operario
+            </button>
         </form>
     </div>
 </div>
