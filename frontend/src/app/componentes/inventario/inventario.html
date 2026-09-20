@@ -1,0 +1,37 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+    <h1 class="mb-0">📦 Inventario Principal</h1>
+    <a routerLink="/dashboard/material-formulario" class="btn btn-brand btn-sm">+ Agregar Material</a>
+</div>
+<p class="page-lead">Registro de materiales y control de stock crítico.</p>
+<div class="table-responsive shadow-sm rounded">
+    <table class="table table-hover mb-0 bg-white">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th><th>Material</th><th>Categoría</th><th>Cantidad</th><th>Estado</th><th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>#001</td><td><a routerLink="/dashboard/detalle-material">Resma Papel A4</a></td><td>Librería</td><td>50</td><td><span class="badge badge-ok">Stock Ok</span></td>
+                <td><a routerLink="/dashboard/material-formulario" class="btn btn-sm btn-outline-secondary">Editar</a> <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button></td>
+            </tr>
+            <tr class="row-critical">
+                <td>#002</td><td><a routerLink="/dashboard/detalle-material">Cartucho Tinta Negra</a></td><td>Insumos</td><td>2</td><td><span class="badge badge-critical">Crítico</span></td>
+                <td><a routerLink="/dashboard/material-formulario" class="btn btn-sm btn-outline-secondary">Editar</a> <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button></td>
+            </tr>
+            <tr>
+                <td>#003</td><td><a routerLink="/dashboard/detalle-material">Abrochadora Pesada</a></td><td>Bazar y Oficina</td><td>12</td><td><span class="badge badge-ok">Stock Ok</span></td>
+                <td><a routerLink="/dashboard/material-formulario" class="btn btn-sm btn-outline-secondary">Editar</a> <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button></td>
+            </tr>
+            <tr class="row-critical">
+                <td>#004</td><td><a routerLink="/dashboard/detalle-material">Cinta Embalar Marrón</a></td><td>Librería</td><td>1</td><td><span class="badge badge-critical">Crítico</span></td>
+                <td><a routerLink="/dashboard/material-formulario" class="btn btn-sm btn-outline-secondary">Editar</a> <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button></td>
+            </tr>
+            <tr>
+                <td>#005</td><td><a routerLink="/dashboard/detalle-material">Carpetas Corporativas</a></td><td>Marketing</td><td>120</td><td><span class="badge badge-ok">Stock Ok</span></td>
+                <td><a routerLink="/dashboard/material-formulario" class="btn btn-sm btn-outline-secondary">Editar</a> <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<p class="text-muted mt-3">¿Buscás el registro de ingresos, egresos y ajustes? Revisá la <a routerLink="/dashboard/auditoria">Auditoría</a>.</p>

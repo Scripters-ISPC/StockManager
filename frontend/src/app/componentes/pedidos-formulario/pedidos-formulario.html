@@ -1,0 +1,55 @@
+<h1>📦 Solicitud de Materiales</h1>
+<p class="page-lead">Completá el formulario para generar una nueva solicitud de reposición.</p>
+<div class="card shadow-sm border-0" style="max-width: 640px;">
+    <div class="card-body p-4">
+        <form>
+            <div class="mb-3">
+                <label for="producto" class="form-label">Producto <span class="text-danger">*</span></label>
+                <select id="producto" name="producto" class="form-select" required>
+                    <option value="">Seleccione un producto...</option>
+                    <option value="papel-a4">Papel A4 - Resma 500 hojas</option>
+                    <option value="toner-hp">Toner HP LaserJet Negro</option>
+                    <option value="toner-hp-color">Toner HP LaserJet Color</option>
+                    <option value="lapiceras">Lapiceras Azul - Caja x50</option>
+                </select>
+                <div class="form-text">Seleccione el material que necesita solicitar.</div>
+            </div>
+            <div class="row g-3 mb-3">
+                <div class="col-sm-6">
+                    <label for="cantidad" class="form-label">Cantidad <span class="text-danger">*</span></label>
+                    <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" max="9999" placeholder="Ej: 10" required>
+                </div>
+                <div class="col-sm-6">
+                    <label for="proveedor" class="form-label">Proveedor <span class="text-danger">*</span></label>
+                    <select id="proveedor" name="proveedor" class="form-select" required>
+                        <option value="">Seleccione proveedor...</option>
+                        <option value="officenet">OfficeNet S.A.</option>
+                        <option value="papelera-central">Papelera Central</option>
+                    </select>
+                </div>
+            </div>
+            <fieldset class="mb-3">
+                <legend class="form-label h6">Nivel de Urgencia <span class="text-danger">*</span></legend>
+                <div class="urgencia-options">
+                    <div class="radio-option">
+                        <input type="radio" id="urgencia-baja" name="urgencia" value="baja" required>
+                        <label for="urgencia-baja">🟢 Baja</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="urgencia-media" name="urgencia" value="media">
+                        <label for="urgencia-media">🟡 Media</label>
+                    </div>
+                    <div class="radio-option">
+                        <input type="radio" id="urgencia-alta" name="urgencia" value="alta">
+                        <label for="urgencia-alta">🔴 Alta</label>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="mb-4">
+                <label for="observaciones" class="form-label">Observaciones (Opcional)</label>
+                <input type="text" id="observaciones" name="observaciones" class="form-control" placeholder="Detalles adicionales sobre la solicitud...">
+            </div>
+            <button type="submit" class="btn btn-brand w-100 py-2">✓ Enviar Solicitud de Material</button>
+        </form>
+    </div>
+</div>
