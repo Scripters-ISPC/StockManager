@@ -16,6 +16,7 @@ import { HistorialPedidos } from './pages/dashboard/historial-pedidos/historial-
 import { DetalleMaterial } from './pages/dashboard/detalle-material/detalle-material';
 import { NotFound } from './pages/dashboard/not-found/not-found';
 import { roleGuard } from './core/guards/role-guard';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -25,6 +26,7 @@ export const routes: Routes = [
     { 
         path: 'dashboard', 
         component: Dashboard,
+        canActivate: [authGuard],
         children: [
             { path: '', component: DashboardInicio },
             { path: 'inventario', component: Inventario },
