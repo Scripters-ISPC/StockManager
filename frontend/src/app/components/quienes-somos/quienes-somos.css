@@ -1,0 +1,201 @@
+/* =========================
+   VARIABLES DE PALETA
+========================= */
+
+:root {
+    --color-primary: #434e5f;
+    --color-primary-dark: #2e3743;
+    --color-accent: #404f66;
+    --color-text: #222222;
+    --color-text-secondary: #666666;
+    --color-bg: #f4f4f4;
+    --color-surface: #ffffff;
+    --color-border: #e1e4e6;
+    --shadow-soft: 0 4px 8px rgba(0, 0, 0, 0.05);
+    --radius: 8px;
+}
+
+/* =========================
+   RESET GENERAL
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* =========================
+   BODY
+========================= */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    min-height: 100vh;
+}
+
+/* =========================
+   HEADER / NAVEGACIÓN
+========================= */
+
+.site-header {
+    background-color: var(--color-primary);
+    padding: 16px 0;
+    margin-bottom: 2em;
+}
+
+.brand-logo {
+    width: 150px;
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+.site-nav .nav-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 6px 4px;
+    border-bottom: 2px solid transparent;
+}
+
+.site-nav .nav-link:hover {
+    border-bottom-color: rgba(255, 255, 255, 0.6);
+}
+
+.site-nav .nav-link.active {
+    border-bottom-color: #ffffff;
+}
+
+/* =========================
+   CONTENIDO PRINCIPAL
+========================= */
+
+.main {
+    padding: 20px 0;
+}
+
+/* =========================
+   SECTION (texto general)
+========================= */
+
+.section h1,
+.section h2 {
+    color: var(--color-primary);
+    margin-bottom: 15px;
+}
+
+.section p {
+    margin-bottom: 15px;
+    line-height: 1.6;
+    color: #333;
+    font-size: 16px;
+}
+
+/* =========================
+   EQUIPO (Quiénes Somos)
+========================= */
+
+.member {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 25px;
+    box-shadow: var(--shadow-soft);
+    text-align: center;
+}
+
+.member h3 {
+    color: var(--color-text);
+    margin-bottom: 8px;
+    font-size: 20px;
+}
+
+.member p {
+    color: var(--color-text-secondary);
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    text-align: center;
+    padding: 15px 0;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero-title {
+    color: var(--color-accent);
+}
+
+.hero-subtitle {
+    line-height: 1.6;
+}
+
+.hero-image {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Botón principal */
+.btn-brand {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #ffffff;
+}
+
+.btn-brand:hover,
+.btn-brand:focus {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: #ffffff;
+}
+
+/* =========================
+   BENEFICIOS
+========================= */
+
+.benefits-title {
+    color: var(--color-accent);
+}
+
+.benefit-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.2s ease;
+}
+
+.benefit-card:hover {
+    transform: translateY(-5px);
+}
+
+.card-title {
+    color: var(--color-accent);
+}
+
+.card-description {
+    color: var(--color-text-secondary);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 576px) {
+    .site-header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+}
