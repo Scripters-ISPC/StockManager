@@ -1,0 +1,10 @@
+<div class="metric-card" style="height: 100%;">
+    <h3>{{ titulo }}</h3>
+    <p class="metric-number mb-1">{{ valor }}</p>
+    <p class="text-muted small mb-0">
+        @if (tendencia) {
+            <span class="text-success fw-semibold">{{ tendencia }}</span>
+        }
+        {{ descripcion }}
+    </p>
+</div>
