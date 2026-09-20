@@ -3,6 +3,16 @@
         <div class="sidebar-brand">
             <a routerLink="/">Stock<span>Manager</span></a>
         </div>
+        
+        <div class="user-role-badge mb-3 px-2">
+            <div class="p-2 rounded bg-dark border border-secondary text-light small">
+                <div class="text-uppercase text-muted" style="font-size: 0.65rem; font-weight: 700; letter-spacing: 0.05em;">Usuario Logueado</div>
+                <div class="fw-bold text-info mt-1">
+                    👤 {{ authService.isAdmin() ? 'Administrador' : (authService.isOperario() ? 'Operario' : 'Sin Sesión') }}
+                </div>
+            </div>
+        </div>
+
         <nav class="sidebar-nav" aria-label="Navegación del panel">
             <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">Inicio</a>
 
@@ -40,7 +50,7 @@
             }
         </nav>
         <div class="sidebar-footer">
-            <a routerLink="/login" class="nav-item nav-item-exit">Cerrar sesión</a>
+            <a href="#" (click)="logout($event)" class="nav-item nav-item-exit">🚪 Salir / Cerrar sesión</a>
         </div>
     </aside>
 
