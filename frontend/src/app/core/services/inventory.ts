@@ -1,7 +1,10 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map } from 'rxjs';
+import { API_BASE_URL } from '../config/api.config';
 
 export interface Material {
-  id: number;
+  id?: number;
   nombre: string;
   categoria: string;
   ubicacion: string;
@@ -14,36 +17,32 @@ export interface Material {
   providedIn: 'root'
 })
 export class InventoryService {
-  private materiales = signal<Material[]>([
-    { id: 1, nombre: 'Resma Papel A4 - 500 hojas', categoria: 'libreria', ubicacion: 'Pasillo 1 - Estante A', cantidadActual: 12, stockMinimo: 20, proveedor: 'Papelera Central' },
-    { id: 2, nombre: 'Toner HP LaserJet Negro', categoria: 'insumos', ubicacion: 'Pasillo 3 - Estante B', cantidadActual: 2, stockMinimo: 5, proveedor: 'OfficeNet S.A.' },
-    { id: 3, nombre: 'Lapiceras Azul - Caja x50', categoria: 'libreria', ubicacion: 'Pasillo 1 - Estante C', cantidadActual: 45, stockMinimo: 15, proveedor: 'Librería Mayorista' },
-    { id: 4, nombre: 'Carpetas Clasificadoras A4', categoria: 'bazar-oficina', ubicacion: 'Pasillo 2 - Estante A', cantidadActual: 85, stockMinimo: 30, proveedor: 'Papelera Central' },
-    { id: 5, nombre: 'Broches Abrochadora 24/6 - Caja', categoria: 'libreria', ubicacion: 'Pasillo 1 - Estante B', cantidadActual: 4, stockMinimo: 10, proveedor: 'Librería Mayorista' }
-  ]);
+  private http = inject(HttpClient);
+  private apiUrl = `${API_BASE_URL}/materiales`;
 
-  getMateriales = this.materiales.asReadonly();
-
-  alertasCriticas = computed(() => {
-    return this.materiales().filter(m => m.cantidadActual <= m.stockMinimo);
-  });
-
-  agregarMaterial(nuevo: Omit<Material, 'id'>) {
-    const nextId = this.materiales().length > 0 ? Math.max(...this.materiales().map(m => m.id)) + 1 : 1;
-    this.materiales.update(lista => [...lista, { ...nuevo, id: nextId }]);
+  getMateriales(): Observable<Material[]> {
+    return this.http.get<Material[]>(this.apiUrl);
   }
 
-  eliminarMaterial(id: number) {
-    this.materiales.update(lista => lista.filter(m => m.id !== id));
-  }
-
-  actualizarStock(id: number, cantidad: number) {
-    this.materiales.update(lista =>
-      lista.map(m => m.id === id ? { ...m, cantidadActual: Math.max(0, cantidad) } : m)
+  getAlertasCriticas(): Observable<Material[]> {
+    return this.getMateriales().pipe(
+      map(lista => lista.filter(m => m.cantidadActual <= m.stockMinimo))
     );
   }
 
-  getMaterialById(id: number) {
-    return this.materiales().find(m => m.id === id);
+  getMaterialById(id: number): Observable<Material> {
+    return this.http.get<Material>(`${this.apiUrl}/${id}`);
+  }
+
+  agregarMaterial(nuevo: Omit<Material, 'id'>): Observable<Material> {
+    return this.http.post<Material>(this.apiUrl, nuevo);
+  }
+
+  actualizarStock(id: number, cantidadActual: number): Observable<Material> {
+    return this.http.patch<Material>(`${this.apiUrl}/${id}`, { cantidadActual });
+  }
+
+  eliminarMaterial(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }

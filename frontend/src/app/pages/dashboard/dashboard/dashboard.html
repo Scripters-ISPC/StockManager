@@ -47,9 +47,18 @@
                 </div>
                 <div class="user-details">
                     <span class="user-role-title">ROL ACTIVO</span>
-                    <span class="user-role-name">{{ authService.isAdmin() ? 'Administrador' : 'Operario' }}</span>
+                    <span class="user-role-name">{{ authService.rolEtiqueta() }}</span>
                 </div>
             </div>
+            @if (authService.esAdministradorReal()) {
+                <button type="button" class="btn btn-sm btn-outline-light w-100 mb-2" (click)="alternarVistaOperario()">
+                    @if (authService.vistaOperarioActiva()) {
+                        👑 Volver a vista administrador
+                    } @else {
+                        📦 Ver como operario
+                    }
+                </button>
+            }
             <a href="#" (click)="logout($event)" class="nav-item nav-item-exit">
                 <span>🚪</span> Salir (Cerrar sesión)
             </a>

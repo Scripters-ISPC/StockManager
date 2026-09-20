@@ -1,67 +1,69 @@
 <div class="page-header">
     <div>
         <h1 class="mb-0">🕒 Historial de Pedidos</h1>
-        <p class="page-lead mb-0">Seguimiento logístico y periodicidad de compras.</p>
+        <p class="page-lead mb-0">Seguimiento logístico desde json-server.</p>
     </div>
+    <a routerLink="/dashboard/pedidos" class="btn btn-outline-secondary btn-sm">← Pedidos activos</a>
 </div>
-<div class="metrics-grid">
-    <app-metric-card 
-        titulo="Total pedidos" 
-        valor="148" 
-        tendencia="↑ 12%" 
-        descripcion="vs. mes anterior">
-    </app-metric-card>
 
-    <app-metric-card 
-        titulo="Alta rotación" 
-        valor="23" 
-        descripcion="materiales frecuentes">
-    </app-metric-card>
-
-    <app-metric-card 
-        titulo="Frecuencia prom." 
-        valor="4.2 días" 
-        descripcion="entre reposiciones">
-    </app-metric-card>
-</div>
-<div class="content-grid">
-    <div class="card shadow-sm border-0 p-3">
-        <h2 class="h6 mb-3">📋 Línea de tiempo</h2>
-        <div class="timeline">
-            <div class="tl-item">
-                <div class="tl-spine">
-                    <div class="tl-dot"></div><div class="tl-line"></div>
-                </div>
-                <div class="tl-body">
-                    <div class="tl-meta">15 may 2026 · 09:14</div>
-                    <div class="tl-name">Cemento Portland — 50 bolsas</div>
-                    <div class="tl-detail">Proveedor: Construmax <span class="badge badge-critical">🔥 Alta rotación</span></div>
-                </div>
+@if (cargando()) {
+    <div class="text-center py-5">
+        <span class="spinner-border text-secondary"></span>
+    </div>
+} @else {
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="metric-card">
+                <h3 class="mb-2">Total pedidos</h3>
+                <p class="metric-number mb-0">{{ totalPedidos() }}</p>
             </div>
-            <div class="tl-item">
-                <div class="tl-spine">
-                    <div class="tl-dot dot-muted"></div>
-                </div>
-                <div class="tl-body">
-                    <div class="tl-meta">03 may 2026 · 16:22</div>
-                    <div class="tl-name">Caño galvanizado 1" — 80 m</div>
-                    <div class="tl-detail">Proveedor: MetalTech <span class="badge bg-secondary">Sin rotación reciente</span></div>
-                </div>
+        </div>
+        <div class="col-md-4">
+            <div class="metric-card">
+                <h3 class="mb-2">Entregados</h3>
+                <p class="metric-number mb-0 text-success">{{ pedidosEntregados() }}</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="metric-card">
+                <h3 class="mb-2">Pendientes</h3>
+                <p class="metric-number mb-0 text-warning">{{ pedidosPendientes() }}</p>
             </div>
         </div>
     </div>
-    <div class="card shadow-sm border-0 p-3">
-        <h2 class="h6 mb-3">📈 Materiales frecuentes</h2>
-        <div class="mat-list">
-            <div class="mat-item">
-                <div class="mat-icon">🔥</div>
-                <div class="mat-info">
-                    <div class="mat-name">Cemento Portland</div>
-                    <div class="mat-freq">Pedido cada 3 días · 12 veces/mes</div>
-                    <div class="mat-bar-wrap"><div class="mat-bar" style="width: 92%;"></div></div>
-                </div>
-                <div class="mat-pct">92%</div>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+            <div class="table-responsive">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Fecha</th>
+                            <th>#</th>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Proveedor</th>
+                            <th>Urgencia</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (ped of pedidos(); track ped.id) {
+                            <tr>
+                                <td>{{ ped.fecha }}</td>
+                                <td class="fw-bold">#{{ ped.id }}</td>
+                                <td>{{ ped.producto }}</td>
+                                <td>{{ ped.cantidad }}</td>
+                                <td class="small text-muted">{{ ped.proveedor }}</td>
+                                <td><span class="badge" [ngClass]="urgenciaBadge(ped.urgencia)">{{ ped.urgencia | titlecase }}</span></td>
+                                <td><span class="badge bg-secondary">{{ ped.estado }}</span></td>
+                            </tr>
+                        } @empty {
+                            <tr><td colspan="7" class="text-center text-muted py-4">No hay pedidos registrados.</td></tr>
+                        }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
-</div>
+}
