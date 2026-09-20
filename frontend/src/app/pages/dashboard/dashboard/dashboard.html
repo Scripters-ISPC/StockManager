@@ -41,7 +41,15 @@
             }
         </nav>
         <div class="sidebar-footer">
-            <a href="#" (click)="logout($event)" class="nav-item nav-item-exit">🚪 Salir / Cerrar sesión</a>
+            <div class="user-role-badge mb-3 px-1">
+                <div class="p-2 rounded bg-dark border border-secondary text-light small">
+                    <div class="text-uppercase text-muted" style="font-size: 0.65rem; font-weight: 700; letter-spacing: 0.05em;">Usuario Logueado</div>
+                    <div class="fw-bold text-info mt-1">
+                        👤 {{ authService.isAdmin() ? 'Administrador' : (authService.isOperario() ? 'Operario' : 'Sin Sesión') }}
+                    </div>
+                </div>
+            </div>
+            <a href="#" (click)="logout($event)" class="nav-item nav-item-exit">🚪 Salir (Cerrar sesión)</a>
         </div>
     </aside>
 
