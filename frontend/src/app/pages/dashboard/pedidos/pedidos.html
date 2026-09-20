@@ -1,25 +1,62 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
-    <h1 class="mb-0">📋 Pedidos</h1>
+    <h1 class="mb-0">📋 Pedidos Activos</h1>
     <a routerLink="/dashboard/pedidos-formulario" class="btn btn-brand btn-sm">+ Nueva Solicitud</a>
 </div>
-<p class="page-lead">Seguimiento de las solicitudes de reposición generadas al proveedor.</p>
+<p class="page-lead">Seguimiento y administración de solicitudes de reposición en tiempo real.</p>
 <div class="table-responsive shadow-sm rounded">
-    <table class="table table-hover mb-0 bg-white">
-        <thead class="card-header-brand">
+    <table class="table table-hover align-middle mb-0 bg-white">
+        <thead class="table-light">
             <tr>
-                <th>N° Solicitud</th><th>Material</th><th>Cantidad</th><th>Proveedor</th><th>Urgencia</th><th>Estado</th>
+                <th>N° Solicitud</th>
+                <th>Producto / Material</th>
+                <th>Cantidad</th>
+                <th>Proveedor</th>
+                <th>Urgencia</th>
+                <th>Estado</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>#1048</td><td>Cartucho Tinta Negra</td><td>20</td><td>OfficeNet S.A.</td><td><span class="badge badge-critical">🔴 Alta</span></td><td><span class="badge bg-secondary">Pendiente</span></td>
-            </tr>
-            <tr>
-                <td>#1047</td><td>Cinta Embalar Marrón</td><td>30</td><td>Papelera Central</td><td><span class="badge badge-warning">🟡 Media</span></td><td><span class="badge bg-info text-dark">Enviado</span></td>
-            </tr>
-            <tr>
-                <td>#1046</td><td>Carpetas Corporativas</td><td>50</td><td>Distribuidora Omega</td><td><span class="badge badge-ok">🟢 Baja</span></td><td><span class="badge bg-success">Recibido</span></td>
-            </tr>
+            @for (pedido of pedidosService.getPedidos(); track pedido.id) {
+                <tr>
+                    <td class="fw-bold">#{{ pedido.id }}</td>
+                    <td>{{ pedido.producto }}</td>
+                    <td><span class="badge bg-light text-dark border">{{ pedido.cantidad }} unidades</span></td>
+                    <td class="text-muted small">{{ pedido.proveedor }}</td>
+                    <td>
+                        @if (pedido.urgencia === 'alta') {
+                            <span class="badge badge-critical">🔴 Alta</span>
+                        } @else if (pedido.urgencia === 'media') {
+                            <span class="badge badge-warning">🟡 Media</span>
+                        } @else {
+                            <span class="badge badge-ok">🟢 Baja</span>
+                        }
+                    </td>
+                    <td>
+                        <span class="badge" [ngClass]="{
+                            'bg-warning text-dark': pedido.estado === 'Pendiente',
+                            'bg-info text-dark': pedido.estado === 'Aprobado',
+                            'bg-primary': pedido.estado === 'En Camino',
+                            'bg-success': pedido.estado === 'Entregado',
+                            'bg-danger': pedido.estado === 'Cancelado'
+                        }">{{ pedido.estado }}</span>
+                    </td>
+                    <td>
+                        <div class="btn-group btn-group-sm">
+                            @if (pedido.estado === 'Pendiente') {
+                                <button type="button" (click)="cambiarEstado(pedido.id, 'Aprobado')" class="btn btn-outline-success">Aprobar</button>
+                                <button type="button" (click)="cancelar(pedido.id)" class="btn btn-outline-danger">Cancelar</button>
+                            } @else if (pedido.estado === 'Aprobado') {
+                                <button type="button" (click)="cambiarEstado(pedido.id, 'En Camino')" class="btn btn-outline-primary">En Camino</button>
+                            } @else if (pedido.estado === 'En Camino') {
+                                <button type="button" (click)="cambiarEstado(pedido.id, 'Entregado')" class="btn btn-outline-success">Entregado</button>
+                            } @else {
+                                <span class="text-muted small">Completado</span>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

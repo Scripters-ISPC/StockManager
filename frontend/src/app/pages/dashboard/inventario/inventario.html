@@ -5,64 +5,57 @@
         <a routerLink="/dashboard/material-formulario" class="btn btn-brand btn-sm">+ Agregar Material</a>
     }
 </div>
-<p class="page-lead">Registro de materiales y control de stock crítico.</p>
+<p class="page-lead">Registro de materiales y control de stock crítico en tiempo real.</p>
 
 <div class="table-responsive shadow-sm rounded">
-    <table class="table table-hover mb-0 bg-white">
+    <table class="table table-hover align-middle mb-0 bg-white">
         <thead class="table-light">
             <tr>
-                <th>ID</th><th>Material</th><th>Categoría</th><th>Cantidad</th><th>Estado</th>
-                @if (authService.isAdmin()) {
-                    <th>Acciones</th>
-                }
+                <th>ID</th>
+                <th>Material</th>
+                <th>Categoría</th>
+                <th>Ubicación</th>
+                <th>Stock Actual</th>
+                <th>Estado</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>#001</td><td><a routerLink="/dashboard/detalle-material">Resma Papel A4</a></td><td>Librería</td><td>50</td><td><span class="badge badge-ok">Stock Ok</span></td>
-                @if (authService.isAdmin()) {
+            @for (item of inventoryService.getMateriales(); track item.id) {
+                <tr [class.row-critical]="item.cantidadActual <= item.stockMinimo">
+                    <td>#{{ item.id < 10 ? '00' + item.id : '0' + item.id }}</td>
                     <td>
-                        <a routerLink="/dashboard/material-formulario" class="btn btn-sm btn-outline-secondary">Editar</a> 
-                        <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                        <a routerLink="/dashboard/detalle-material" class="fw-semibold text-decoration-none text-dark">
+                            {{ item.nombre }}
+                        </a>
                     </td>
-                }
-            </tr>
-            <tr class="row-critical">
-                <td>#002</td><td><a routerLink="/dashboard/detalle-material">Cartucho Tinta Negra</a></td><td>Insumos</td><td>2</td><td><span class="badge badge-critical">Crítico</span></td>
-                @if (authService.isAdmin()) {
+                    <td><span class="badge bg-light text-dark border">{{ item.categoria }}</span></td>
+                    <td class="text-muted small">{{ item.ubicacion }}</td>
                     <td>
-                        <a routerLink="/dashboard/material-formulario" class="btn btn-sm btn-outline-secondary">Editar</a> 
-                        <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                        <div class="d-flex align-items-center gap-2">
+                            <button type="button" (click)="ajustarStock(item.id, -1)" class="btn btn-sm btn-outline-secondary px-2 py-0">-</button>
+                            <span class="fw-bold fs-6">{{ item.cantidadActual }}</span>
+                            <button type="button" (click)="ajustarStock(item.id, 1)" class="btn btn-sm btn-outline-secondary px-2 py-0">+</button>
+                        </div>
                     </td>
-                }
-            </tr>
-            <tr>
-                <td>#003</td><td><a routerLink="/dashboard/detalle-material">Abrochadora Pesada</a></td><td>Bazar y Oficina</td><td>12</td><td><span class="badge badge-ok">Stock Ok</span></td>
-                @if (authService.isAdmin()) {
                     <td>
-                        <a routerLink="/dashboard/material-formulario" class="btn btn-sm btn-outline-secondary">Editar</a> 
-                        <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                        @if (item.cantidadActual <= item.stockMinimo) {
+                            <span class="badge badge-critical">⚠️ Crítico (Min: {{ item.stockMinimo }})</span>
+                        } @else {
+                            <span class="badge badge-ok">✓ Stock Ok</span>
+                        }
                     </td>
-                }
-            </tr>
-            <tr class="row-critical">
-                <td>#004</td><td><a routerLink="/dashboard/detalle-material">Cinta Embalar Marrón</a></td><td>Librería</td><td>1</td><td><span class="badge badge-critical">Crítico</span></td>
-                @if (authService.isAdmin()) {
                     <td>
-                        <a routerLink="/dashboard/material-formulario" class="btn btn-sm btn-outline-secondary">Editar</a> 
-                        <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                        <div class="d-flex gap-1">
+                            @if (authService.isAdmin()) {
+                                <button type="button" (click)="eliminar(item.id)" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                            } @else {
+                                <span class="text-muted small">Lectura</span>
+                            }
+                        </div>
                     </td>
-                }
-            </tr>
-            <tr>
-                <td>#005</td><td><a routerLink="/dashboard/detalle-material">Carpetas Corporativas</a></td><td>Marketing</td><td>120</td><td><span class="badge badge-ok">Stock Ok</span></td>
-                @if (authService.isAdmin()) {
-                    <td>
-                        <a routerLink="/dashboard/material-formulario" class="btn btn-sm btn-outline-secondary">Editar</a> 
-                        <button type="button" class="btn btn-sm btn-outline-danger">Eliminar</button>
-                    </td>
-                }
-            </tr>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

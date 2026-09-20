@@ -3,8 +3,11 @@
         <div class="sidebar-brand">
             <a routerLink="/">Stock<span>Manager</span></a>
         </div>
+
         <nav class="sidebar-nav" aria-label="Navegación del panel">
             <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">Inicio</a>
+
+            <a routerLink="/dashboard/alertas" class="nav-item">Alertas</a>
 
             <details class="nav-group">
                 <summary class="nav-group-toggle">
@@ -20,8 +23,6 @@
                     }
                 </div>
             </details>
-
-            <a routerLink="/dashboard/alertas" class="nav-item">Alertas</a>
 
             <details class="nav-group">
                 <summary class="nav-group-toggle">
@@ -40,7 +41,18 @@
             }
         </nav>
         <div class="sidebar-footer">
-            <a routerLink="/login" class="nav-item nav-item-exit">Cerrar sesión</a>
+            <div class="user-profile-box mb-3">
+                <div class="avatar-circle">
+                    {{ authService.isAdmin() ? '👑' : '📦' }}
+                </div>
+                <div class="user-details">
+                    <span class="user-role-title">ROL ACTIVO</span>
+                    <span class="user-role-name">{{ authService.isAdmin() ? 'Administrador' : 'Operario' }}</span>
+                </div>
+            </div>
+            <a href="#" (click)="logout($event)" class="nav-item nav-item-exit">
+                <span>🚪</span> Salir (Cerrar sesión)
+            </a>
         </div>
     </aside>
 

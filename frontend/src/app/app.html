@@ -1,3 +1,7 @@
-<app-header></app-header>
+@if (!isDashboardRoute()) {
+  <app-header></app-header>
+}
 <router-outlet></router-outlet>
-<app-footer></app-footer>
+@if (!isDashboardRoute()) {
+  <app-footer></app-footer>
+}

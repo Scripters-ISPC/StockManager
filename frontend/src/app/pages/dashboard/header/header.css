@@ -1,7 +1,7 @@
 .site-header {
     background-color: var(--color-primary);
     padding: 16px 0;
-    margin-bottom: 2em;
+    margin-bottom: 0;
 }
 
 .brand-logo {

@@ -83,7 +83,7 @@ a {
 .site-header {
     background-color: var(--color-primary);
     padding: 16px 0;
-    margin-bottom: 2em;
+    margin-bottom: 0;
 }
 
 .brand-logo {
@@ -245,13 +245,68 @@ a {
 }
 
 .sidebar-footer {
-    margin-top: 1.5rem;
+    margin-top: auto;
     padding-top: 1rem;
     border-top: 1px solid rgba(255, 255, 255, 0.12);
 }
 
+.user-profile-box {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 0.85rem;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-md);
+    transition: all 0.2s ease;
+}
+
+.user-profile-box:hover {
+    background: rgba(255, 255, 255, 0.09);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+.avatar-circle {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--color-primary-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.15rem;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.user-role-title {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    color: #94a3b8;
+    text-transform: uppercase;
+}
+
+.user-role-name {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #ffffff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .nav-item-exit {
     color: #fca5a5;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .nav-item-exit:hover {

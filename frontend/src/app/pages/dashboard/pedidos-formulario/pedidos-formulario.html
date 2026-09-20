@@ -1,30 +1,35 @@
+<div class="mb-3">
+    <a routerLink="/dashboard/pedidos" class="btn btn-outline-secondary btn-sm">← Volver a Pedidos</a>
+</div>
 <h1>📦 Solicitud de Materiales</h1>
 <p class="page-lead">Completá el formulario para generar una nueva solicitud de reposición.</p>
 <div class="card shadow-sm border-0" style="max-width: 640px;">
     <div class="card-body p-4">
-        <form>
+        <form (ngSubmit)="onSubmit()">
             <div class="mb-3">
                 <label for="producto" class="form-label">Producto <span class="text-danger">*</span></label>
-                <select id="producto" name="producto" class="form-select" required>
+                <select id="producto" name="producto" [(ngModel)]="producto" class="form-select" required>
                     <option value="">Seleccione un producto...</option>
-                    <option value="papel-a4">Papel A4 - Resma 500 hojas</option>
-                    <option value="toner-hp">Toner HP LaserJet Negro</option>
-                    <option value="toner-hp-color">Toner HP LaserJet Color</option>
-                    <option value="lapiceras">Lapiceras Azul - Caja x50</option>
+                    <option value="Resma Papel A4 - 500 hojas">Resma Papel A4 - 500 hojas</option>
+                    <option value="Toner HP LaserJet Negro">Toner HP LaserJet Negro</option>
+                    <option value="Toner HP LaserJet Color">Toner HP LaserJet Color</option>
+                    <option value="Lapiceras Azul - Caja x50">Lapiceras Azul - Caja x50</option>
+                    <option value="Carpetas Clasificadoras A4">Carpetas Clasificadoras A4</option>
                 </select>
                 <div class="form-text">Seleccione el material que necesita solicitar.</div>
             </div>
             <div class="row g-3 mb-3">
                 <div class="col-sm-6">
                     <label for="cantidad" class="form-label">Cantidad <span class="text-danger">*</span></label>
-                    <input type="number" id="cantidad" name="cantidad" class="form-control" min="1" max="9999" placeholder="Ej: 10" required>
+                    <input type="number" id="cantidad" name="cantidad" [(ngModel)]="cantidad" class="form-control" min="1" max="9999" placeholder="Ej: 10" required>
                 </div>
                 <div class="col-sm-6">
                     <label for="proveedor" class="form-label">Proveedor <span class="text-danger">*</span></label>
-                    <select id="proveedor" name="proveedor" class="form-select" required>
+                    <select id="proveedor" name="proveedor" [(ngModel)]="proveedor" class="form-select" required>
                         <option value="">Seleccione proveedor...</option>
-                        <option value="officenet">OfficeNet S.A.</option>
-                        <option value="papelera-central">Papelera Central</option>
+                        <option value="OfficeNet S.A.">OfficeNet S.A.</option>
+                        <option value="Papelera Central">Papelera Central</option>
+                        <option value="Librería Mayorista">Librería Mayorista</option>
                     </select>
                 </div>
             </div>
@@ -32,22 +37,22 @@
                 <legend class="form-label h6">Nivel de Urgencia <span class="text-danger">*</span></legend>
                 <div class="urgencia-options">
                     <div class="radio-option">
-                        <input type="radio" id="urgencia-baja" name="urgencia" value="baja" required>
+                        <input type="radio" id="urgencia-baja" name="urgencia" [(ngModel)]="urgencia" value="baja" required>
                         <label for="urgencia-baja">🟢 Baja</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="urgencia-media" name="urgencia" value="media">
+                        <input type="radio" id="urgencia-media" name="urgencia" [(ngModel)]="urgencia" value="media">
                         <label for="urgencia-media">🟡 Media</label>
                     </div>
                     <div class="radio-option">
-                        <input type="radio" id="urgencia-alta" name="urgencia" value="alta">
+                        <input type="radio" id="urgencia-alta" name="urgencia" [(ngModel)]="urgencia" value="alta">
                         <label for="urgencia-alta">🔴 Alta</label>
                     </div>
                 </div>
             </fieldset>
             <div class="mb-4">
                 <label for="observaciones" class="form-label">Observaciones (Opcional)</label>
-                <input type="text" id="observaciones" name="observaciones" class="form-control" placeholder="Detalles adicionales sobre la solicitud...">
+                <input type="text" id="observaciones" name="observaciones" [(ngModel)]="observaciones" class="form-control" placeholder="Detalles adicionales sobre la solicitud...">
             </div>
             <button type="submit" class="btn btn-brand w-100 py-2">✓ Enviar Solicitud de Material</button>
         </form>
