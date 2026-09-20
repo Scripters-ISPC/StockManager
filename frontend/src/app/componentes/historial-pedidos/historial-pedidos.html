@@ -5,21 +5,24 @@
     </div>
 </div>
 <div class="metrics-grid">
-    <div class="metric-card">
-        <h3>Total pedidos</h3>
-        <p class="metric-number mb-1">148</p>
-        <p class="text-muted small mb-0"><span class="text-success fw-semibold">↑ 12%</span> vs. mes anterior</p>
-    </div>
-    <div class="metric-card">
-        <h3>Alta rotación</h3>
-        <p class="metric-number mb-1">23</p>
-        <p class="text-muted small mb-0">materiales frecuentes</p>
-    </div>
-    <div class="metric-card">
-        <h3>Frecuencia prom.</h3>
-        <p class="metric-number mb-1">4.2 días</p>
-        <p class="text-muted small mb-0">entre reposiciones</p>
-    </div>
+    <app-metric-card 
+        titulo="Total pedidos" 
+        valor="148" 
+        tendencia="↑ 12%" 
+        descripcion="vs. mes anterior">
+    </app-metric-card>
+
+    <app-metric-card 
+        titulo="Alta rotación" 
+        valor="23" 
+        descripcion="materiales frecuentes">
+    </app-metric-card>
+
+    <app-metric-card 
+        titulo="Frecuencia prom." 
+        valor="4.2 días" 
+        descripcion="entre reposiciones">
+    </app-metric-card>
 </div>
 <div class="content-grid">
     <div class="card shadow-sm border-0 p-3">

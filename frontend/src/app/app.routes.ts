@@ -15,6 +15,7 @@ import { UsuariosFormulario } from './componentes/usuarios-formulario/usuarios-f
 import { HistorialPedidos } from './componentes/historial-pedidos/historial-pedidos';
 import { DetalleMaterial } from './componentes/detalle-material/detalle-material';
 import { NotFound } from './componentes/not-found/not-found';
+import { roleGuard } from './guards/role-guard';
 
 export const routes: Routes = [
     { path: '', component: Home },
@@ -28,11 +29,11 @@ export const routes: Routes = [
             { path: 'inventario', component: Inventario },
             { path: 'alertas', component: Alertas },
             { path: 'pedidos', component: Pedidos },
-            { path: 'usuarios', component: Usuarios },
+            { path: 'usuarios', component: Usuarios, canActivate: [roleGuard] },
             { path: 'auditoria', component: Auditoria },
-            { path: 'material-formulario', component: MaterialFormulario },
+            { path: 'material-formulario', component: MaterialFormulario, canActivate: [roleGuard] },
             { path: 'pedidos-formulario', component: PedidosFormulario },
-            { path: 'usuarios-formulario', component: UsuariosFormulario },
+            { path: 'usuarios-formulario', component: UsuariosFormulario, canActivate: [roleGuard] },
             { path: 'historial-pedidos', component: HistorialPedidos },
             { path: 'detalle-material', component: DetalleMaterial }
         ]

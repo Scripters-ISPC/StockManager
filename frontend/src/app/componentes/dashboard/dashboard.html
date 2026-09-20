@@ -14,7 +14,10 @@
                 <div class="nav-submenu">
                     <a routerLink="/dashboard/inventario" class="nav-subitem">Ver Inventario</a>
                     <a routerLink="/dashboard/auditoria" class="nav-subitem">Auditoría</a>
-                    <a routerLink="/dashboard/material-formulario" class="nav-subitem">Agregar Material</a>
+                    
+                    @if (authService.isAdmin()) {
+                        <a routerLink="/dashboard/material-formulario" class="nav-subitem">Agregar Material</a>
+                    }
                 </div>
             </details>
 
@@ -32,7 +35,9 @@
                 </div>
             </details>
 
-            <a routerLink="/dashboard/usuarios" class="nav-item">Usuarios</a>
+            @if (authService.isAdmin()) {
+                <a routerLink="/dashboard/usuarios" class="nav-item">Usuarios</a>
+            }
         </nav>
         <div class="sidebar-footer">
             <a routerLink="/login" class="nav-item nav-item-exit">Cerrar sesión</a>

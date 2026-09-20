@@ -1,11 +1,14 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { AuthService } from '../../servicios/auth';
 
 @Component({
   selector: 'app-inventario',
   standalone: true,
   imports: [RouterLink],
-  styleUrl: './inventario.css',
   templateUrl: './inventario.html',
+  styleUrl: './inventario.css'
 })
-export class Inventario {}
+export class Inventario {
+  authService = inject(AuthService);
+}
