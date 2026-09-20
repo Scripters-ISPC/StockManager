@@ -18,7 +18,8 @@ import { NotFound } from './componentes/not-found/not-found';
 import { roleGuard } from './guards/role-guard';
 
 export const routes: Routes = [
-    { path: '', component: Home },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'home', component: Home },
     { path: 'quienes-somos', component: QuienesSomos },
     { path: 'login', component: Login },
     { 
