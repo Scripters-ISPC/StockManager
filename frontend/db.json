@@ -5,7 +5,7 @@
       "nombre": "Hector Marcelo Murua",
       "correo": "hector@stockmanager.com",
       "password": "admin123",
-      "rol": "Operarios",
+      "rol": "Operario",
       "estado": "Activo",
       "fechaRegistro": "2026-01-15"
     },
@@ -91,6 +91,15 @@
       "cantidadActual": 4,
       "stockMinimo": 10,
       "proveedor": "Librería Mayorista"
+    },
+    {
+      "nombre": "Ejemplo de Cosa",
+      "categoria": "libreria",
+      "ubicacion": "False 123",
+      "cantidadActual": 1000,
+      "stockMinimo": 2,
+      "proveedor": "Lascaloneta",
+      "id": 6
     }
   ],
   "pedidos": [
@@ -123,6 +132,57 @@
       "estado": "Entregado",
       "fecha": "2026-09-15",
       "observaciones": ""
+    },
+    {
+      "producto": "Ejemplo de Cosa",
+      "cantidad": 9,
+      "proveedor": "Lascaloneta",
+      "urgencia": "alta",
+      "observaciones": "dale q me quedo sin cosa",
+      "estado": "Entregado",
+      "fecha": "2026-09-21",
+      "id": 104,
+      "comentarioIngreso": ""
+    },
+    {
+      "producto": "Ejemplo de Cosa",
+      "cantidad": 1,
+      "proveedor": "OfficeNet S.A.",
+      "urgencia": "baja",
+      "observaciones": "prueba",
+      "solicitanteId": 1,
+      "solicitanteNombre": "Hector Marcelo Murua",
+      "estado": "Pendiente",
+      "fecha": "2026-09-21",
+      "id": 105
+    },
+    {
+      "producto": "Ejemplo de Cosa",
+      "cantidad": 1,
+      "proveedor": "Lascaloneta",
+      "urgencia": "media",
+      "observaciones": "",
+      "solicitanteId": 5,
+      "solicitanteNombre": "Admin Sistema",
+      "estado": "Entregado",
+      "fecha": "2026-09-21",
+      "id": 106,
+      "comentarioResolucion": "",
+      "comentarioIngreso": ""
+    },
+    {
+      "producto": "Ejemplo de Cosa",
+      "cantidad": 1234,
+      "proveedor": "Papelera Central",
+      "urgencia": "alta",
+      "observaciones": "",
+      "solicitanteId": 5,
+      "solicitanteNombre": "Admin Sistema",
+      "estado": "Entregado",
+      "fecha": "2026-09-21",
+      "id": 107,
+      "comentarioResolucion": "",
+      "comentarioIngreso": ""
     }
   ],
   "auditoria": [
@@ -161,6 +221,102 @@
       "usuario": "Belen Angelo",
       "fecha": "2026-09-18",
       "observacion": "Recepción pedido proveedor"
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "ingreso",
+      "cantidad": 1,
+      "stockAnterior": 1,
+      "stockNuevo": 2,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ajuste manual desde inventario",
+      "id": 4
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "ingreso",
+      "cantidad": 1,
+      "stockAnterior": 2,
+      "stockNuevo": 3,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ajuste manual desde inventario",
+      "id": 5
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "egreso",
+      "cantidad": 1,
+      "stockAnterior": 3,
+      "stockNuevo": 2,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ajuste manual desde inventario",
+      "id": 6
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "egreso",
+      "cantidad": 1,
+      "stockAnterior": 2,
+      "stockNuevo": 1,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ajuste manual desde inventario",
+      "id": 7
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "ingreso",
+      "cantidad": 9,
+      "stockAnterior": 1,
+      "stockNuevo": 10,
+      "usuario": "Hector Marcelo Murua",
+      "fecha": "2026-09-21",
+      "observacion": "Ingreso confirmado desde la solicitud #104",
+      "id": 8
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "ingreso",
+      "cantidad": 1,
+      "stockAnterior": 10,
+      "stockNuevo": 11,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ingreso confirmado desde la solicitud #106",
+      "id": 9
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "ingreso",
+      "cantidad": 1234,
+      "stockAnterior": 11,
+      "stockNuevo": 1245,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ingreso confirmado desde la solicitud #107",
+      "id": 10
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "egreso",
+      "cantidad": 245,
+      "stockAnterior": 1245,
+      "stockNuevo": 1000,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "roto",
+      "id": 11
     }
   ]
 }

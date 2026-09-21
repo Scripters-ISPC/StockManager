@@ -13,6 +13,7 @@ export interface RegistroAuditoria {
   stockNuevo: number;
   usuario: string;
   fecha: string;
+  fechaHora?: string;
   observacion?: string;
 }
 
