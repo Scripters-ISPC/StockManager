@@ -1,19 +1,24 @@
 <div class="mb-3">
     <a routerLink="/dashboard/inventario" class="btn btn-outline-secondary btn-sm">← Volver al Inventario</a>
 </div>
-<h1>🧾 Agregar / Editar Material</h1>
-<p class="page-lead">Esta misma vista se usa para dar de alta un material nuevo o editar uno existente.</p>
+<h1>🧾 Agregar Material</h1>
+<p class="page-lead">Alta de insumos y umbrales de stock crítico (se guarda en json-server).</p>
 <div class="card shadow-sm border-0" style="max-width: 640px;">
     <div class="card-body p-4">
-        <form>
+        <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
             <div class="mb-3">
                 <label for="nombre-material" class="form-label">Nombre del Material <span class="text-danger">*</span></label>
-                <input type="text" id="nombre-material" name="nombre-material" class="form-control" placeholder="Ej: Resma Papel A4" required>
+                <input type="text" id="nombre-material" formControlName="nombre" class="form-control" placeholder="Ej: Resma Papel A4"
+                    [class.is-invalid]="nombreCtrl?.invalid && nombreCtrl?.touched">
+                @if (nombreCtrl?.invalid && nombreCtrl?.touched) {
+                    <div class="invalid-feedback d-block"><small>Ingresá un nombre válido (mín. 3 caracteres).</small></div>
+                }
             </div>
             <div class="row g-3 mb-3">
                 <div class="col-sm-6">
                     <label for="categoria" class="form-label">Categoría <span class="text-danger">*</span></label>
-                    <select id="categoria" name="categoria" class="form-select" required>
+                    <select id="categoria" formControlName="categoria" class="form-select"
+                        [class.is-invalid]="categoriaCtrl?.invalid && categoriaCtrl?.touched">
                         <option value="">Seleccione categoría...</option>
                         <option value="libreria">Librería</option>
                         <option value="insumos">Insumos</option>
@@ -23,25 +28,31 @@
                 </div>
                 <div class="col-sm-6">
                     <label for="ubicacion" class="form-label">Ubicación Física</label>
-                    <input type="text" id="ubicacion" name="ubicacion" class="form-control" placeholder="Ej: Pasillo 2 - Estante B">
+                    <input type="text" id="ubicacion" formControlName="ubicacion" class="form-control" placeholder="Ej: Pasillo 2 - Estante B">
                 </div>
             </div>
             <div class="row g-3 mb-3">
                 <div class="col-sm-6">
                     <label for="cantidad-actual" class="form-label">Cantidad Actual <span class="text-danger">*</span></label>
-                    <input type="number" id="cantidad-actual" name="cantidad-actual" class="form-control" min="0" required>
+                    <input type="number" id="cantidad-actual" formControlName="cantidadActual" class="form-control" min="0">
                 </div>
                 <div class="col-sm-6">
                     <label for="stock-minimo" class="form-label">Stock Mínimo <span class="text-danger">*</span></label>
-                    <input type="number" id="stock-minimo" name="stock-minimo" class="form-control" min="0" required>
+                    <input type="number" id="stock-minimo" formControlName="stockMinimo" class="form-control" min="0">
                     <div class="form-text">Debajo de este valor, el material aparece en Alertas.</div>
                 </div>
             </div>
             <div class="mb-4">
                 <label for="proveedor-sugerido" class="form-label">Proveedor Sugerido</label>
-                <input type="text" id="proveedor-sugerido" name="proveedor-sugerido" class="form-control" placeholder="Ej: Librería Central S.A.">
+                <input type="text" id="proveedor-sugerido" formControlName="proveedor" class="form-control" placeholder="Ej: Papelera Central">
             </div>
-            <button type="submit" class="btn btn-brand w-100 py-2">Guardar Material</button>
+            <button type="submit" class="btn btn-brand w-100 py-2" [disabled]="enviando()">
+                @if (enviando()) {
+                    <span class="spinner-border spinner-border-sm me-2"></span> Guardando...
+                } @else {
+                    Guardar Material
+                }
+            </button>
         </form>
     </div>
 </div>

@@ -21,6 +21,7 @@ import { DetalleMaterial } from './pages/dashboard/detalle-material/detalle-mate
 
 import { NotFound } from './shared/not-found/not-found';
 import { roleGuard } from './core/guards/role-guard';
+import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
     {
@@ -36,7 +37,12 @@ export const routes: Routes = [
 
     { 
         path: 'dashboard', 
+<<<<<<< HEAD
+        component: Dashboard,
+        canActivate: [authGuard],
+=======
         component: DashboardLayout,
+>>>>>>> 392c9e55ae95a193b134d2dea6b2f340a7f22a93
         children: [
             { path: '', component: DashboardHome}, 
             { path: 'inventario', component: Inventario },
@@ -48,7 +54,7 @@ export const routes: Routes = [
             { path: 'pedidos-formulario', component: PedidosFormulario },
             { path: 'usuarios-formulario', component: UsuariosFormulario, canActivate: [roleGuard] },
             { path: 'historial-pedidos', component: HistorialPedidos },
-            { path: 'detalle-material', component: DetalleMaterial }
+            { path: 'detalle-material/:id', component: DetalleMaterial }
         ]
     },
 

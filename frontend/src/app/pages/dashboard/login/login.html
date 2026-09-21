@@ -5,29 +5,61 @@
             <p>Sistema de Gestión de Logística Interna</p>
         </div>
         <div class="login-card">
-            <form>
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
                 <div class="mb-3">
-                    <label for="email" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="email" placeholder="nombre@empresa.com" required>
+                    <label for="correo" class="form-label">Correo Electrónico</label>
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="correo"
+                        formControlName="correo"
+                        placeholder="nombre@stockmanager.com"
+                        [class.is-invalid]="correoCtrl?.invalid && correoCtrl?.touched"
+                    >
+                    @if (correoCtrl?.hasError('required') && correoCtrl?.touched) {
+                        <div class="invalid-feedback">El correo es obligatorio.</div>
+                    }
+                    @if (correoCtrl?.hasError('email') && correoCtrl?.touched) {
+                        <div class="invalid-feedback">Ingresá un correo válido.</div>
+                    }
                 </div>
                 <div class="mb-4">
                     <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" class="form-control" id="password" placeholder="••••••••" required>
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        formControlName="password"
+                        placeholder="••••••••"
+                        [class.is-invalid]="passwordCtrl?.invalid && passwordCtrl?.touched"
+                    >
+                    @if (passwordCtrl?.hasError('required') && passwordCtrl?.touched) {
+                        <div class="invalid-feedback">La contraseña es obligatoria.</div>
+                    }
+                    @if (passwordCtrl?.hasError('minlength') && passwordCtrl?.touched) {
+                        <div class="invalid-feedback">Mínimo 6 caracteres.</div>
+                    }
                 </div>
+
+                @if (errorMsg()) {
+                    <div class="alert alert-danger py-2 mb-3" role="alert">
+                        {{ errorMsg() }}
+                    </div>
+                }
+
                 <div class="d-grid">
-                    <button type="submit" class="btn btn-brand py-2">Iniciar Sesión</button>
+                    <button type="submit" class="btn btn-brand py-2" [disabled]="cargando()">
+                        @if (cargando()) {
+                            <span class="spinner-border spinner-border-sm me-2"></span> Verificando...
+                        } @else {
+                            Iniciar Sesión
+                        }
+                    </button>
                 </div>
             </form>
-            <div class="login-divider">ó ingresá directo (demo)</div>
-            <div class="role-access-title">Acceso por rol</div>
-            <div class="role-buttons">
-                <a href="#" (click)="ingresarComo('admin', $event)" class="btn-role">
-                    <span>🔑</span><strong>Administrador</strong><small>Acceso total</small>
-                </a>
-                <a href="#" (click)="ingresarComo('operario', $event)" class="btn-role">
-                    <span>📦</span><strong>Operario</strong><small>Inventario y pedidos</small>
-                </a>
-            </div>
+            <p class="text-muted small mt-3 mb-0 text-center">
+                Usá credenciales de <code>db.json</code> (ver README). Ej.: <strong>admin@stockmanager.com</strong>
+            </p>
         </div>
     </div>
 </div>
