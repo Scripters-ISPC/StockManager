@@ -63,6 +63,22 @@
     padding: 2.25rem 2rem;
 }
 
+.login-public-link {
+    display: block;
+    width: fit-content;
+    margin: 1.25rem auto 0;
+    color: var(--color-accent, #404f66);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-public-link:hover,
+.login-public-link:focus {
+    color: var(--color-accent-dark, #1e293b);
+    text-decoration: underline;
+}
+
 .login-card .form-label {
     font-weight: 600;
     font-size: 0.875rem;
