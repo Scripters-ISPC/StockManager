@@ -18,4 +18,9 @@ export class Dashboard {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
+
+  alternarVistaOperario() {
+    this.authService.alternarVistaOperario();
+    this.router.navigate(['/dashboard']);
+  }
 }

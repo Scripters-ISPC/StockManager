@@ -1,33 +1,40 @@
 <h1>🔔 Alertas de Stock Bajo y Crítico</h1>
 <p class="page-lead">Insumos y materiales cuya existencia actual está por debajo o igual al stock mínimo configurado.</p>
 
-<div class="alert alert-danger d-flex justify-content-between align-items-center flex-wrap gap-2" role="alert">
-    <span><strong>{{ inventoryService.alertasCriticas().length }} materiales</strong> requieren reposición inmediata.</span>
-    <a routerLink="/dashboard/pedidos-formulario" class="btn btn-sm btn-brand">Generar solicitud de reposición</a>
-</div>
+@if (cargando()) {
+    <div class="text-center py-5">
+        <span class="spinner-border text-danger"></span>
+        <p class="text-muted mt-2">Cargando alertas...</p>
+    </div>
+} @else {
+    <div class="alert alert-danger d-flex justify-content-between align-items-center flex-wrap gap-2" role="alert">
+        <span><strong>{{ alertasCriticas().length }} materiales</strong> requieren reposición inmediata.</span>
+        <a routerLink="/dashboard/pedidos-formulario" class="btn btn-sm btn-brand">Generar solicitud de reposición</a>
+    </div>
 
-<div class="row g-4 mb-4">
-    @for (item of inventoryService.alertasCriticas(); track item.id) {
-        <div class="col-lg-6">
-            <div class="card shadow-sm border-start border-4 border-danger h-100">
-                <div class="card-body d-flex justify-content-between align-items-start">
-                    <div>
-                        <h2 class="h6 fw-bold mb-1">{{ item.nombre }}</h2>
-                        <p class="text-muted small mb-2">Categoría: {{ item.categoria }} · Ubicación: {{ item.ubicacion }}</p>
-                        <span class="badge badge-critical">Crítico · {{ item.cantidadActual }} uds. (Mínimo: {{ item.stockMinimo }})</span>
+    <div class="row g-4 mb-4">
+        @for (item of alertasCriticas(); track item.id) {
+            <div class="col-lg-6">
+                <div class="card shadow-sm border-start border-4 border-danger h-100">
+                    <div class="card-body d-flex justify-content-between align-items-start">
+                        <div>
+                            <h2 class="h6 fw-bold mb-1">{{ item.nombre }}</h2>
+                            <p class="text-muted small mb-2">Categoría: {{ item.categoria }} · Ubicación: {{ item.ubicacion }}</p>
+                            <span class="badge badge-critical">Crítico · {{ item.cantidadActual }} uds. (Mínimo: {{ item.stockMinimo }})</span>
+                        </div>
+                        <a routerLink="/dashboard/detalle-material" class="btn btn-sm btn-outline-secondary">Ver Detalle</a>
                     </div>
-                    <a routerLink="/dashboard/detalle-material" class="btn btn-sm btn-outline-secondary">Ver Detalle</a>
                 </div>
             </div>
-        </div>
-    } @empty {
-        <div class="col-12">
-            <div class="alert alert-success m-0">
-                ✓ ¡Excelente! No hay insumos en nivel crítico en este momento.
+        } @empty {
+            <div class="col-12">
+                <div class="alert alert-success m-0">
+                    ✓ ¡Excelente! No hay insumos en nivel crítico en este momento.
+                </div>
             </div>
-        </div>
-    }
-</div>
+        }
+    </div>
 
-<h2 class="h5 fw-bold mb-3">Resto del inventario</h2>
-<p class="text-muted">Los demás materiales se encuentran dentro de su rango de stock normal. Podés revisar el listado completo en <a routerLink="/dashboard/inventario">Inventario</a>.</p>
+    <h2 class="h5 fw-bold mb-3">Resto del inventario</h2>
+    <p class="text-muted">Los demás materiales se encuentran dentro de su rango de stock normal. Podés revisar el listado completo en <a routerLink="/dashboard/inventario">Inventario</a>.</p>
+}

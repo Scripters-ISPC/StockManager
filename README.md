@@ -72,14 +72,23 @@ Atendiendo a las buenas prácticas de desarrollo, el repositorio concentra los a
 ```
 ---
 
-## 🚀 Instrucciones de Ejecución
-Para poner en marcha la aplicación dinámica en tu entorno local, seguí estos pasos:
+## 🚀 Instrucciones de Ejecución (Evidencia 5 — Angular + json-server)
 
-1. Clonar el repositorio en el entorno local.
-2. Abrir una terminal y navegar hacia la carpeta del frontend con el comando: cd frontend
-3. Instalar las dependencias necesarias ejecutando el comando: npm install
-4. Ejecutar el servidor de desarrollo local con el comando: ng serve
-5. Abrir tu navegador web e ingresar a http://localhost:4200/
+1. Clonar el repositorio.
+2. `cd frontend` → `npm install`
+3. **Terminal 1:** `npm run server` (API mock en **http://localhost:3000**, archivo `db.json`)
+4. **Terminal 2:** `npm start` → **http://localhost:4200/**
+5. Iniciar sesión con un usuario de la tabla siguiente (datos en `frontend/db.json`).
+
+| Correo | Contraseña | Rol |
+| :--- | :--- | :--- |
+| admin@stockmanager.com | admin123 | Administrador |
+| hector@stockmanager.com | admin123 | Administrador |
+| gerardo@stockmanager.com | operario123 | Operario |
+| belen@stockmanager.com | operario123 | Operario |
+| luciana@stockmanager.com | operario123 | Operario |
+
+**Vista operario (solo admin):** logueado como administrador, en el panel lateral usar **「Ver como operario」** para ocultar menús de admin sin cerrar sesión; **「Volver a vista administrador」** restaura permisos.
 
 
 ---

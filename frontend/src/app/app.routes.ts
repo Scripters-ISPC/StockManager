@@ -38,7 +38,7 @@ export const routes: Routes = [
             { path: 'pedidos-formulario', component: PedidosFormulario },
             { path: 'usuarios-formulario', component: UsuariosFormulario, canActivate: [roleGuard] },
             { path: 'historial-pedidos', component: HistorialPedidos },
-            { path: 'detalle-material', component: DetalleMaterial }
+            { path: 'detalle-material/:id', component: DetalleMaterial }
         ]
     },
     { path: '**', component: NotFound }

@@ -1,7 +1,10 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api.config';
 
 export interface Pedido {
-  id: number;
+  id?: number;
   producto: string;
   cantidad: number;
   proveedor: string;
@@ -15,33 +18,31 @@ export interface Pedido {
   providedIn: 'root'
 })
 export class PedidosService {
-  private pedidos = signal<Pedido[]>([
-    { id: 101, producto: 'Resma Papel A4 - 500 hojas', cantidad: 30, proveedor: 'Papelera Central', urgencia: 'alta', estado: 'Pendiente', fecha: '2026-09-20', observaciones: 'Urgente para reposición de cajas.' },
-    { id: 102, producto: 'Toner HP LaserJet Negro', cantidad: 5, proveedor: 'OfficeNet S.A.', urgencia: 'media', estado: 'Aprobado', fecha: '2026-09-19', observaciones: 'Requerido para contabilidad.' },
-    { id: 103, producto: 'Lapiceras Azul - Caja x50', cantidad: 10, proveedor: 'Librería Mayorista', urgencia: 'baja', estado: 'Entregado', fecha: '2026-09-15' }
-  ]);
+  private http = inject(HttpClient);
+  private apiUrl = `${API_BASE_URL}/pedidos`;
 
-  getPedidos = this.pedidos.asReadonly();
+  getPedidos(): Observable<Pedido[]> {
+    return this.http.get<Pedido[]>(this.apiUrl);
+  }
 
-  crearPedido(nuevo: Omit<Pedido, 'id' | 'estado' | 'fecha'>) {
-    const nextId = this.pedidos().length > 0 ? Math.max(...this.pedidos().map(p => p.id)) + 1 : 101;
-    const fechaHoy = new Date().toISOString().split('T')[0];
-    const pedidoCompleto: Pedido = {
+  getPedidoById(id: number): Observable<Pedido> {
+    return this.http.get<Pedido>(`${this.apiUrl}/${id}`);
+  }
+
+  crearPedido(nuevo: Omit<Pedido, 'id' | 'estado' | 'fecha'>): Observable<Pedido> {
+    const pedidoCompleto: Omit<Pedido, 'id'> = {
       ...nuevo,
-      id: nextId,
       estado: 'Pendiente',
-      fecha: fechaHoy
+      fecha: new Date().toISOString().split('T')[0]
     };
-    this.pedidos.update(lista => [pedidoCompleto, ...lista]);
+    return this.http.post<Pedido>(this.apiUrl, pedidoCompleto);
   }
 
-  cambiarEstado(id: number, nuevoEstado: Pedido['estado']) {
-    this.pedidos.update(lista =>
-      lista.map(p => p.id === id ? { ...p, estado: nuevoEstado } : p)
-    );
+  cambiarEstado(id: number, estado: Pedido['estado']): Observable<Pedido> {
+    return this.http.patch<Pedido>(`${this.apiUrl}/${id}`, { estado });
   }
 
-  cancelarPedido(id: number) {
-    this.cambiarEstado(id, 'Cancelado');
+  cancelarPedido(id: number): Observable<Pedido> {
+    return this.cambiarEstado(id, 'Cancelado');
   }
 }

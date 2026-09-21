@@ -1,9 +1,13 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api.config';
 
 export interface Usuario {
-  id: number;
+  id?: number;
   nombre: string;
   correo: string;
+  password?: string;
   rol: 'Administrador' | 'Operario';
   estado: 'Activo' | 'Inactivo';
   fechaRegistro: string;
@@ -13,28 +17,32 @@ export interface Usuario {
   providedIn: 'root'
 })
 export class UsuariosService {
-  private usuarios = signal<Usuario[]>([
-    { id: 1, nombre: 'Hector Marcelo Murua', correo: 'hector@stockmanager.com', rol: 'Administrador', estado: 'Activo', fechaRegistro: '2026-01-15' },
-    { id: 2, nombre: 'Luis Gerardo Catalas', correo: 'gerardo@stockmanager.com', rol: 'Operario', estado: 'Activo', fechaRegistro: '2026-02-10' },
-    { id: 3, nombre: 'Belen Angelo', correo: 'belen@stockmanager.com', rol: 'Operario', estado: 'Activo', fechaRegistro: '2026-03-05' },
-    { id: 4, nombre: 'Luciana Mazur', correo: 'luciana@stockmanager.com', rol: 'Operario', estado: 'Activo', fechaRegistro: '2026-04-12' }
-  ]);
+  private http = inject(HttpClient);
+  private apiUrl = `${API_BASE_URL}/usuarios`;
 
-  getUsuarios = this.usuarios.asReadonly();
-
-  agregarUsuario(nuevo: Omit<Usuario, 'id' | 'estado' | 'fechaRegistro'>) {
-    const nextId = this.usuarios().length > 0 ? Math.max(...this.usuarios().map(u => u.id)) + 1 : 1;
-    const fecha = new Date().toISOString().split('T')[0];
-    this.usuarios.update(lista => [...lista, { ...nuevo, id: nextId, estado: 'Activo', fechaRegistro: fecha }]);
+  getUsuarios(): Observable<Usuario[]> {
+    return this.http.get<Usuario[]>(this.apiUrl);
   }
 
-  toggleEstado(id: number) {
-    this.usuarios.update(lista =>
-      lista.map(u => u.id === id ? { ...u, estado: u.estado === 'Activo' ? 'Inactivo' : 'Activo' } : u)
-    );
+  getUsuarioById(id: number): Observable<Usuario> {
+    return this.http.get<Usuario>(`${this.apiUrl}/${id}`);
   }
 
-  eliminarUsuario(id: number) {
-    this.usuarios.update(lista => lista.filter(u => u.id !== id));
+  agregarUsuario(nuevo: { nombre: string; correo: string; password?: string; rol: 'Administrador' | 'Operario' }): Observable<Usuario> {
+    const usuarioCompleto: Omit<Usuario, 'id'> = {
+      ...nuevo,
+      estado: 'Activo',
+      fechaRegistro: new Date().toISOString().split('T')[0]
+    };
+    return this.http.post<Usuario>(this.apiUrl, usuarioCompleto);
+  }
+
+  toggleEstado(id: number, estadoActual: 'Activo' | 'Inactivo'): Observable<Usuario> {
+    const nuevoEstado = estadoActual === 'Activo' ? 'Inactivo' : 'Activo';
+    return this.http.patch<Usuario>(`${this.apiUrl}/${id}`, { estado: nuevoEstado });
+  }
+
+  eliminarUsuario(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
