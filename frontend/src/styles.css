@@ -116,16 +116,21 @@ a {
 .dashboard-shell {
     display: flex;
     min-height: 100vh;
+    align-items: flex-start;
 }
 
 .sidebar {
     width: 260px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
     flex-shrink: 0;
     background-color: var(--color-primary);
     color: #ffffff;
     padding: 1.5rem 1rem;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
 }
 
 .sidebar-brand {
@@ -447,6 +452,9 @@ a {
     }
     .sidebar {
         width: 100%;
+        height: auto;
+        position: static;
+        overflow-y: visible;
         flex-direction: row;
         flex-wrap: wrap;
         align-items: center;

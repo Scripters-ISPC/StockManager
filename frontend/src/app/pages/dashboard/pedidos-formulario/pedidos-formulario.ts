@@ -4,6 +4,7 @@ import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angula
 import { CommonModule } from '@angular/common';
 import { PedidosService } from '../../../core/services/pedidos';
 import { InventoryService, Material } from '../../../core/services/inventory';
+import { AuthService } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-pedidos-formulario',
@@ -16,6 +17,7 @@ export class PedidosFormulario implements OnInit {
   private pedidosService = inject(PedidosService);
   private inventoryService = inject(InventoryService);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   materiales = signal<Material[]>([]);
   proveedores = signal<string[]>([]);
@@ -58,13 +60,16 @@ export class PedidosFormulario implements OnInit {
     }
     this.enviando = true;
     const vals = this.pedidoForm.getRawValue();
+    const solicitante = this.authService.usuarioActual();
 
     this.pedidosService.crearPedido({
       producto: vals.producto!,
       cantidad: vals.cantidad!,
       proveedor: vals.proveedor!,
       urgencia: vals.urgencia!,
-      observaciones: vals.observaciones || ''
+      observaciones: vals.observaciones || '',
+      solicitanteId: solicitante?.id,
+      solicitanteNombre: solicitante?.nombre
     }).subscribe({
       next: () => {
         this.enviando = false;

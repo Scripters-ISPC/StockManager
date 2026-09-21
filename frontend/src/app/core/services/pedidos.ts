@@ -12,6 +12,10 @@ export interface Pedido {
   estado: 'Pendiente' | 'Aprobado' | 'En Camino' | 'Entregado' | 'Cancelado';
   fecha: string;
   observaciones?: string;
+  solicitanteId?: number;
+  solicitanteNombre?: string;
+  comentarioResolucion?: string;
+  comentarioIngreso?: string;
 }
 
 @Injectable({
@@ -38,11 +42,11 @@ export class PedidosService {
     return this.http.post<Pedido>(this.apiUrl, pedidoCompleto);
   }
 
-  cambiarEstado(id: number, estado: Pedido['estado']): Observable<Pedido> {
-    return this.http.patch<Pedido>(`${this.apiUrl}/${id}`, { estado });
+  cambiarEstado(id: number, estado: Pedido['estado'], comentarioResolucion = ''): Observable<Pedido> {
+    return this.http.patch<Pedido>(`${this.apiUrl}/${id}`, { estado, comentarioResolucion });
   }
 
-  cancelarPedido(id: number): Observable<Pedido> {
-    return this.cambiarEstado(id, 'Cancelado');
+  confirmarIngreso(id: number, comentarioIngreso = ''): Observable<Pedido> {
+    return this.http.patch<Pedido>(`${this.apiUrl}/${id}`, { estado: 'Entregado', comentarioIngreso });
   }
 }

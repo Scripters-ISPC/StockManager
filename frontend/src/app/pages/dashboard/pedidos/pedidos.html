@@ -19,7 +19,9 @@
                     <th>Cantidad</th>
                     <th>Proveedor</th>
                     <th>Urgencia</th>
+                    <th>Solicitante</th>
                     <th>Estado</th>
+                    <th>Comentarios</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -39,6 +41,7 @@
                                 <span class="badge badge-ok">🟢 Baja</span>
                             }
                         </td>
+                        <td class="text-muted small">{{ pedido.solicitanteNombre || 'No informado' }}</td>
                         <td>
                             <span class="badge" [ngClass]="{
                                 'bg-warning text-dark': pedido.estado === 'Pendiente',
@@ -48,17 +51,24 @@
                                 'bg-danger': pedido.estado === 'Cancelado'
                             }">{{ pedido.estado }}</span>
                         </td>
+                        <td class="text-muted small">{{ pedido.comentarioIngreso || pedido.comentarioResolucion || '—' }}</td>
                         <td>
                             <div class="btn-group btn-group-sm">
-                                @if (pedido.estado === 'Pendiente') {
-                                    <button type="button" (click)="cambiarEstado(pedido.id!, 'Aprobado')" class="btn btn-outline-success">Aprobar</button>
-                                    <button type="button" (click)="cancelar(pedido.id!)" class="btn btn-outline-danger">Cancelar</button>
-                                } @else if (pedido.estado === 'Aprobado') {
-                                    <button type="button" (click)="cambiarEstado(pedido.id!, 'En Camino')" class="btn btn-outline-primary">En Camino</button>
-                                } @else if (pedido.estado === 'En Camino') {
-                                    <button type="button" (click)="cambiarEstado(pedido.id!, 'Entregado')" class="btn btn-outline-success">Entregado</button>
+                                @if (puedeAprobar(pedido)) {
+                                    <button type="button" (click)="abrirAccion(pedido, 'aprobar')" class="btn btn-outline-success">Aprobar</button>
+                                }
+                                @if (puedeCancelar(pedido)) {
+                                    <button type="button" (click)="abrirAccion(pedido, 'cancelar')" class="btn btn-outline-danger">Cancelar</button>
+                                }
+                                @if (puedeConfirmarIngreso(pedido)) {
+                                    <button type="button" (click)="abrirAccion(pedido, 'confirmarIngreso')" class="btn btn-outline-primary">Confirmar ingreso</button>
+                                }
+                                @if (pedido.estado === 'Pendiente' && !puedeAprobar(pedido) && !puedeCancelar(pedido)) {
+                                    <span class="text-muted small">Pendiente de administración</span>
                                 } @else {
-                                    <span class="text-muted small">Completado</span>
+                                    @if (pedido.estado !== 'Pendiente') {
+                                        <span class="text-muted small">Sin acciones disponibles</span>
+                                    }
                                 }
                             </div>
                         </td>
@@ -67,5 +77,29 @@
             </tbody>
         </table>
     </div>
+    @if (accionPendiente(); as accion) {
+        <section class="card border-0 shadow-sm mt-3" aria-live="polite">
+            <div class="card-body">
+                <h2 class="h6 mb-2">
+                    @if (accion.tipo === 'aprobar') { Aprobar } @else if (accion.tipo === 'cancelar') { Cancelar } @else { Confirmar ingreso de }
+                    solicitud #{{ accion.pedido.id }}
+                </h2>
+                @if (accion.tipo === 'confirmarIngreso') {
+                    <p class="small text-muted mb-2">Se ingresarán <strong>{{ accion.pedido.cantidad }} unidades</strong> de {{ accion.pedido.producto }} al inventario.</p>
+                }
+                <label for="comentario-accion" class="form-label">Comentario (opcional)</label>
+                <textarea id="comentario-accion" [(ngModel)]="comentarioAccion" class="form-control" rows="2" placeholder="Dejá una observación sobre esta decisión..."></textarea>
+                @if (errorAccion()) {
+                    <p class="text-danger small mt-2 mb-0">{{ errorAccion() }}</p>
+                }
+                <div class="d-flex gap-2 mt-3">
+                    <button type="button" (click)="confirmarAccion()" class="btn" [ngClass]="accion.tipo === 'aprobar' ? 'btn-success' : accion.tipo === 'cancelar' ? 'btn-danger' : 'btn-primary'">
+                        Confirmar {{ accion.tipo === 'aprobar' ? 'aprobación' : accion.tipo === 'cancelar' ? 'cancelación' : 'ingreso' }}
+                    </button>
+                    <button type="button" (click)="cerrarAccion()" class="btn btn-outline-secondary">Volver</button>
+                </div>
+            </div>
+        </section>
+    }
     <p class="text-muted mt-3">¿Buscás el detalle completo por fecha y frecuencia de compra? Visitá el <a routerLink="/dashboard/historial-pedidos">Historial de Pedidos</a>.</p>
 }
