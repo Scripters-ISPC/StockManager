@@ -1,9 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth';
 
 @Component({
-  imports: [],
   selector: 'app-dashboard-layout',
-  styleUrl: './dashboard-layout.css',
+  standalone: true,
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './dashboard-layout.html',
+  styleUrl: './dashboard-layout.css'
 })
-export class DashboardLayout {}
+export class DashboardLayout {
+  authService = inject(AuthService);
+  private router = inject(Router);
+
+  logout(event: Event) {
+    event.preventDefault();
+    this.authService.logout();
+    this.router.navigate(['/login'], { replaceUrl: true });
+  }
+
+  alternarVistaOperario() {
+    this.authService.alternarVistaOperario();
+    this.router.navigate(['/dashboard']);
+  }
+}

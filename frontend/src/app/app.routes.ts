@@ -1,8 +1,18 @@
 import { Routes } from '@angular/router';
+
+// Layouts
+import { DashboardLayout } from './layouts/dashboard-layout/dashboard-layout';
+import { PublicLayout } from './layouts/public-layout/public-layout';
+
+// Sitio Público
 import { Home } from './pages/public/home/home';
 import { QuienesSomos } from './pages/public/quienes-somos/quienes-somos';
+
+// Login
 import { Login } from './pages/dashboard/login/login';
-import { Dashboard } from './pages/dashboard/dashboard/dashboard';
+
+// Dashboard
+// import { Dashboard } from './pages/dashboard/dashboard/dashboard';
 import { DashboardInicio } from './pages/dashboard/dashboard-inicio/dashboard-inicio';
 import { Inventario } from './pages/dashboard/inventario/inventario';
 import { Alertas } from './pages/dashboard/alertas/alertas';
@@ -14,21 +24,33 @@ import { PedidosFormulario } from './pages/dashboard/pedidos-formulario/pedidos-
 import { UsuariosFormulario } from './pages/dashboard/usuarios-formulario/usuarios-formulario';
 import { HistorialPedidos } from './pages/dashboard/historial-pedidos/historial-pedidos';
 import { DetalleMaterial } from './pages/dashboard/detalle-material/detalle-material';
-import { NotFound } from './pages/dashboard/not-found/not-found';
+
+// Página 404
+import { NotFound } from './shared/not-found/not-found';
+
+// Guards
 import { roleGuard } from './core/guards/role-guard';
 import { authGuard } from './core/guards/auth-guard';
 
+
 export const routes: Routes = [
-    { path: '', redirectTo: '/home', pathMatch: 'full' },
-    { path: 'home', component: Home },
-    { path: 'quienes-somos', component: QuienesSomos },
+    {
+        path: '',
+        component: PublicLayout,
+        children: [
+            { path: '', component: Home },
+            { path: 'quienes-somos', component: QuienesSomos }
+        ]
+    },
+
     { path: 'login', component: Login },
+
     { 
         path: 'dashboard', 
-        component: Dashboard,
+        component: DashboardLayout,
         canActivate: [authGuard],
         children: [
-            { path: '', component: DashboardInicio },
+            { path: '', component: DashboardInicio }, 
             { path: 'inventario', component: Inventario },
             { path: 'alertas', component: Alertas },
             { path: 'pedidos', component: Pedidos },
@@ -41,5 +63,6 @@ export const routes: Routes = [
             { path: 'detalle-material/:id', component: DetalleMaterial }
         ]
     },
+
     { path: '**', component: NotFound }
 ];

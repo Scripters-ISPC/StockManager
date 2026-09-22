@@ -1,5 +1,4 @@
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuditoriaService, RegistroAuditoria } from '../../../core/services/auditoria';
@@ -7,7 +6,7 @@ import { AuditoriaService, RegistroAuditoria } from '../../../core/services/audi
 @Component({
   selector: 'app-auditoria',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule],
   styleUrl: './auditoria.css',
   templateUrl: './auditoria.html',
 })
