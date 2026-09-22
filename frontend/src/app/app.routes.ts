@@ -1,13 +1,9 @@
 import { Routes } from '@angular/router';
-
-import { PublicLayout } from './layouts/public-layout/public-layout';
-import { DashboardLayout } from './layouts/dashboard-layout/dashboard-layout';
-
 import { Home } from './pages/public/home/home';
 import { QuienesSomos } from './pages/public/quienes-somos/quienes-somos';
-
 import { Login } from './pages/dashboard/login/login';
-import { DashboardHome } from './pages/dashboard/home/home'; // <-- Verifica que la ruta coincida con tu carpeta dashboard-inicio
+import { Dashboard } from './pages/dashboard/dashboard/dashboard';
+import { DashboardInicio } from './pages/dashboard/dashboard-inicio/dashboard-inicio';
 import { Inventario } from './pages/dashboard/inventario/inventario';
 import { Alertas } from './pages/dashboard/alertas/alertas';
 import { Pedidos } from './pages/dashboard/pedidos/pedidos';
@@ -18,33 +14,21 @@ import { PedidosFormulario } from './pages/dashboard/pedidos-formulario/pedidos-
 import { UsuariosFormulario } from './pages/dashboard/usuarios-formulario/usuarios-formulario';
 import { HistorialPedidos } from './pages/dashboard/historial-pedidos/historial-pedidos';
 import { DetalleMaterial } from './pages/dashboard/detalle-material/detalle-material';
-
-import { NotFound } from './shared/not-found/not-found';
+import { NotFound } from './pages/dashboard/not-found/not-found';
 import { roleGuard } from './core/guards/role-guard';
 import { authGuard } from './core/guards/auth-guard';
 
 export const routes: Routes = [
-    {
-        path: '',
-        component: PublicLayout,
-        children: [
-            { path: '', component: Home },
-            { path: 'quienes-somos', component: QuienesSomos }
-        ]
-    },
-
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
+    { path: 'home', component: Home },
+    { path: 'quienes-somos', component: QuienesSomos },
     { path: 'login', component: Login },
-
     { 
         path: 'dashboard', 
-<<<<<<< HEAD
         component: Dashboard,
         canActivate: [authGuard],
-=======
-        component: DashboardLayout,
->>>>>>> 392c9e55ae95a193b134d2dea6b2f340a7f22a93
         children: [
-            { path: '', component: DashboardHome}, 
+            { path: '', component: DashboardInicio },
             { path: 'inventario', component: Inventario },
             { path: 'alertas', component: Alertas },
             { path: 'pedidos', component: Pedidos },
@@ -57,6 +41,5 @@ export const routes: Routes = [
             { path: 'detalle-material/:id', component: DetalleMaterial }
         ]
     },
-
     { path: '**', component: NotFound }
 ];

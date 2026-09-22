@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
+  imports: [],
   selector: 'app-public-layout',
-  standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  styleUrl: './public-layout.css',
   templateUrl: './public-layout.html',
-  styleUrl: './public-layout.css'
 })
 export class PublicLayout {}
