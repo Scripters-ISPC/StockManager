@@ -1,0 +1,69 @@
+<div class="login-shell">
+    <div class="login-wrapper">
+        <div class="login-brand">
+            <h1>Stock<span>Manager</span></h1>
+            <p>Sistema de Gestión de Logística Interna</p>
+        </div>
+        <div class="login-card">
+            <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="correo" class="form-label">Correo Electrónico</label>
+                    <input
+                        type="email"
+                        class="form-control"
+                        id="correo"
+                        formControlName="correo"
+                        placeholder="nombre@stockmanager.com"
+                        [class.is-invalid]="correoCtrl?.invalid && correoCtrl?.touched"
+                    >
+                    @if (correoCtrl?.hasError('required') && correoCtrl?.touched) {
+                        <div class="invalid-feedback">El correo es obligatorio.</div>
+                    }
+                    @if (correoCtrl?.hasError('email') && correoCtrl?.touched) {
+                        <div class="invalid-feedback">Ingresá un correo válido.</div>
+                    }
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input
+                        type="password"
+                        class="form-control"
+                        id="password"
+                        formControlName="password"
+                        placeholder="••••••••"
+                        [class.is-invalid]="passwordCtrl?.invalid && passwordCtrl?.touched"
+                    >
+                    @if (passwordCtrl?.hasError('required') && passwordCtrl?.touched) {
+                        <div class="invalid-feedback">La contraseña es obligatoria.</div>
+                    }
+                    @if (passwordCtrl?.hasError('minlength') && passwordCtrl?.touched) {
+                        <div class="invalid-feedback">Mínimo 6 caracteres.</div>
+                    }
+                </div>
+
+                @if (errorMsg()) {
+                    <div class="alert alert-danger py-2 mb-3" role="alert">
+                        {{ errorMsg() }}
+                    </div>
+                }
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-brand py-2" [disabled]="cargando()">
+                        @if (cargando()) {
+                            <span class="spinner-border spinner-border-sm me-2"></span> Verificando...
+                        } @else {
+                            Iniciar Sesión
+                        }
+                    </button>
+                </div>
+            </form>
+            <p class="text-muted small mt-3 mb-0 text-center">
+                Usá credenciales de <code>db.json</code> (ver README). Ej.: <strong>admin@stockmanager.com</strong>
+            </p>
+            <a routerLink="/" class="login-public-link">← Volver al sitio público</a>
+            <p class="text-muted small mt-3 mb-0 text-center">
+                <small>Este enlace de "Volver al sitio público"se eliminaría en una versión final porque el dashboard es una aplicación separada del sitio web. Solo lo dejamos por practicidad durante el desarrollo.</small>
+            </p>
+        </div>
+    </div>
+</div>

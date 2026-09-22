@@ -1,0 +1,204 @@
+:host {
+    display: block;
+    width: 100%;
+}
+
+.login-shell {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2.5rem 1rem;
+    background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #1e293b 100%);
+}
+
+.login-wrapper {
+    width: 100%;
+    max-width: 420px;
+    animation: fadeIn 0.4s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-brand {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.login-brand h1 {
+    color: #ffffff;
+    font-weight: 800;
+    font-size: 2.2rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.login-brand h1 span {
+    color: var(--color-accent-light, #7c93c9);
+}
+
+.login-brand p {
+    color: #94a3b8;
+    font-size: 0.95rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+.login-card {
+    background-color: var(--color-surface, #ffffff);
+    border-radius: var(--radius-lg, 14px);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2), 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    padding: 2.25rem 2rem;
+}
+
+.login-public-link {
+    display: block;
+    width: fit-content;
+    margin: 1.25rem auto 0;
+    color: var(--color-accent, #404f66);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.login-public-link:hover,
+.login-public-link:focus {
+    color: var(--color-accent-dark, #1e293b);
+    text-decoration: underline;
+}
+
+.login-card .form-label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--color-text, #1e2126);
+    margin-bottom: 0.5rem;
+}
+
+.login-card .form-control {
+    border-radius: var(--radius-sm, 6px);
+    padding: 0.65rem 0.9rem;
+    font-size: 0.925rem;
+    border: 1px solid var(--color-border, #e2e8f0);
+    transition: all 0.2s ease;
+}
+
+.login-card .form-control:focus {
+    border-color: var(--color-accent, #404f66);
+    box-shadow: 0 0 0 3px rgba(64, 79, 102, 0.15);
+}
+
+.btn-brand {
+    background-color: var(--color-accent, #404f66);
+    border-color: var(--color-accent, #404f66);
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: var(--radius-sm, 6px);
+    transition: all 0.2s ease;
+}
+
+.btn-brand:hover,
+.btn-brand:focus {
+    background-color: var(--color-accent-dark, #1e293b);
+    border-color: var(--color-accent-dark, #1e293b);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(30, 41, 59, 0.25);
+}
+
+.login-divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 1.75rem 0 1.25rem 0;
+    color: var(--color-text-secondary, #64748b);
+    font-size: 0.8rem;
+}
+
+.login-divider::before,
+.login-divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid var(--color-border, #e2e8f0);
+}
+
+.login-divider:not(:empty)::before {
+    margin-right: 0.75em;
+}
+
+.login-divider:not(:empty)::after {
+    margin-left: 0.75em;
+}
+
+.role-access-title {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--color-text-secondary, #64748b);
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+}
+
+.role-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+}
+
+@media (max-width: 480px) {
+    .role-buttons {
+        grid-template-columns: 1fr;
+    }
+}
+
+.btn-role {
+    padding: 1rem 0.75rem;
+    border-radius: var(--radius-md, 10px);
+    font-weight: 600;
+    font-size: 0.875rem;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px dashed var(--color-border, #cbd5e1);
+    background-color: #f8fafc;
+    color: var(--color-text, #1e2126);
+    transition: all 0.2s ease;
+}
+
+.btn-role span {
+    font-size: 1.5rem;
+    margin-bottom: 0.35rem;
+    line-height: 1;
+}
+
+.btn-role strong {
+    font-size: 0.875rem;
+    color: var(--color-accent-dark, #1e293b);
+}
+
+.btn-role small {
+    font-size: 0.725rem;
+    color: var(--color-text-secondary, #64748b);
+    margin-top: 0.2rem;
+    font-weight: 400;
+}
+
+.btn-role:hover {
+    border-style: solid;
+    border-color: var(--color-accent, #404f66);
+    background-color: #eef2f7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(64, 79, 102, 0.12);
+}

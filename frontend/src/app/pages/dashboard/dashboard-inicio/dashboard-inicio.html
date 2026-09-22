@@ -1,0 +1,120 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+    <div>
+        <h1 class="mb-0">Dashboard</h1>
+        <p class="page-lead mb-0">Resumen general del estado del inventario y la logística interna en tiempo real.</p>
+    </div>
+    <div class="d-flex gap-2">
+        @if (authService.isAdmin()) {
+            <a routerLink="/dashboard/material-formulario" class="btn btn-sm btn-outline-primary">+ Nuevo Material</a>
+        }
+        <a routerLink="/dashboard/pedidos-formulario" class="btn btn-sm btn-brand">+ Nueva Solicitud</a>
+    </div>
+</div>
+
+@if (productosBajoStock() > 0) {
+    <div class="alert alert-danger d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4 shadow-sm" role="alert">
+        <span><strong>⚠️ {{ productosBajoStock() }} material(es)</strong> con stock crítico requieren reposición inmediata.</span>
+        <a routerLink="/dashboard/alertas" class="btn btn-sm btn-brand">Ver alertas de stock</a>
+    </div>
+} @else {
+    <div class="alert alert-success d-flex justify-content-between align-items-center flex-wrap gap-2 mb-4 shadow-sm" role="alert">
+        <span>✓ <strong>Inventario en óptimas condiciones.</strong> No se registran alertas de stock crítico.</span>
+        <a routerLink="/dashboard/inventario" class="btn btn-sm btn-outline-success">Ver Inventario</a>
+    </div>
+}
+
+<div class="row g-4 mb-4">
+    <div class="col-md-4">
+        <div class="metric-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h3 class="mb-0">Total de Insumos</h3>
+                <span class="fs-4">📦</span>
+            </div>
+            <p class="metric-number">{{ totalProductos() }}</p>
+            <div class="progress" role="progressbar" aria-label="Total de productos" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="height: 8px;">
+                <div class="progress-bar bg-brand" style="width: 100%;"></div>
+            </div>
+            <small class="text-muted mt-2 d-block">Items registrados en el catálogo</small>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="metric-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h3 class="mb-0">Stock Crítico</h3>
+                <span class="fs-4">⚠️</span>
+            </div>
+            <p class="metric-number text-danger">{{ productosBajoStock() }}</p>
+            <div class="progress" role="progressbar" aria-label="Productos bajo stock" [attr.aria-valuenow]="(productosBajoStock() / (totalProductos() || 1)) * 100" aria-valuemin="0" aria-valuemax="100" style="height: 8px;">
+                <div class="progress-bar bg-danger" [style.width.%]="(productosBajoStock() / (totalProductos() || 1)) * 100"></div>
+            </div>
+            <small class="text-muted mt-2 d-block">Requieren reposición urgente</small>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="metric-card">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h3 class="mb-0">Pedidos Pendientes</h3>
+                <span class="fs-4">📋</span>
+            </div>
+            <p class="metric-number text-warning">{{ pedidosPendientes() }}</p>
+            <div class="progress" role="progressbar" aria-label="Pedidos pendientes" [attr.aria-valuenow]="(pedidosPendientes() / (pedidosTotales() || 1)) * 100" aria-valuemin="0" aria-valuemax="100" style="height: 8px;">
+                <div class="progress-bar bg-warning" [style.width.%]="(pedidosPendientes() / (pedidosTotales() || 1)) * 100"></div>
+            </div>
+            <small class="text-muted mt-2 d-block">De {{ pedidosTotales() }} pedidos totales generados</small>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white fw-bold d-flex justify-content-between align-items-center py-3">
+                <span>📦 Insumos con Stock Bajo</span>
+                <a routerLink="/dashboard/inventario" class="btn btn-sm btn-outline-secondary">Ver todo</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    @for (item of alertasCriticas(); track item.id) {
+                        <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <div>
+                                <div class="fw-semibold">{{ item.nombre }}</div>
+                                <small class="text-muted">{{ item.categoria }} · {{ item.ubicacion }}</small>
+                            </div>
+                            <span class="badge badge-critical">{{ item.cantidadActual }} uds. (Min: {{ item.stockMinimo }})</span>
+                        </div>
+                    } @empty {
+                        <div class="p-4 text-center text-muted">
+                            ✓ No hay insumos en estado crítico.
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card shadow-sm border-0 h-100">
+            <div class="card-header bg-white fw-bold d-flex justify-content-between align-items-center py-3">
+                <span>📋 Últimas Solicitudes de Pedido</span>
+                <a routerLink="/dashboard/pedidos" class="btn btn-sm btn-outline-secondary">Ver todo</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    @for (ped of ultimosPedidos(); track ped.id) {
+                        <div class="list-group-item d-flex justify-content-between align-items-center py-3">
+                            <div>
+                                <div class="fw-semibold">#{{ ped.id }} - {{ ped.producto }}</div>
+                                <small class="text-muted">Cant: {{ ped.cantidad }} · {{ ped.proveedor }}</small>
+                            </div>
+                            <span class="badge" [class.bg-warning]="ped.estado === 'Pendiente'" [class.text-dark]="ped.estado === 'Pendiente'" [class.bg-success]="ped.estado === 'Entregado'" [class.bg-primary]="ped.estado === 'En Camino' || ped.estado === 'Aprobado'">
+                                {{ ped.estado }}
+                            </span>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

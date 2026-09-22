@@ -1,0 +1,105 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+    <h1 class="mb-0">📋 Pedidos Activos</h1>
+    <a routerLink="/dashboard/pedidos-formulario" class="btn btn-brand btn-sm">+ Nueva Solicitud</a>
+</div>
+<p class="page-lead">Seguimiento y administración de solicitudes de reposición en tiempo real.</p>
+
+@if (cargando()) {
+    <div class="text-center py-5">
+        <span class="spinner-border text-secondary"></span>
+        <p class="text-muted mt-2">Cargando pedidos...</p>
+    </div>
+} @else {
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle mb-0 bg-white">
+            <thead class="table-light">
+                <tr>
+                    <th>N° Solicitud</th>
+                    <th>Producto / Material</th>
+                    <th>Cantidad</th>
+                    <th>Proveedor</th>
+                    <th>Urgencia</th>
+                    <th>Solicitante</th>
+                    <th>Estado</th>
+                    <th>Comentarios</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (pedido of pedidos(); track pedido.id) {
+                    <tr>
+                        <td class="fw-bold">#{{ pedido.id }}</td>
+                        <td>{{ pedido.producto }}</td>
+                        <td><span class="badge bg-light text-dark border">{{ pedido.cantidad }} unidades</span></td>
+                        <td class="text-muted small">{{ pedido.proveedor }}</td>
+                        <td>
+                            @if (pedido.urgencia === 'alta') {
+                                <span class="badge badge-critical">🔴 Alta</span>
+                            } @else if (pedido.urgencia === 'media') {
+                                <span class="badge badge-warning">🟡 Media</span>
+                            } @else {
+                                <span class="badge badge-ok">🟢 Baja</span>
+                            }
+                        </td>
+                        <td class="text-muted small">{{ pedido.solicitanteNombre || 'No informado' }}</td>
+                        <td>
+                            <span class="badge" [ngClass]="{
+                                'bg-warning text-dark': pedido.estado === 'Pendiente',
+                                'bg-info text-dark': pedido.estado === 'Aprobado',
+                                'bg-primary text-white': pedido.estado === 'En Camino',
+                                'bg-success': pedido.estado === 'Entregado',
+                                'bg-danger': pedido.estado === 'Cancelado'
+                            }">{{ pedido.estado }}</span>
+                        </td>
+                        <td class="text-muted small">{{ pedido.comentarioIngreso || pedido.comentarioResolucion || '—' }}</td>
+                        <td>
+                            <div class="btn-group btn-group-sm">
+                                @if (puedeAprobar(pedido)) {
+                                    <button type="button" (click)="abrirAccion(pedido, 'aprobar')" class="btn btn-outline-success">Aprobar</button>
+                                }
+                                @if (puedeCancelar(pedido)) {
+                                    <button type="button" (click)="abrirAccion(pedido, 'cancelar')" class="btn btn-outline-danger">Cancelar</button>
+                                }
+                                @if (puedeConfirmarIngreso(pedido)) {
+                                    <button type="button" (click)="abrirAccion(pedido, 'confirmarIngreso')" class="btn btn-outline-primary">Confirmar ingreso</button>
+                                }
+                                @if (pedido.estado === 'Pendiente' && !puedeAprobar(pedido) && !puedeCancelar(pedido)) {
+                                    <span class="text-muted small">Pendiente de administración</span>
+                                } @else {
+                                    @if (pedido.estado !== 'Pendiente') {
+                                        <span class="text-muted small">Sin acciones disponibles</span>
+                                    }
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (accionPendiente(); as accion) {
+        <section class="card border-0 shadow-sm mt-3" aria-live="polite">
+            <div class="card-body">
+                <h2 class="h6 mb-2">
+                    @if (accion.tipo === 'aprobar') { Aprobar } @else if (accion.tipo === 'cancelar') { Cancelar } @else { Confirmar ingreso de }
+                    solicitud #{{ accion.pedido.id }}
+                </h2>
+                @if (accion.tipo === 'confirmarIngreso') {
+                    <p class="small text-muted mb-2">Se ingresarán <strong>{{ accion.pedido.cantidad }} unidades</strong> de {{ accion.pedido.producto }} al inventario.</p>
+                }
+                <label for="comentario-accion" class="form-label">Comentario (opcional)</label>
+                <textarea id="comentario-accion" [(ngModel)]="comentarioAccion" class="form-control" rows="2" placeholder="Dejá una observación sobre esta decisión..."></textarea>
+                @if (errorAccion()) {
+                    <p class="text-danger small mt-2 mb-0">{{ errorAccion() }}</p>
+                }
+                <div class="d-flex gap-2 mt-3">
+                    <button type="button" (click)="confirmarAccion()" class="btn" [ngClass]="accion.tipo === 'aprobar' ? 'btn-success' : accion.tipo === 'cancelar' ? 'btn-danger' : 'btn-primary'">
+                        Confirmar {{ accion.tipo === 'aprobar' ? 'aprobación' : accion.tipo === 'cancelar' ? 'cancelación' : 'ingreso' }}
+                    </button>
+                    <button type="button" (click)="cerrarAccion()" class="btn btn-outline-secondary">Volver</button>
+                </div>
+            </div>
+        </section>
+    }
+    <p class="text-muted mt-3">¿Buscás el detalle completo por fecha y frecuencia de compra? Visitá el <a routerLink="/dashboard/historial-pedidos">Historial de Pedidos</a>.</p>
+}

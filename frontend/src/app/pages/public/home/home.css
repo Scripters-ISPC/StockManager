@@ -1,0 +1,27 @@
+.main { padding: 20px 0; }
+.hero-title { color: var(--color-accent); }
+.hero-subtitle { line-height: 1.6; }
+.hero-image { max-width: 100%; height: auto; }
+
+.btn-brand {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #ffffff;
+}
+.btn-brand:hover, .btn-brand:focus {
+    background-color: var(--color-primary-dark);
+    border-color: var(--color-primary-dark);
+    color: #ffffff;
+}
+
+.benefits-title { color: var(--color-accent); }
+.benefit-card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-soft);
+    transition: transform 0.2s ease;
+}
+.benefit-card:hover { transform: translateY(-5px); }
+.card-title { color: var(--color-accent); }
+.card-description { color: var(--color-text-secondary); }

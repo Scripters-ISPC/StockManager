@@ -1,0 +1,35 @@
+<header class="site-header">
+    <div class="container d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <a routerLink="/">
+            <img src="assets/img/logo.png" alt="Logo de Scripters" class="brand-logo">
+        </a>
+        <nav class="site-nav" aria-label="Navegación principal">
+            <ul class="d-flex flex-wrap align-items-center gap-3 list-unstyled mb-0">
+                <li><a class="nav-link" routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Inicio</a></li>
+                <li><a class="nav-link" routerLink="/quienes-somos" routerLinkActive="active">Quiénes Somos</a></li>
+                
+                @if (authService.getRole()) {
+                    <li class="nav-item-user">
+                        <span class="badge bg-light text-dark px-3 py-2 border shadow-sm">
+                            👤 <strong>{{ authService.isAdmin() ? 'Administrador' : 'Operario' }}</strong>
+                        </span>
+                    </li>
+                    <li>
+                        <a href="#" (click)="logout($event)" class="nav-link text-warning fw-bold">Salir</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>
+</header>
+
+<main class="main-content">
+    <router-outlet></router-outlet>
+</main>
+
+
+<footer class="footer">
+    <div class="container">
+        © 2026 - Scripters
+    </div>
+</footer>

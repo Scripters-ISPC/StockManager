@@ -1,0 +1,103 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+    <h1 class="mb-0">📦 Inventario Principal</h1>
+
+    @if (authService.isAdmin()) {
+        <a routerLink="/dashboard/material-formulario" class="btn btn-brand btn-sm">+ Agregar Material</a>
+    }
+</div>
+<p class="page-lead">Registro de materiales y control de stock crítico en tiempo real.</p>
+
+@if (errorApi()) {
+    <div class="alert alert-warning" role="alert">
+        <strong>No hay datos del servidor.</strong> Abrí una terminal en la carpeta <code>frontend</code>, ejecutá
+        <code>npm run server</code> (API en puerto <strong>3000</strong>) y dejala abierta. Luego recargá esta página.
+    </div>
+}
+
+@if (cargando()) {
+    <div class="text-center py-5">
+        <span class="spinner-border text-secondary"></span>
+        <p class="text-muted mt-2">Cargando inventario...</p>
+    </div>
+} @else {
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover align-middle mb-0 bg-white">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Material</th>
+                    <th>Categoría</th>
+                    <th>Ubicación</th>
+                    <th>Stock Actual</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (item of materiales(); track item.id) {
+                    <tr [class.row-critical]="item.cantidadActual <= item.stockMinimo">
+                        <td>#{{ item.id! < 10 ? '00' + item.id : '0' + item.id }}</td>
+                        <td>
+                            <a [routerLink]="['/dashboard/detalle-material', item.id]" class="fw-semibold text-decoration-none text-dark">
+                                {{ item.nombre }}
+                            </a>
+                        </td>
+                        <td><span class="badge bg-light text-dark border">{{ item.categoria }}</span></td>
+                        <td class="text-muted small">{{ item.ubicacion }}</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                @if (authService.isAdmin()) {
+                                    <button type="button" (click)="ajustarStock(item, -1)" class="btn btn-sm btn-outline-secondary px-2 py-0">-</button>
+                                }
+                                <span class="fw-bold fs-6">{{ item.cantidadActual }}</span>
+                                @if (authService.isAdmin()) {
+                                    <button type="button" (click)="ajustarStock(item, 1)" class="btn btn-sm btn-outline-secondary px-2 py-0">+</button>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            @if (item.cantidadActual <= item.stockMinimo) {
+                                <span class="badge badge-critical">⚠️ Crítico (Min: {{ item.stockMinimo }})</span>
+                            } @else {
+                                <span class="badge badge-ok">✓ Stock Ok</span>
+                            }
+                        </td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                @if (authService.isAdmin()) {
+                                    <button type="button" (click)="eliminar(item.id!)" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                                } @else {
+                                    <button type="button" (click)="abrirRegistroEgreso(item)" class="btn btn-sm btn-outline-warning">Registrar egreso</button>
+                                }
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @if (materialParaEgreso(); as item) {
+        <section class="card border-0 shadow-sm mt-3" aria-live="polite" style="max-width: 640px;">
+            <div class="card-body">
+                <h2 class="h6 mb-2">Registrar disminución de stock</h2>
+                <p class="small text-muted">Material: <strong>{{ item.nombre }}</strong>. Stock disponible: {{ item.cantidadActual }} unidades.</p>
+                <div class="mb-3">
+                    <label for="cantidad-egreso" class="form-label">Cantidad a disminuir</label>
+                    <input id="cantidad-egreso" type="number" min="1" [max]="item.cantidadActual" [(ngModel)]="cantidadEgreso" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label for="motivo-egreso" class="form-label">Motivo <span class="text-danger">*</span></label>
+                    <textarea id="motivo-egreso" [(ngModel)]="motivoEgreso" class="form-control" rows="2" placeholder="Ej.: material roto, venta o consumo interno"></textarea>
+                </div>
+                @if (errorEgreso()) {
+                    <p class="text-danger small">{{ errorEgreso() }}</p>
+                }
+                <div class="d-flex gap-2">
+                    <button type="button" (click)="registrarEgreso()" class="btn btn-warning">Registrar egreso</button>
+                    <button type="button" (click)="cerrarRegistroEgreso()" class="btn btn-outline-secondary">Cancelar</button>
+                </div>
+            </div>
+        </section>
+    }
+    <p class="text-muted mt-3">¿Buscás el registro de ingresos, egresos y ajustes? Revisá la <a routerLink="/dashboard/auditoria">Auditoría</a>.</p>
+}

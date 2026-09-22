@@ -1,59 +1,63 @@
-# StockManager
+# StockManager — Frontend (Angular)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.6.
+SPA de gestión de inventario. Evidencia 5: consume **json-server** como API de prueba.
 
-## Development server
+## Requisitos
 
-To start a local development server, run:
+- Node.js 20+
+- npm
 
-```bash
-ng serve
-```
-
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## Instalación
 
 ```bash
-ng generate component component-name
+npm install
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Ejecución (dos terminales)
 
 ```bash
-ng generate --help
+# Terminal 1 — API (puerto 3000)
+npm run server
+
+# Terminal 2 — Angular (puerto 4200)
+npm start
 ```
 
-## Building
+Alternativa en Windows: `npm run dev` (abre el server en otra ventana y levanta Angular).
 
-To build the project run:
+Verificá la API: [http://localhost:3000/materiales](http://localhost:3000/materiales) debe devolver JSON.
+
+## Usuarios de prueba (`db.json`)
+
+| Correo | Contraseña | Rol |
+| :--- | :--- | :--- |
+| admin@stockmanager.com | admin123 | Administrador |
+| hector@stockmanager.com | admin123 | Administrador |
+| gerardo@stockmanager.com | operario123 | Operario |
+| belen@stockmanager.com | operario123 | Operario |
+| luciana@stockmanager.com | operario123 | Operario |
+
+## Vista operario simulada
+
+Solo si iniciaste sesión como **Administrador**: en la barra lateral del dashboard, botón **Ver como operario** / **Volver a vista administrador**. No reemplaza el login; cambia permisos y menú como un operario real.
+
+## Estructura relevante
+
+```text
+src/app/
+├── core/
+│   ├── config/api.config.ts    # URL base API (localhost:3000)
+│   ├── services/               # auth, inventory, pedidos, usuarios, auditoria
+│   └── guards/                 # auth-guard, role-guard
+├── layouts/                    # public-layout, dashboard-layout
+└── pages/
+    ├── public/                 # home, quienes-somos
+    └── dashboard/              # login, inventario, pedidos, etc.
+db.json                         # Datos json-server (usuarios, materiales, pedidos, auditoria)
+```
+
+## Build
 
 ```bash
-ng build
+npm run build
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

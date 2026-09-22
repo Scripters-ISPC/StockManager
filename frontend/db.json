@@ -1,0 +1,322 @@
+{
+  "usuarios": [
+    {
+      "id": 1,
+      "nombre": "Hector Marcelo Murua",
+      "correo": "hector@stockmanager.com",
+      "password": "admin123",
+      "rol": "Operario",
+      "estado": "Activo",
+      "fechaRegistro": "2026-01-15"
+    },
+    {
+      "id": 2,
+      "nombre": "Luis Gerardo Catalas",
+      "correo": "gerardo@stockmanager.com",
+      "password": "operario123",
+      "rol": "Operario",
+      "estado": "Activo",
+      "fechaRegistro": "2026-02-10"
+    },
+    {
+      "id": 3,
+      "nombre": "Belen Angelo",
+      "correo": "belen@stockmanager.com",
+      "password": "operario123",
+      "rol": "Operario",
+      "estado": "Activo",
+      "fechaRegistro": "2026-03-05"
+    },
+    {
+      "id": 4,
+      "nombre": "Luciana Mazur",
+      "correo": "luciana@stockmanager.com",
+      "password": "operario123",
+      "rol": "Operario",
+      "estado": "Activo",
+      "fechaRegistro": "2026-04-12"
+    },
+    {
+      "id": 5,
+      "nombre": "Admin Sistema",
+      "correo": "admin@stockmanager.com",
+      "password": "admin123",
+      "rol": "Administrador",
+      "estado": "Activo",
+      "fechaRegistro": "2026-09-20"
+    }
+  ],
+  "materiales": [
+    {
+      "id": 1,
+      "nombre": "Resma Papel A4 - 500 hojas",
+      "categoria": "libreria",
+      "ubicacion": "Pasillo 1 - Estante A",
+      "cantidadActual": 12,
+      "stockMinimo": 20,
+      "proveedor": "Papelera Central"
+    },
+    {
+      "id": 2,
+      "nombre": "Toner HP LaserJet Negro",
+      "categoria": "insumos",
+      "ubicacion": "Pasillo 3 - Estante B",
+      "cantidadActual": 2,
+      "stockMinimo": 5,
+      "proveedor": "OfficeNet S.A."
+    },
+    {
+      "id": 3,
+      "nombre": "Lapiceras Azul - Caja x50",
+      "categoria": "libreria",
+      "ubicacion": "Pasillo 1 - Estante C",
+      "cantidadActual": 45,
+      "stockMinimo": 15,
+      "proveedor": "Librería Mayorista"
+    },
+    {
+      "id": 4,
+      "nombre": "Carpetas Clasificadoras A4",
+      "categoria": "bazar-oficina",
+      "ubicacion": "Pasillo 2 - Estante A",
+      "cantidadActual": 85,
+      "stockMinimo": 30,
+      "proveedor": "Papelera Central"
+    },
+    {
+      "id": 5,
+      "nombre": "Broches Abrochadora 24/6 - Caja",
+      "categoria": "libreria",
+      "ubicacion": "Pasillo 1 - Estante B",
+      "cantidadActual": 4,
+      "stockMinimo": 10,
+      "proveedor": "Librería Mayorista"
+    },
+    {
+      "nombre": "Ejemplo de Cosa",
+      "categoria": "libreria",
+      "ubicacion": "False 123",
+      "cantidadActual": 1000,
+      "stockMinimo": 2,
+      "proveedor": "Lascaloneta",
+      "id": 6
+    }
+  ],
+  "pedidos": [
+    {
+      "id": 101,
+      "producto": "Resma Papel A4 - 500 hojas",
+      "cantidad": 30,
+      "proveedor": "Papelera Central",
+      "urgencia": "alta",
+      "estado": "Entregado",
+      "fecha": "2026-09-20",
+      "observaciones": "Urgente para reposición de cajas."
+    },
+    {
+      "id": 102,
+      "producto": "Toner HP LaserJet Negro",
+      "cantidad": 5,
+      "proveedor": "OfficeNet S.A.",
+      "urgencia": "media",
+      "estado": "Entregado",
+      "fecha": "2026-09-19",
+      "observaciones": "Requerido para contabilidad."
+    },
+    {
+      "id": 103,
+      "producto": "Lapiceras Azul - Caja x50",
+      "cantidad": 10,
+      "proveedor": "Librería Mayorista",
+      "urgencia": "baja",
+      "estado": "Entregado",
+      "fecha": "2026-09-15",
+      "observaciones": ""
+    },
+    {
+      "producto": "Ejemplo de Cosa",
+      "cantidad": 9,
+      "proveedor": "Lascaloneta",
+      "urgencia": "alta",
+      "observaciones": "dale q me quedo sin cosa",
+      "estado": "Entregado",
+      "fecha": "2026-09-21",
+      "id": 104,
+      "comentarioIngreso": ""
+    },
+    {
+      "producto": "Ejemplo de Cosa",
+      "cantidad": 1,
+      "proveedor": "OfficeNet S.A.",
+      "urgencia": "baja",
+      "observaciones": "prueba",
+      "solicitanteId": 1,
+      "solicitanteNombre": "Hector Marcelo Murua",
+      "estado": "Pendiente",
+      "fecha": "2026-09-21",
+      "id": 105
+    },
+    {
+      "producto": "Ejemplo de Cosa",
+      "cantidad": 1,
+      "proveedor": "Lascaloneta",
+      "urgencia": "media",
+      "observaciones": "",
+      "solicitanteId": 5,
+      "solicitanteNombre": "Admin Sistema",
+      "estado": "Entregado",
+      "fecha": "2026-09-21",
+      "id": 106,
+      "comentarioResolucion": "",
+      "comentarioIngreso": ""
+    },
+    {
+      "producto": "Ejemplo de Cosa",
+      "cantidad": 1234,
+      "proveedor": "Papelera Central",
+      "urgencia": "alta",
+      "observaciones": "",
+      "solicitanteId": 5,
+      "solicitanteNombre": "Admin Sistema",
+      "estado": "Entregado",
+      "fecha": "2026-09-21",
+      "id": 107,
+      "comentarioResolucion": "",
+      "comentarioIngreso": ""
+    }
+  ],
+  "auditoria": [
+    {
+      "id": 1,
+      "materialId": 1,
+      "materialNombre": "Resma Papel A4 - 500 hojas",
+      "tipo": "egreso",
+      "cantidad": 5,
+      "stockAnterior": 17,
+      "stockNuevo": 12,
+      "usuario": "Hector Marcelo Murua",
+      "fecha": "2026-09-20",
+      "observacion": "Consumo semanal área impresión"
+    },
+    {
+      "id": 2,
+      "materialId": 2,
+      "materialNombre": "Toner HP LaserJet Negro",
+      "tipo": "egreso",
+      "cantidad": 1,
+      "stockAnterior": 3,
+      "stockNuevo": 2,
+      "usuario": "Luis Gerardo Catalas",
+      "fecha": "2026-09-19",
+      "observacion": "Reemplazo impresora contabilidad"
+    },
+    {
+      "id": 3,
+      "materialId": 3,
+      "materialNombre": "Lapiceras Azul - Caja x50",
+      "tipo": "ingreso",
+      "cantidad": 20,
+      "stockAnterior": 25,
+      "stockNuevo": 45,
+      "usuario": "Belen Angelo",
+      "fecha": "2026-09-18",
+      "observacion": "Recepción pedido proveedor"
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "ingreso",
+      "cantidad": 1,
+      "stockAnterior": 1,
+      "stockNuevo": 2,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ajuste manual desde inventario",
+      "id": 4
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "ingreso",
+      "cantidad": 1,
+      "stockAnterior": 2,
+      "stockNuevo": 3,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ajuste manual desde inventario",
+      "id": 5
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "egreso",
+      "cantidad": 1,
+      "stockAnterior": 3,
+      "stockNuevo": 2,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ajuste manual desde inventario",
+      "id": 6
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "egreso",
+      "cantidad": 1,
+      "stockAnterior": 2,
+      "stockNuevo": 1,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ajuste manual desde inventario",
+      "id": 7
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "ingreso",
+      "cantidad": 9,
+      "stockAnterior": 1,
+      "stockNuevo": 10,
+      "usuario": "Hector Marcelo Murua",
+      "fecha": "2026-09-21",
+      "observacion": "Ingreso confirmado desde la solicitud #104",
+      "id": 8
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "ingreso",
+      "cantidad": 1,
+      "stockAnterior": 10,
+      "stockNuevo": 11,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ingreso confirmado desde la solicitud #106",
+      "id": 9
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "ingreso",
+      "cantidad": 1234,
+      "stockAnterior": 11,
+      "stockNuevo": 1245,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "Ingreso confirmado desde la solicitud #107",
+      "id": 10
+    },
+    {
+      "materialId": 6,
+      "materialNombre": "Ejemplo de Cosa",
+      "tipo": "egreso",
+      "cantidad": 245,
+      "stockAnterior": 1245,
+      "stockNuevo": 1000,
+      "usuario": "Admin Sistema",
+      "fecha": "2026-09-21",
+      "observacion": "roto",
+      "id": 11
+    }
+  ]
+}

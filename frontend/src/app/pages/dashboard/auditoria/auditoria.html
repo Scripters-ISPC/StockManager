@@ -1,0 +1,96 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+    <h1 class="mb-0">🕒 Auditoría de Inventario</h1>
+</div>
+<p class="page-lead">Registro de trazabilidad de ingresos, egresos y ajustes de stock.</p>
+
+@if (cargando()) {
+    <div class="text-center py-5">
+        <span class="spinner-border text-secondary"></span>
+        <p class="text-muted mt-2">Cargando auditoría...</p>
+    </div>
+} @else {
+    <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+            <div class="row g-2 align-items-end">
+                <div class="col-sm-6 col-lg-3">
+                    <label for="filtro-material" class="form-label small">Material</label>
+                    <select id="filtro-material" class="form-select form-select-sm" [ngModel]="filtroMaterial()" (ngModelChange)="filtroMaterial.set($event)">
+                        <option value="">Todos</option>
+                        @for (material of materiales(); track material) {
+                            <option [value]="material">{{ material }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <label for="filtro-usuario" class="form-label small">Usuario</label>
+                    <select id="filtro-usuario" class="form-select form-select-sm" [ngModel]="filtroUsuario()" (ngModelChange)="filtroUsuario.set($event)">
+                        <option value="">Todos</option>
+                        @for (usuario of usuarios(); track usuario) {
+                            <option [value]="usuario">{{ usuario }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-sm-4 col-lg-2">
+                    <label for="filtro-tipo" class="form-label small">Acción</label>
+                    <select id="filtro-tipo" class="form-select form-select-sm" [ngModel]="filtroTipo()" (ngModelChange)="filtroTipo.set($event)">
+                        <option value="todos">Todas</option>
+                        <option value="ingreso">Ingresos</option>
+                        <option value="egreso">Egresos</option>
+                    </select>
+                </div>
+                <div class="col-sm-4 col-lg-2">
+                    <label for="filtro-fecha" class="form-label small">Fecha</label>
+                    <input id="filtro-fecha" type="date" class="form-control form-control-sm" [ngModel]="filtroFecha()" (ngModelChange)="filtroFecha.set($event)">
+                </div>
+                <div class="col-sm-4 col-lg-2">
+                    <label for="orden-auditoria" class="form-label small">Orden</label>
+                    <select id="orden-auditoria" class="form-select form-select-sm" [ngModel]="orden()" (ngModelChange)="orden.set($event)">
+                        <option value="recientes">Más reciente primero</option>
+                        <option value="antiguos">Más antiguo primero</option>
+                    </select>
+                </div>
+                <div class="col-lg-1">
+                    <button type="button" (click)="limpiarFiltros()" class="btn btn-outline-secondary btn-sm w-100">Limpiar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive shadow-sm rounded">
+        <table class="table table-hover table-striped mb-0 bg-white">
+            <thead class="table-light">
+                <tr>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Hora</th>
+                    <th scope="col">Material</th>
+                    <th scope="col">Usuario</th>
+                    <th scope="col">Acción</th>
+                    <th scope="col">Stock</th>
+                    <th scope="col">Observaciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (reg of registrosVisibles(); track reg.id) {
+                    <tr>
+                        <td>{{ mostrarFecha(reg) }}</td>
+                        <td>{{ mostrarHora(reg) }}</td>
+                        <td class="fw-semibold">{{ reg.materialNombre }}</td>
+                        <td>{{ reg.usuario }}</td>
+                        <td>
+                            @if (reg.tipo === 'ingreso') {
+                                <span class="badge bg-success">{{ etiquetaAccion(reg) }}</span>
+                            } @else {
+                                <span class="badge bg-danger">{{ etiquetaAccion(reg) }}</span>
+                            }
+                        </td>
+                        <td class="small text-muted">{{ reg.stockAnterior }} → {{ reg.stockNuevo }}</td>
+                        <td class="small">{{ reg.observacion || '—' }}</td>
+                    </tr>
+                } @empty {
+                    <tr>
+                        <td colspan="7" class="text-center text-muted py-4">No hay movimientos para los filtros seleccionados.</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

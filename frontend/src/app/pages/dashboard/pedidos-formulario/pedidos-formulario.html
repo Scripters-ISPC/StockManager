@@ -1,0 +1,86 @@
+<div class="mb-3">
+    <a routerLink="/dashboard/pedidos" class="btn btn-outline-secondary btn-sm">← Volver a Pedidos</a>
+</div>
+<h1>📦 Solicitud de Materiales</h1>
+<p class="page-lead">Completá el formulario para generar una nueva solicitud de reposición.</p>
+
+@if (exito) {
+    <div class="alert alert-success d-flex align-items-center gap-2">
+        <span>✅ <strong>¡Solicitud registrada con éxito!</strong> Redirigiendo...</span>
+    </div>
+} @else {
+    <div class="card shadow-sm border-0" style="max-width: 640px;">
+        <div class="card-body p-4">
+            <form [formGroup]="pedidoForm" (ngSubmit)="onSubmit()">
+                <div class="mb-3">
+                    <label for="producto" class="form-label">Producto <span class="text-danger">*</span></label>
+                    <select id="producto" formControlName="producto" class="form-select"
+                        [class.is-invalid]="productoCtrl?.invalid && productoCtrl?.touched"
+                        [disabled]="cargandoCatalogo()">
+                        <option value="">@if (cargandoCatalogo()) { Cargando productos... } @else { Seleccione un producto... }</option>
+                        @for (mat of materiales(); track mat.id) {
+                            <option [value]="mat.nombre">{{ mat.nombre }}</option>
+                        }
+                    </select>
+                    @if (productoCtrl?.invalid && productoCtrl?.touched) {
+                        <div class="invalid-feedback d-block"><small>Seleccioná un producto.</small></div>
+                    }
+                </div>
+                <div class="row g-3 mb-3">
+                    <div class="col-sm-6">
+                        <label for="cantidad" class="form-label">Cantidad <span class="text-danger">*</span></label>
+                        <input type="number" id="cantidad" formControlName="cantidad" class="form-control"
+                            min="1" max="9999" placeholder="Ej: 10"
+                            [class.is-invalid]="cantidadCtrl?.invalid && cantidadCtrl?.touched">
+                        @if (cantidadCtrl?.invalid && cantidadCtrl?.touched) {
+                            <div class="invalid-feedback d-block"><small>Debe ser al menos 1.</small></div>
+                        }
+                    </div>
+                    <div class="col-sm-6">
+                        <label for="proveedor" class="form-label">Proveedor <span class="text-danger">*</span></label>
+                        <select id="proveedor" formControlName="proveedor" class="form-select"
+                            [class.is-invalid]="proveedorCtrl?.invalid && proveedorCtrl?.touched"
+                            [disabled]="cargandoCatalogo()">
+                            <option value="">Seleccione proveedor...</option>
+                            @for (prov of proveedores(); track prov) {
+                                <option [value]="prov">{{ prov }}</option>
+                            }
+                        </select>
+                        @if (proveedorCtrl?.invalid && proveedorCtrl?.touched) {
+                            <div class="invalid-feedback d-block"><small>Seleccioná un proveedor.</small></div>
+                        }
+                    </div>
+                </div>
+                <fieldset class="mb-3">
+                    <legend class="form-label h6">Nivel de Urgencia <span class="text-danger">*</span></legend>
+                    <div class="urgencia-options">
+                        <div class="radio-option">
+                            <input type="radio" id="urgencia-baja" formControlName="urgencia" value="baja">
+                            <label for="urgencia-baja">🟢 Baja</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="urgencia-media" formControlName="urgencia" value="media">
+                            <label for="urgencia-media">🟡 Media</label>
+                        </div>
+                        <div class="radio-option">
+                            <input type="radio" id="urgencia-alta" formControlName="urgencia" value="alta">
+                            <label for="urgencia-alta">🔴 Alta</label>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="mb-4">
+                    <label for="observaciones" class="form-label">Observaciones (Opcional)</label>
+                    <input type="text" id="observaciones" formControlName="observaciones" class="form-control"
+                        placeholder="Detalles adicionales sobre la solicitud...">
+                </div>
+                <button type="submit" class="btn btn-brand w-100 py-2" [disabled]="enviando">
+                    @if (enviando) {
+                        <span class="spinner-border spinner-border-sm me-2"></span> Registrando...
+                    } @else {
+                        ✓ Enviar Solicitud de Material
+                    }
+                </button>
+            </form>
+        </div>
+    </div>
+}
