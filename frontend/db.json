@@ -52,7 +52,7 @@
       "nombre": "Resma Papel A4 - 500 hojas",
       "categoria": "libreria",
       "ubicacion": "Pasillo 1 - Estante A",
-      "cantidadActual": 12,
+      "cantidadActual": 11,
       "stockMinimo": 20,
       "proveedor": "Papelera Central"
     },
@@ -183,6 +183,18 @@
       "id": 107,
       "comentarioResolucion": "",
       "comentarioIngreso": ""
+    },
+    {
+      "producto": "Resma Papel A4 - 500 hojas",
+      "cantidad": 1,
+      "proveedor": "Papelera Central",
+      "urgencia": "media",
+      "observaciones": "asdasdsad",
+      "solicitanteId": 1,
+      "solicitanteNombre": "Hector Marcelo Murua",
+      "estado": "Pendiente",
+      "fecha": "2026-10-19",
+      "id": 108
     }
   ],
   "auditoria": [
@@ -317,6 +329,19 @@
       "fecha": "2026-09-21",
       "observacion": "roto",
       "id": 11
+    },
+    {
+      "materialId": 1,
+      "materialNombre": "Resma Papel A4 - 500 hojas",
+      "tipo": "egreso",
+      "cantidad": 1,
+      "stockAnterior": 12,
+      "stockNuevo": 11,
+      "usuario": "Luis Gerardo Catalas",
+      "fecha": "2026-10-19",
+      "fechaHora": "2026-10-19T00:49:16.887Z",
+      "observacion": "123",
+      "id": 12
     }
   ]
 }
