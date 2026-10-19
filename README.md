@@ -100,6 +100,17 @@ Atendiendo a las buenas prácticas de desarrollo, el repositorio concentra los a
 * **Inteligencia Artificial:** Asistencia de Gemini y ChatGPT para la refactorización de código estático a componentes SPA en Angular 17, estructuración de rutas hijas, lógica de Guardianes (Guards), soporte en la redacción de documentación técnica y revision de buenas practicas. *Todo el código resultante fue auditado y comprendido íntegramente por el equipo de desarrollo.*
 
 ---
+---
+
+## 🗄️ Base de Datos MySQL
+
+Se incluye el script SQL para la inicialización y carga de datos semilla (seeders) en la base de datos relacional MySQL, manteniendo estricta coherencia con las entidades de `db.json` y el DER.
+
+### Instrucciones para importar el script de base de datos
+
+1. **Desde la consola interactiva de MySQL:**
+   ```bash
+   mysql -u root -p
 
 ## 👥 Integrantes del Equipo (ISPC Datalab)
 
