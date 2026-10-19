@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MinValueValidator
 from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
@@ -15,8 +16,8 @@ class Material(models.Model):
     nombre = models.CharField(max_length=200)
     categoria = models.CharField(max_length=100)
     ubicacion = models.CharField(max_length=200)
-    cantidad_actual = models.IntegerField(default=0)
-    stock_minimo = models.IntegerField(default=0)
+    cantidad_actual = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    stock_minimo = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     proveedor = models.CharField(max_length=200, blank=True)
 
     def __str__(self):
@@ -29,9 +30,9 @@ class StockEntry(models.Model):
     ]
     material = models.ForeignKey(Material, related_name='movimientos', on_delete=models.CASCADE)
     tipo = models.CharField(max_length=7, choices=TIPO_MOVIMIENTO)
-    cantidad = models.IntegerField()
-    stock_anterior = models.IntegerField()
-    stock_nuevo = models.IntegerField()
+    cantidad = models.IntegerField(validators=[MinValueValidator(0)])
+    stock_anterior = models.IntegerField(validators=[MinValueValidator(0)])
+    stock_nuevo = models.IntegerField(validators=[MinValueValidator(0)])
     usuario = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
     fecha = models.DateTimeField(auto_now_add=True)
     observacion = models.TextField(blank=True)
@@ -50,7 +51,10 @@ class Pedido(models.Model):
     fecha = models.DateField(auto_now_add=True)
     observaciones = models.TextField(blank=True)
     solicitante = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='pedidos')
-
+    proveedor_ingreso = models.CharField(max_length=200, blank=True, null=True)
+    comentario_ingreso = models.TextField(blank=True, null=True)
+    comentario_resolucion = models.TextField(blank=True, null=True)
+    
     def __str__(self):
         return f"Pedido #{self.id} - {self.estado}"
 

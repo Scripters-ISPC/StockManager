@@ -1,0 +1,20 @@
+# Entornos virtuales
+**/.venv/
+backend/.venv/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Variables de entorno
+.env
+
+# Credenciales / datos sensibles
+*.sqlite3
+
+# Django migrations cache
+*/migrations/__pycache__/
+
+# IDE / editor artefacts
+.vscode/
+*.swp
