@@ -1,0 +1,46 @@
+# === Archivos de Entorno y Credenciales (¡CRUCIAL!) ===
+.env
+.env.local
+.env.*.local
+*.pot
+*.pyc
+__pycache__/
+
+# === Entornos Virtuales (Python) ===
+venv/
+.venv/
+env/
+.env/
+ENV/
+env.bak/
+venv.bak/
+
+# === Django Específicos ===
+# Descomentar la siguiente línea si deseas ignorar las migraciones de desarrollo
+# */migrations/[0-9]*_*.py
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/
+
+# === Dependencias de Frontend (Node / JS) ===
+node_modules/
+/dist
+/build
+.npm
+.eslintcache
+.prettiercache
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# === Configuraciones de Editores e IDEs ===
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+.DS_Store
+Thumbs.db
