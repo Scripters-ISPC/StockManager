@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { InventoryService } from '../../../core/services/inventory';
+import { InventoryService, Proveedor } from '../../../core/services/inventory';
 
 @Component({
   selector: 'app-material-formulario',
@@ -17,6 +17,7 @@ export class MaterialFormulario implements OnInit {
 
   enviando = signal(false);
   categorias = signal<string[]>([]);
+  proveedores = signal<Proveedor[]>([]);
 
   materialForm = new FormGroup({
     nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -31,6 +32,10 @@ export class MaterialFormulario implements OnInit {
     this.inventoryService.getCategorias().subscribe({
       next: (categorias) => this.categorias.set(categorias.map(categoria => categoria.nombre)),
       error: () => this.categorias.set([]),
+    });
+    this.inventoryService.getProveedores().subscribe({
+      next: (proveedores) => this.proveedores.set(proveedores.filter(proveedor => proveedor.activo)),
+      error: () => this.proveedores.set([]),
     });
   }
 
@@ -49,7 +54,7 @@ export class MaterialFormulario implements OnInit {
         ubicacion: vals.ubicacion || 'Depósito General',
         cantidadActual: vals.cantidadActual!,
         stockMinimo: vals.stockMinimo!,
-        proveedor: vals.proveedor || 'Sin especificar',
+        proveedor: vals.proveedor || null,
       })
       .subscribe({
         next: () => {

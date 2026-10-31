@@ -13,6 +13,19 @@ class Categoria(models.Model):
         return self.nombre
 
 
+class Proveedor(models.Model):
+    nombre = models.CharField(max_length=120, unique=True)
+    contacto = models.CharField(max_length=150, blank=True, default='')
+    activo = models.BooleanField(default=True)
+    creado_en = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['nombre']
+
+    def __str__(self):
+        return self.nombre
+
+
 class Material(models.Model):
     nombre = models.CharField(max_length=120)
     categoria = models.ForeignKey(
@@ -25,7 +38,13 @@ class Material(models.Model):
     ubicacion = models.CharField(max_length=100)
     cantidad_actual = models.PositiveIntegerField(default=0)
     stock_minimo = models.PositiveIntegerField(default=0)
-    proveedor = models.CharField(max_length=120)
+    proveedor = models.ForeignKey(
+        Proveedor,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='materiales',
+    )
     creado_en = models.DateTimeField(auto_now_add=True)
 
     class Meta:

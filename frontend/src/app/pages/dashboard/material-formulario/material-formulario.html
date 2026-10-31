@@ -43,7 +43,12 @@
             </div>
             <div class="mb-4">
                 <label for="proveedor-sugerido" class="form-label">Proveedor Sugerido</label>
-                <input type="text" id="proveedor-sugerido" formControlName="proveedor" class="form-control" placeholder="Ej: Papelera Central">
+                <select id="proveedor-sugerido" formControlName="proveedor" class="form-select">
+                    <option value="">Sin especificar</option>
+                    @for (proveedor of proveedores(); track proveedor.id) {
+                        <option [value]="proveedor.nombre">{{ proveedor.nombre }}</option>
+                    }
+                </select>
             </div>
             <button type="submit" class="btn btn-brand w-100 py-2" [disabled]="enviando()">
                 @if (enviando()) {

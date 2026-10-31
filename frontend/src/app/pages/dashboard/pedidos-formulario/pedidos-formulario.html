@@ -37,18 +37,15 @@
                         }
                     </div>
                     <div class="col-sm-6">
-                        <label for="proveedor" class="form-label">Proveedor <span class="text-danger">*</span></label>
+                        <label for="proveedor" class="form-label">Proveedor</label>
                         <select id="proveedor" formControlName="proveedor" class="form-select"
                             [class.is-invalid]="proveedorCtrl?.invalid && proveedorCtrl?.touched"
                             [disabled]="cargandoCatalogo()">
-                            <option value="">Seleccione proveedor...</option>
-                            @for (prov of proveedores(); track prov) {
-                                <option [value]="prov">{{ prov }}</option>
+                            <option value="">Sin especificar</option>
+                            @for (prov of proveedores(); track prov.id) {
+                                <option [value]="prov.nombre">{{ prov.nombre }}</option>
                             }
                         </select>
-                        @if (proveedorCtrl?.invalid && proveedorCtrl?.touched) {
-                            <div class="invalid-feedback d-block"><small>Seleccioná un proveedor.</small></div>
-                        }
                     </div>
                 </div>
                 <fieldset class="mb-3">

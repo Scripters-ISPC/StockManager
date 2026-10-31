@@ -1,7 +1,11 @@
 from rest_framework import permissions, viewsets
 
-from .models import Categoria, Material
-from .serializers import CategoriaSerializer, MaterialSerializer
+from .models import Categoria, Material, Proveedor
+from .serializers import (
+    CategoriaSerializer,
+    MaterialSerializer,
+    ProveedorSerializer,
+)
 
 
 class AdminWritePermission(permissions.BasePermission):
@@ -17,7 +21,13 @@ class CategoriaViewSet(viewsets.ModelViewSet):
     permission_classes = [AdminWritePermission]
 
 
+class ProveedorViewSet(viewsets.ModelViewSet):
+    queryset = Proveedor.objects.all()
+    serializer_class = ProveedorSerializer
+    permission_classes = [AdminWritePermission]
+
+
 class MaterialViewSet(viewsets.ModelViewSet):
-    queryset = Material.objects.select_related('categoria').all()
+    queryset = Material.objects.select_related('categoria', 'proveedor').all()
     serializer_class = MaterialSerializer
     permission_classes = [AdminWritePermission]
