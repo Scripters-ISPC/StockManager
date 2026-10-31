@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -11,11 +11,12 @@ import { InventoryService } from '../../../core/services/inventory';
   styleUrl: './material-formulario.css',
   templateUrl: './material-formulario.html',
 })
-export class MaterialFormulario {
+export class MaterialFormulario implements OnInit {
   private inventoryService = inject(InventoryService);
   private router = inject(Router);
 
   enviando = signal(false);
+  categorias = signal<string[]>([]);
 
   materialForm = new FormGroup({
     nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -25,6 +26,13 @@ export class MaterialFormulario {
     stockMinimo: new FormControl(5, [Validators.required, Validators.min(0)]),
     proveedor: new FormControl(''),
   });
+
+  ngOnInit() {
+    this.inventoryService.getCategorias().subscribe({
+      next: (categorias) => this.categorias.set(categorias.map(categoria => categoria.nombre)),
+      error: () => this.categorias.set([]),
+    });
+  }
 
   onSubmit() {
     if (this.materialForm.invalid) {

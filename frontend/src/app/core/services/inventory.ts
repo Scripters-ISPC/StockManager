@@ -13,6 +13,11 @@ export interface Material {
   proveedor: string;
 }
 
+export interface Categoria {
+  id: number;
+  nombre: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,6 +27,12 @@ export class InventoryService {
 
   getMateriales(): Observable<Material[]> {
     return this.http.get<Material[]>(this.apiUrl);
+  }
+
+  getCategorias(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(
+      `${API_BASE_URL}/inventario/categorias/`,
+    );
   }
 
   getAlertasCriticas(): Observable<Material[]> {
