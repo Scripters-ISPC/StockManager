@@ -1,6 +1,6 @@
 # StockManager — Frontend (Angular)
 
-SPA de gestión de inventario. Evidencia 5: consume **json-server** como API de prueba.
+SPA de gestión de inventario. Evidencia 5: consume **json-server** como API de prueba en el puerto 3000.
 
 ## Requisitos
 
@@ -12,52 +12,69 @@ SPA de gestión de inventario. Evidencia 5: consume **json-server** como API de 
 ```bash
 npm install
 ```
-
-## Ejecución (dos terminales)
-
-```bash
-# Terminal 1 — API (puerto 3000)
+## Ejecución
 npm run server
-
-# Terminal 2 — Angular (puerto 4200)
-npm start
 ```
+```bash
+npm start
+npm run dev
+```
+Este comando abre el servidor en otra ventana y levanta Angular.
 
-Alternativa en Windows: `npm run dev` (abre el server en otra ventana y levanta Angular).
+Verificar la API
 
-Verificá la API: [http://localhost:3000/materiales](http://localhost:3000/materiales) debe devolver JSON.
+Abrir:
 
-## Usuarios de prueba (`db.json`)
+http://localhost:3000/materiales
 
-| Correo | Contraseña | Rol |
-| :--- | :--- | :--- |
-| admin@stockmanager.com | admin123 | Administrador |
-| hector@stockmanager.com | admin123 | Administrador |
-| gerardo@stockmanager.com | operario123 | Operario |
-| belen@stockmanager.com | operario123 | Operario |
-| luciana@stockmanager.com | operario123 | Operario |
+Debe devolver los datos de materiales en formato JSON.
 
-## Vista operario simulada
+Usuarios de prueba
 
-Solo si iniciaste sesión como **Administrador**: en la barra lateral del dashboard, botón **Ver como operario** / **Volver a vista administrador**. No reemplaza el login; cambia permisos y menú como un operario real.
+Los usuarios se encuentran definidos en db.json.
+| Correo                                                      | Contraseña  | Rol           |
+| ----------------------------------------------------------- | ----------- | ------------- |
+| [admin@stockmanager.com](mailto:admin@stockmanager.com)     | admin123    | Administrador |
+| [hector@stockmanager.com](mailto:hector@stockmanager.com)   | admin123    | Administrador |
+| [gerardo@stockmanager.com](mailto:gerardo@stockmanager.com) | operario123 | Operario      |
+| [belen@stockmanager.com](mailto:belen@stockmanager.com)     | operario123 | Operario      |
+| [luciana@stockmanager.com](mailto:luciana@stockmanager.com) | operario123 | Operario      |
+Funcionalidades Clave
+Control de Acceso por Roles
 
-## Estructura relevante
+Rutas protegidas mediante AuthGuard y RoleGuard según el perfil del usuario.
 
-```text
+Vista operario simulada
+
+Solo si iniciaste sesión como Administrador, en la barra lateral del dashboard aparece el botón:
+
+Ver como operario / Volver a vista administrador
+
+Esta funcionalidad no reemplaza el login; cambia los permisos y el menú para simular la experiencia de un usuario operario.
+
+Auditoría
+
+Registro de eventos clave, entre ellos:
+
+Alertas de bajo stock.
+Movimientos.
+Inicio de sesión.
+
+Estos eventos son administrados desde el servicio de auditoría.
+
+Estructura relevante
 src/app/
 ├── core/
-│   ├── config/api.config.ts    # URL base API (localhost:3000)
-│   ├── services/               # auth, inventory, pedidos, usuarios, auditoria
-│   └── guards/                 # auth-guard, role-guard
-├── layouts/                    # public-layout, dashboard-layout
+│   ├── config/api.config.ts        # URL base API (localhost:3000)
+│   ├── services/                   # auth, inventory, pedidos, usuarios, auditoria
+│   └── guards/                     # auth-guard, role-guard
+├── layouts/                        # public-layout, dashboard-layout
 └── pages/
-    ├── public/                 # home, quienes-somos
-    └── dashboard/              # login, inventario, pedidos, etc.
-db.json                         # Datos json-server (usuarios, materiales, pedidos, auditoria)
-```
+    ├── public/                     # home, quienes-somos
+    └── dashboard/                  # login, inventario, pedidos, alertas, auditoria
+db.json                             # Datos json-server (usuarios, materiales, pedidos, auditoria)
+Build
 
-## Build
+Para generar la versión de producción:
 
-```bash
 npm run build
-```
