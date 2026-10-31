@@ -1,80 +1,54 @@
-# StockManager — Frontend (Angular)
+# StockManager — Frontend
 
-SPA de gestión de inventario. Evidencia 5: consume **json-server** como API de prueba en el puerto 3000.
+Aplicación SPA de gestión de inventario desarrollada con Angular. El
+frontend consume exclusivamente la API REST de Django.
 
 ## Requisitos
 
 - Node.js 20+
 - npm
+- Backend Django ejecutándose en `http://localhost:8000`
 
-## Instalación
+## Instalación y ejecución
 
 ```bash
 npm install
-```
-## Ejecución
-npm run server
-```
-```bash
 npm start
-npm run dev
 ```
-Este comando abre el servidor en otra ventana y levanta Angular.
 
-Verificar la API
+La aplicación estará disponible en `http://localhost:4200`.
 
-Abrir:
+La URL base de la API se configura en
+`src/app/core/config/api.config.ts`:
 
-http://localhost:3000/materiales
+```typescript
+export const API_BASE_URL = 'http://localhost:8000/api/v1';
+```
 
-Debe devolver los datos de materiales en formato JSON.
+## Endpoints utilizados
 
-Usuarios de prueba
+- `POST /api/v1/usuarios/login/`
+- `/api/v1/usuarios/`
+- `/api/v1/inventario/materiales/`
+- `/api/v1/pedidos/`
+- `/api/v1/auditoria/`
 
-Los usuarios se encuentran definidos en db.json.
-| Correo                                                      | Contraseña  | Rol           |
-| ----------------------------------------------------------- | ----------- | ------------- |
-| [admin@stockmanager.com](mailto:admin@stockmanager.com)     | admin123    | Administrador |
-| [hector@stockmanager.com](mailto:hector@stockmanager.com)   | admin123    | Administrador |
-| [gerardo@stockmanager.com](mailto:gerardo@stockmanager.com) | operario123 | Operario      |
-| [belen@stockmanager.com](mailto:belen@stockmanager.com)     | operario123 | Operario      |
-| [luciana@stockmanager.com](mailto:luciana@stockmanager.com) | operario123 | Operario      |
-Funcionalidades Clave
-Control de Acceso por Roles
+El access token JWT se guarda en `localStorage` como `access_token` y el
+interceptor Angular lo envía automáticamente como `Bearer`.
 
-Rutas protegidas mediante AuthGuard y RoleGuard según el perfil del usuario.
+## Usuarios
 
-Vista operario simulada
+Las cuentas se crean desde Django mediante un superusuario:
 
-Solo si iniciaste sesión como Administrador, en la barra lateral del dashboard aparece el botón:
+```bash
+cd ../backend
+python manage.py createsuperuser
+```
 
-Ver como operario / Volver a vista administrador
+Los usuarios administradores pueden crear cuentas operarias desde el panel.
 
-Esta funcionalidad no reemplaza el login; cambia los permisos y el menú para simular la experiencia de un usuario operario.
+## Build
 
-Auditoría
-
-Registro de eventos clave, entre ellos:
-
-Alertas de bajo stock.
-Movimientos.
-Inicio de sesión.
-
-Estos eventos son administrados desde el servicio de auditoría.
-
-Estructura relevante
-src/app/
-├── core/
-│   ├── config/api.config.ts        # URL base API (localhost:3000)
-│   ├── services/                   # auth, inventory, pedidos, usuarios, auditoria
-│   └── guards/                     # auth-guard, role-guard
-├── layouts/                        # public-layout, dashboard-layout
-└── pages/
-    ├── public/                     # home, quienes-somos
-    └── dashboard/                  # login, inventario, pedidos, alertas, auditoria
-db.json                             # Datos json-server (usuarios, materiales, pedidos, auditoria)
-Build
-
-Para generar la versión de producción:
-
+```bash
 npm run build
+```

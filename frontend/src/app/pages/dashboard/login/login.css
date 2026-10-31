@@ -97,6 +97,43 @@
     box-shadow: 0 0 0 3px rgba(64, 79, 102, 0.15);
 }
 
+.password-input-group {
+    position: relative;
+}
+
+.password-input-group .form-control {
+    padding-right: 3rem;
+}
+
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 0.75rem;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: var(--color-text-secondary, #64748b);
+    cursor: pointer;
+    line-height: 1;
+    padding: 0.2rem;
+}
+
+.password-toggle svg {
+    display: block;
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.8;
+}
+
+.password-toggle:hover,
+.password-toggle:focus {
+    color: var(--color-accent, #404f66);
+}
+
 .btn-brand {
     background-color: var(--color-accent, #404f66);
     border-color: var(--color-accent, #404f66);

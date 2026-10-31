@@ -50,7 +50,7 @@ export class MaterialFormulario {
         },
         error: () => {
           this.enviando.set(false);
-          alert('Error al guardar. Verificá que json-server esté activo (npm run server).');
+          alert('No se pudo guardar el material. Verificá que la API de Django esté disponible.');
         },
       });
   }

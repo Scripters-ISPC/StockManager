@@ -18,7 +18,7 @@ export interface Material {
 })
 export class InventoryService {
   private http = inject(HttpClient);
-  private apiUrl = `${API_BASE_URL}/materiales`;
+  private apiUrl = `${API_BASE_URL}/inventario/materiales/`;
 
   getMateriales(): Observable<Material[]> {
     return this.http.get<Material[]>(this.apiUrl);
@@ -31,7 +31,7 @@ export class InventoryService {
   }
 
   getMaterialById(id: number): Observable<Material> {
-    return this.http.get<Material>(`${this.apiUrl}/${id}`);
+    return this.http.get<Material>(`${this.apiUrl}${id}/`);
   }
 
   agregarMaterial(nuevo: Omit<Material, 'id'>): Observable<Material> {
@@ -39,10 +39,10 @@ export class InventoryService {
   }
 
   actualizarStock(id: number, cantidadActual: number): Observable<Material> {
-    return this.http.patch<Material>(`${this.apiUrl}/${id}`, { cantidadActual });
+    return this.http.patch<Material>(`${this.apiUrl}${id}/`, { cantidadActual });
   }
 
   eliminarMaterial(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}${id}/`);
   }
 }

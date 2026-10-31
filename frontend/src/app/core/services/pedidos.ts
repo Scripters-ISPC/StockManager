@@ -23,14 +23,14 @@ export interface Pedido {
 })
 export class PedidosService {
   private http = inject(HttpClient);
-  private apiUrl = `${API_BASE_URL}/pedidos`;
+  private apiUrl = `${API_BASE_URL}/pedidos/`;
 
   getPedidos(): Observable<Pedido[]> {
     return this.http.get<Pedido[]>(this.apiUrl);
   }
 
   getPedidoById(id: number): Observable<Pedido> {
-    return this.http.get<Pedido>(`${this.apiUrl}/${id}`);
+    return this.http.get<Pedido>(`${this.apiUrl}${id}/`);
   }
 
   crearPedido(nuevo: Omit<Pedido, 'id' | 'estado' | 'fecha'>): Observable<Pedido> {
@@ -43,10 +43,10 @@ export class PedidosService {
   }
 
   cambiarEstado(id: number, estado: Pedido['estado'], comentarioResolucion = ''): Observable<Pedido> {
-    return this.http.patch<Pedido>(`${this.apiUrl}/${id}`, { estado, comentarioResolucion });
+    return this.http.patch<Pedido>(`${this.apiUrl}${id}/`, { estado, comentarioResolucion });
   }
 
   confirmarIngreso(id: number, comentarioIngreso = ''): Observable<Pedido> {
-    return this.http.patch<Pedido>(`${this.apiUrl}/${id}`, { estado: 'Entregado', comentarioIngreso });
+    return this.http.patch<Pedido>(`${this.apiUrl}${id}/`, { estado: 'Entregado', comentarioIngreso });
   }
 }
