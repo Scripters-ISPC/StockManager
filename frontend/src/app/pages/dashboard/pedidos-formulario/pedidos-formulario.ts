@@ -31,7 +31,7 @@ export class PedidosFormulario implements OnInit {
     cantidad: new FormControl(1, [Validators.required, Validators.min(1)]),
     proveedor: new FormControl(''),
     urgencia: new FormControl<'baja' | 'media' | 'alta'>('media', [Validators.required]),
-    observaciones: new FormControl('')
+    comentario: new FormControl('')
   });
 
   ngOnInit() {
@@ -67,9 +67,9 @@ export class PedidosFormulario implements OnInit {
     this.pedidosService.crearPedido({
       producto: vals.producto!,
       cantidad: vals.cantidad!,
-      proveedor: vals.proveedor || '',
+      proveedor: vals.proveedor?.trim() || null,
       urgencia: vals.urgencia!,
-      observaciones: vals.observaciones || '',
+      comentario: vals.comentario || '',
       solicitanteId: solicitante?.id,
       solicitanteNombre: solicitante?.nombre
     }).subscribe({

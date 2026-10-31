@@ -4,6 +4,17 @@ from .models import Pedido
 
 
 class PedidoSerializer(serializers.ModelSerializer):
+    comentario = serializers.CharField(
+        source='observaciones',
+        required=False,
+        allow_blank=True,
+        allow_null=True,
+    )
+    proveedor = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        allow_null=True,
+    )
     solicitanteId = serializers.IntegerField(
         source='solicitante_id',
         required=False,
@@ -35,7 +46,7 @@ class PedidoSerializer(serializers.ModelSerializer):
             'urgencia',
             'estado',
             'fecha',
-            'observaciones',
+            'comentario',
             'solicitanteId',
             'solicitanteNombre',
             'comentarioResolucion',

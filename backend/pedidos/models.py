@@ -17,7 +17,12 @@ class Pedido(models.Model):
 
     producto = models.CharField(max_length=120)
     cantidad = models.PositiveIntegerField()
-    proveedor = models.CharField(max_length=120)
+    proveedor = models.CharField(
+        max_length=120,
+        null=True,
+        blank=True,
+        default=None,
+    )
     urgencia = models.CharField(
         max_length=10,
         choices=Urgencia.choices,

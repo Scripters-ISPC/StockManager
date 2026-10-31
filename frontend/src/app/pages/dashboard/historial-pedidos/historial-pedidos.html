@@ -45,6 +45,7 @@
                             <th>Proveedor</th>
                             <th>Urgencia</th>
                             <th>Estado</th>
+                            <th>Comentarios</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,12 +55,25 @@
                                 <td class="fw-bold">#{{ ped.id }}</td>
                                 <td>{{ ped.producto }}</td>
                                 <td>{{ ped.cantidad }}</td>
-                                <td class="small text-muted">{{ ped.proveedor }}</td>
+                                <td class="small text-muted">{{ ped.proveedor || 'Sin especificar' }}</td>
                                 <td><span class="badge" [ngClass]="urgenciaBadge(ped.urgencia)">{{ ped.urgencia | titlecase }}</span></td>
-                                <td><span class="badge bg-secondary">{{ ped.estado }}</span></td>
+                                <td>
+                                    <span class="badge" [ngClass]="estadoBadge(ped.estado)">
+                                        {{ ped.estado }}
+                                    </span>
+                                </td>
+                                <td class="small text-muted">
+                                    <strong>Orig:</strong> {{ ped.comentario || 'Sin observaciones' }}
+                                    @if (ped.comentarioResolucion) {
+                                        <br><small><strong>Admin:</strong> {{ ped.comentarioResolucion }}</small>
+                                    }
+                                    @if (ped.comentarioIngreso) {
+                                        <br><small><strong>Depósito:</strong> {{ ped.comentarioIngreso }}</small>
+                                    }
+                                </td>
                             </tr>
                         } @empty {
-                            <tr><td colspan="7" class="text-center text-muted py-4">No hay pedidos registrados.</td></tr>
+                            <tr><td colspan="8" class="text-center text-muted py-4">No hay pedidos registrados.</td></tr>
                         }
                     </tbody>
                 </table>

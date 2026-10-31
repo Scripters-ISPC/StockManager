@@ -7,11 +7,11 @@ export interface Pedido {
   id?: number;
   producto: string;
   cantidad: number;
-  proveedor: string;
+  proveedor: string | null;
   urgencia: 'baja' | 'media' | 'alta';
   estado: 'Pendiente' | 'Aprobado' | 'En Camino' | 'Entregado' | 'Cancelado';
   fecha: string;
-  observaciones?: string;
+  comentario?: string;
   solicitanteId?: number;
   solicitanteNombre?: string;
   comentarioResolucion?: string;
