@@ -18,14 +18,14 @@ export interface Usuario {
 })
 export class UsuariosService {
   private http = inject(HttpClient);
-  private apiUrl = `${API_BASE_URL}/usuarios`;
+  private apiUrl = `${API_BASE_URL}/usuarios/`;
 
   getUsuarios(): Observable<Usuario[]> {
     return this.http.get<Usuario[]>(this.apiUrl);
   }
 
   getUsuarioById(id: number): Observable<Usuario> {
-    return this.http.get<Usuario>(`${this.apiUrl}/${id}`);
+    return this.http.get<Usuario>(`${this.apiUrl}${id}/`);
   }
 
   agregarUsuario(nuevo: { nombre: string; correo: string; password?: string; rol: 'Administrador' | 'Operario' }): Observable<Usuario> {
@@ -39,10 +39,10 @@ export class UsuariosService {
 
   toggleEstado(id: number, estadoActual: 'Activo' | 'Inactivo'): Observable<Usuario> {
     const nuevoEstado = estadoActual === 'Activo' ? 'Inactivo' : 'Activo';
-    return this.http.patch<Usuario>(`${this.apiUrl}/${id}`, { estado: nuevoEstado });
+    return this.http.patch<Usuario>(`${this.apiUrl}${id}/`, { estado: nuevoEstado });
   }
 
   eliminarUsuario(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}${id}/`);
   }
 }

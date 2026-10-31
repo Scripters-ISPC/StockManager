@@ -78,21 +78,18 @@ Atendiendo a las buenas prácticas de desarrollo, el repositorio concentra los a
 ```
 ---
 
-## 🚀 Instrucciones de Ejecución (Evidencia 5 — Angular + json-server)
+## 🚀 Instrucciones de Ejecución (Angular + Django REST API)
 
 1. Clonar el repositorio.
 2. `cd frontend` → `npm install`
-3. **Terminal 1:** `npm run server` (API mock en **http://localhost:3000**, archivo `db.json`)
-4. **Terminal 2:** `npm start` → **http://localhost:4200/**
-5. Iniciar sesión con un usuario de la tabla siguiente (datos en `frontend/db.json`).
+3. **Terminal 1:** `cd backend` → `python manage.py runserver 8000`
+4. **Terminal 2:** `cd frontend` → `npm start` → **http://localhost:4200/**
+5. Iniciar sesión con un usuario creado mediante `python manage.py createsuperuser`.
 
-| Correo | Contraseña | Rol |
+| Perfil | Creación |
 | :--- | :--- | :--- |
-| admin@stockmanager.com | admin123 | Administrador |
-| hector@stockmanager.com | admin123 | Administrador |
-| gerardo@stockmanager.com | operario123 | Operario |
-| belen@stockmanager.com | operario123 | Operario |
-| luciana@stockmanager.com | operario123 | Operario |
+| Administrador | `python manage.py createsuperuser` |
+| Operario | Creado por un administrador desde el panel |
 
 **Vista operario (solo admin):** logueado como administrador, en el panel lateral usar **「Ver como operario」** para ocultar menús de admin sin cerrar sesión; **「Volver a vista administrador」** restaura permisos.
 

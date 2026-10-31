@@ -22,7 +22,7 @@ export interface RegistroAuditoria {
 })
 export class AuditoriaService {
   private http = inject(HttpClient);
-  private apiUrl = `${API_BASE_URL}/auditoria`;
+  private apiUrl = `${API_BASE_URL}/auditoria/`;
 
   getRegistros(): Observable<RegistroAuditoria[]> {
     return this.http.get<RegistroAuditoria[]>(this.apiUrl);
@@ -30,7 +30,7 @@ export class AuditoriaService {
 
   getPorMaterial(materialId: number): Observable<RegistroAuditoria[]> {
     return this.http.get<RegistroAuditoria[]>(
-      `${this.apiUrl}?materialId=${materialId}&_sort=fecha&_order=desc`
+      `${this.apiUrl}?materialId=${materialId}`
     );
   }
 

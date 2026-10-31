@@ -22,7 +22,12 @@
                             <p class="text-muted small mb-2">Categoría: {{ item.categoria }} · Ubicación: {{ item.ubicacion }}</p>
                             <span class="badge badge-critical">Crítico · {{ item.cantidadActual }} uds. (Mínimo: {{ item.stockMinimo }})</span>
                         </div>
-                        <a routerLink="/dashboard/detalle-material" class="btn btn-sm btn-outline-secondary">Ver Detalle</a>
+                        <a
+                            [routerLink]="['/dashboard/detalle-material', item.id]"
+                            class="btn btn-sm btn-outline-secondary"
+                        >
+                            Ver Detalle
+                        </a>
                     </div>
                 </div>
             </div>

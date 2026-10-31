@@ -17,6 +17,7 @@ export class Login implements OnInit {
 
   cargando = signal(false);
   errorMsg = signal('');
+  showPassword = false;
 
   loginForm = new FormGroup({
     correo: new FormControl('', [Validators.required, Validators.email]),
@@ -38,14 +39,30 @@ export class Login implements OnInit {
     this.cargando.set(true);
     this.errorMsg.set('');
 
-    this.authService.loginConCredenciales(correo!, password!).subscribe(usuario => {
-      this.cargando.set(false);
-      if (usuario) {
-        this.router.navigate(['/dashboard']);
-      } else {
+    this.authService.loginConCredenciales(correo!, password!).subscribe({
+      next: (res) => {
+        this.cargando.set(false);
+        if (!res.access || !res.refresh) {
+          this.errorMsg.set('La respuesta del servidor no contiene tokens JWT.');
+          return;
+        }
+
+        console.log(
+          'Token guardado con éxito:',
+          localStorage.getItem('access_token'),
+        );
+        void this.router.navigate(['/dashboard']);
+      },
+      error: (error) => {
+        this.cargando.set(false);
         this.errorMsg.set('Correo o contraseña incorrectos. Verificá tus datos.');
-      }
+        console.error('Error de login:', error);
+      },
     });
+  }
+
+  alternarVisibilidadPassword() {
+    this.showPassword = !this.showPassword;
   }
 
   get correoCtrl() { return this.loginForm.get('correo'); }

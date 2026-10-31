@@ -1,15 +1,20 @@
 import { Injectable, signal, inject, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map, catchError, of, tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { API_BASE_URL } from '../config/api.config';
 
 export interface UsuarioAuth {
   id: number;
   nombre: string;
   correo: string;
-  password: string;
   rol: 'Administrador' | 'Operario';
   estado: 'Activo' | 'Inactivo';
+}
+
+export interface LoginResponse {
+  access: string;
+  refresh: string;
+  usuario: UsuarioAuth;
 }
 
 @Injectable({
@@ -25,6 +30,17 @@ export class AuthService {
   /** Solo true cuando un administrador real activó "ver como operario". */
   vistaOperarioActiva = signal(false);
 
+  constructor() {
+    const storedUser = localStorage.getItem('usuario');
+    if (storedUser && localStorage.getItem('access_token')) {
+      try {
+        this.establecerSesion(JSON.parse(storedUser) as UsuarioAuth);
+      } catch {
+        this.limpiarSesion();
+      }
+    }
+  }
+
   rolEtiqueta = computed(() => {
     if (this.esAdministradorReal() && this.vistaOperarioActiva()) {
       return 'Administrador · vista operario';
@@ -32,22 +48,19 @@ export class AuthService {
     return this.isAdmin() ? 'Administrador' : 'Operario';
   });
 
-  loginConCredenciales(correo: string, password: string): Observable<UsuarioAuth | null> {
-    return this.http.get<UsuarioAuth[]>(
-      `${this.apiUrl}/usuarios?correo=${encodeURIComponent(correo)}&password=${encodeURIComponent(password)}&estado=Activo`
+  loginConCredenciales(correo: string, password: string): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(
+      `${this.apiUrl}/usuarios/login/`,
+      { correo, password },
     ).pipe(
-      map(usuarios => {
-        if (usuarios.length > 0) {
-          return usuarios[0];
-        }
-        return null;
+      tap((res) => {
+        console.log('Respuesta Django:', res);
+        const { access, refresh, usuario } = res;
+        localStorage.setItem('access_token', access);
+        localStorage.setItem('refresh_token', refresh);
+        localStorage.setItem('usuario', JSON.stringify(usuario));
+        this.establecerSesion(usuario);
       }),
-      tap(u => {
-        if (u) {
-          this.establecerSesion(u);
-        }
-      }),
-      catchError(() => of(null))
     );
   }
 
@@ -88,9 +101,16 @@ export class AuthService {
   }
 
   logout() {
+    this.limpiarSesion();
     this.userRole.set('');
     this.usuarioActual.set(null);
     this.vistaOperarioActiva.set(false);
+  }
+
+  private limpiarSesion() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('usuario');
   }
 
   getRole() {

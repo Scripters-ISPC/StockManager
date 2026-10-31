@@ -45,4 +45,18 @@ export class HistorialPedidos implements OnInit {
     if (urgencia === 'media') return 'badge-warning';
     return 'badge-ok';
   }
+
+  estadoBadge(estado: string): string {
+    if (estado === 'Pendiente') return 'bg-warning text-dark';
+    if (estado === 'Aprobado' || estado === 'En Camino') {
+      return 'bg-primary text-white';
+    }
+    if (estado === 'Entregado' || estado === 'Ingresado') {
+      return 'bg-success';
+    }
+    if (estado === 'Cancelado' || estado === 'Rechazado') {
+      return 'bg-danger';
+    }
+    return 'bg-secondary';
+  }
 }

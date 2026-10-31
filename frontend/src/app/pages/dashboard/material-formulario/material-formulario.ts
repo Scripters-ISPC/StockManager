@@ -1,8 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { InventoryService } from '../../../core/services/inventory';
+import { InventoryService, Proveedor } from '../../../core/services/inventory';
 
 @Component({
   selector: 'app-material-formulario',
@@ -11,11 +11,13 @@ import { InventoryService } from '../../../core/services/inventory';
   styleUrl: './material-formulario.css',
   templateUrl: './material-formulario.html',
 })
-export class MaterialFormulario {
+export class MaterialFormulario implements OnInit {
   private inventoryService = inject(InventoryService);
   private router = inject(Router);
 
   enviando = signal(false);
+  categorias = signal<string[]>([]);
+  proveedores = signal<Proveedor[]>([]);
 
   materialForm = new FormGroup({
     nombre: new FormControl('', [Validators.required, Validators.minLength(3)]),
@@ -25,6 +27,17 @@ export class MaterialFormulario {
     stockMinimo: new FormControl(5, [Validators.required, Validators.min(0)]),
     proveedor: new FormControl(''),
   });
+
+  ngOnInit() {
+    this.inventoryService.getCategorias().subscribe({
+      next: (categorias) => this.categorias.set(categorias.map(categoria => categoria.nombre)),
+      error: () => this.categorias.set([]),
+    });
+    this.inventoryService.getProveedores().subscribe({
+      next: (proveedores) => this.proveedores.set(proveedores.filter(proveedor => proveedor.activo)),
+      error: () => this.proveedores.set([]),
+    });
+  }
 
   onSubmit() {
     if (this.materialForm.invalid) {
@@ -41,7 +54,7 @@ export class MaterialFormulario {
         ubicacion: vals.ubicacion || 'Depósito General',
         cantidadActual: vals.cantidadActual!,
         stockMinimo: vals.stockMinimo!,
-        proveedor: vals.proveedor || 'Sin especificar',
+        proveedor: vals.proveedor || null,
       })
       .subscribe({
         next: () => {
@@ -50,7 +63,7 @@ export class MaterialFormulario {
         },
         error: () => {
           this.enviando.set(false);
-          alert('Error al guardar. Verificá que json-server esté activo (npm run server).');
+          alert('No se pudo guardar el material. Verificá que la API de Django esté disponible.');
         },
       });
   }

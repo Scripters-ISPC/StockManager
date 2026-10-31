@@ -2,7 +2,7 @@
     <a routerLink="/dashboard/inventario" class="btn btn-outline-secondary btn-sm">← Volver al Inventario</a>
 </div>
 <h1>🧾 Agregar Material</h1>
-<p class="page-lead">Alta de insumos y umbrales de stock crítico (se guarda en json-server).</p>
+<p class="page-lead">Alta de insumos y umbrales de stock crítico.</p>
 <div class="card shadow-sm border-0" style="max-width: 640px;">
     <div class="card-body p-4">
         <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
@@ -20,10 +20,9 @@
                     <select id="categoria" formControlName="categoria" class="form-select"
                         [class.is-invalid]="categoriaCtrl?.invalid && categoriaCtrl?.touched">
                         <option value="">Seleccione categoría...</option>
-                        <option value="libreria">Librería</option>
-                        <option value="insumos">Insumos</option>
-                        <option value="bazar-oficina">Bazar y Oficina</option>
-                        <option value="marketing">Marketing</option>
+                        @for (categoria of categorias(); track categoria) {
+                            <option [value]="categoria">{{ categoria }}</option>
+                        }
                     </select>
                 </div>
                 <div class="col-sm-6">
@@ -44,7 +43,12 @@
             </div>
             <div class="mb-4">
                 <label for="proveedor-sugerido" class="form-label">Proveedor Sugerido</label>
-                <input type="text" id="proveedor-sugerido" formControlName="proveedor" class="form-control" placeholder="Ej: Papelera Central">
+                <select id="proveedor-sugerido" formControlName="proveedor" class="form-select">
+                    <option value="">Sin especificar</option>
+                    @for (proveedor of proveedores(); track proveedor.id) {
+                        <option [value]="proveedor.nombre">{{ proveedor.nombre }}</option>
+                    }
+                </select>
             </div>
             <button type="submit" class="btn btn-brand w-100 py-2" [disabled]="enviando()">
                 @if (enviando()) {

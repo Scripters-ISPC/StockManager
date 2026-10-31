@@ -10,7 +10,19 @@ export interface Material {
   ubicacion: string;
   cantidadActual: number;
   stockMinimo: number;
-  proveedor: string;
+  proveedor: string | null;
+}
+
+export interface Categoria {
+  id: number;
+  nombre: string;
+}
+
+export interface Proveedor {
+  id: number;
+  nombre: string;
+  contacto: string;
+  activo: boolean;
 }
 
 @Injectable({
@@ -18,10 +30,65 @@ export interface Material {
 })
 export class InventoryService {
   private http = inject(HttpClient);
-  private apiUrl = `${API_BASE_URL}/materiales`;
+  private apiUrl = `${API_BASE_URL}/inventario/materiales/`;
 
   getMateriales(): Observable<Material[]> {
     return this.http.get<Material[]>(this.apiUrl);
+  }
+
+  getCategorias(): Observable<Categoria[]> {
+    return this.http.get<Categoria[]>(
+      `${API_BASE_URL}/inventario/categorias/`,
+    );
+  }
+
+  crearCategoria(nombre: string): Observable<Categoria> {
+    return this.http.post<Categoria>(
+      `${API_BASE_URL}/inventario/categorias/`,
+      { nombre },
+    );
+  }
+
+  actualizarCategoria(id: number, nombre: string): Observable<Categoria> {
+    return this.http.patch<Categoria>(
+      `${API_BASE_URL}/inventario/categorias/${id}/`,
+      { nombre },
+    );
+  }
+
+  eliminarCategoria(id: number): Observable<void> {
+    return this.http.delete<void>(
+      `${API_BASE_URL}/inventario/categorias/${id}/`,
+    );
+  }
+
+  getProveedores(): Observable<Proveedor[]> {
+    return this.http.get<Proveedor[]>(
+      `${API_BASE_URL}/inventario/proveedores/`,
+    );
+  }
+
+  crearProveedor(proveedor: Omit<Proveedor, 'id'>): Observable<Proveedor> {
+    return this.http.post<Proveedor>(
+      `${API_BASE_URL}/inventario/proveedores/`,
+      proveedor,
+    );
+  }
+
+  actualizarProveedor(
+    id: number,
+    proveedor: Partial<Omit<Proveedor, 'id'>>,
+  ): Observable<Proveedor> {
+    return this.http.patch<Proveedor>(
+      `${API_BASE_URL}/inventario/proveedores/${id}/`,
+      proveedor,
+    );
+  }
+
+  eliminarProveedor(id: number): Observable<void> {
+    return this.http.delete<void>(
+      `${API_BASE_URL}/inventario/proveedores/${id}/`,
+    );
   }
 
   getAlertasCriticas(): Observable<Material[]> {
@@ -31,7 +98,7 @@ export class InventoryService {
   }
 
   getMaterialById(id: number): Observable<Material> {
-    return this.http.get<Material>(`${this.apiUrl}/${id}`);
+    return this.http.get<Material>(`${this.apiUrl}${id}/`);
   }
 
   agregarMaterial(nuevo: Omit<Material, 'id'>): Observable<Material> {
@@ -39,10 +106,10 @@ export class InventoryService {
   }
 
   actualizarStock(id: number, cantidadActual: number): Observable<Material> {
-    return this.http.patch<Material>(`${this.apiUrl}/${id}`, { cantidadActual });
+    return this.http.patch<Material>(`${this.apiUrl}${id}/`, { cantidadActual });
   }
 
   eliminarMaterial(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}${id}/`);
   }
 }

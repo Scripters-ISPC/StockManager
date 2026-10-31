@@ -31,7 +31,7 @@
                         <td class="fw-bold">#{{ pedido.id }}</td>
                         <td>{{ pedido.producto }}</td>
                         <td><span class="badge bg-light text-dark border">{{ pedido.cantidad }} unidades</span></td>
-                        <td class="text-muted small">{{ pedido.proveedor }}</td>
+                        <td class="text-muted small">{{ pedido.proveedor || 'Sin especificar' }}</td>
                         <td>
                             @if (pedido.urgencia === 'alta') {
                                 <span class="badge badge-critical">🔴 Alta</span>
@@ -51,7 +51,15 @@
                                 'bg-danger': pedido.estado === 'Cancelado'
                             }">{{ pedido.estado }}</span>
                         </td>
-                        <td class="text-muted small">{{ pedido.comentarioIngreso || pedido.comentarioResolucion || '—' }}</td>
+                        <td class="text-muted small">
+                            <strong>Orig:</strong> {{ pedido.comentario || 'Sin observaciones' }}
+                            @if (pedido.comentarioResolucion) {
+                                <br><small><strong>Admin:</strong> {{ pedido.comentarioResolucion }}</small>
+                            }
+                            @if (pedido.comentarioIngreso) {
+                                <br><small><strong>Depósito:</strong> {{ pedido.comentarioIngreso }}</small>
+                            }
+                        </td>
                         <td>
                             <div class="btn-group btn-group-sm">
                                 @if (puedeAprobar(pedido)) {

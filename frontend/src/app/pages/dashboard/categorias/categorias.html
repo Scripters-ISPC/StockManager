@@ -1,0 +1,68 @@
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
+    <div>
+        <a routerLink="/dashboard/inventario" class="btn btn-outline-secondary btn-sm mb-2">← Inventario</a>
+        <h1 class="mb-0">Categorías</h1>
+    </div>
+</div>
+<p class="page-lead">Administrá las categorías disponibles para los materiales.</p>
+
+@if (error()) {
+    <div class="alert alert-danger">{{ error() }}</div>
+}
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+        <form class="row g-2 align-items-end" (ngSubmit)="guardar()">
+            <div class="col-md-8">
+                <label for="nombre-categoria" class="form-label">
+                    {{ editandoId === null ? 'Nueva categoría' : 'Editar categoría' }}
+                </label>
+                <input
+                    id="nombre-categoria"
+                    name="nombre"
+                    class="form-control"
+                    [(ngModel)]="nombre"
+                    placeholder="Ej: Librería"
+                >
+            </div>
+            <div class="col-md-auto">
+                <button type="submit" class="btn btn-brand" [disabled]="guardando()">
+                    {{ editandoId === null ? 'Agregar' : 'Guardar' }}
+                </button>
+                @if (editandoId !== null) {
+                    <button type="button" class="btn btn-outline-secondary ms-2" (click)="cancelar()">
+                        Cancelar
+                    </button>
+                }
+            </div>
+        </form>
+    </div>
+</div>
+
+@if (cargando()) {
+    <div class="text-center py-4"><span class="spinner-border text-secondary"></span></div>
+} @else {
+    <div class="card shadow-sm border-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead>
+                    <tr><th>ID</th><th>Nombre</th><th class="text-end">Acciones</th></tr>
+                </thead>
+                <tbody>
+                    @for (categoria of categorias(); track categoria.id) {
+                        <tr>
+                            <td>{{ categoria.id }}</td>
+                            <td>{{ categoria.nombre }}</td>
+                            <td class="text-end">
+                                <button class="btn btn-sm btn-outline-primary me-2" (click)="editar(categoria)">Editar</button>
+                                <button class="btn btn-sm btn-outline-danger" (click)="eliminar(categoria)">Eliminar</button>
+                            </td>
+                        </tr>
+                    } @empty {
+                        <tr><td colspan="3" class="text-center text-muted">No hay categorías.</td></tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+}
