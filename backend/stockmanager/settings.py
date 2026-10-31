@@ -149,7 +149,6 @@ MAILERS = {
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000',
     'http://localhost:4200',
 ]
 

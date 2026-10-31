@@ -1,3 +1,4 @@
+from django.utils import timezone
 from rest_framework import serializers
 
 from .models import RegistroAuditoria
@@ -35,6 +36,10 @@ class RegistroAuditoriaSerializer(serializers.ModelSerializer):
             'fechaHora',
             'observacion',
         ]
+        extra_kwargs = {
+            'usuario': {'read_only': True},
+            'fecha': {'required': False},
+        }
 
     def validate_cantidad(self, value):
         if value < 1:
@@ -42,3 +47,16 @@ class RegistroAuditoriaSerializer(serializers.ModelSerializer):
                 'La cantidad debe ser mayor que cero.'
             )
         return value
+
+    def create(self, validated_data):
+        request = self.context.get('request')
+        user = getattr(request, 'user', None)
+        if not user or not user.is_authenticated:
+            raise serializers.ValidationError(
+                'Se requiere un usuario autenticado para registrar auditoría.'
+            )
+        validated_data['usuario'] = (
+            user.get_full_name() or user.email or user.get_username()
+        )
+        validated_data.setdefault('fecha_hora', timezone.now())
+        return super().create(validated_data)
