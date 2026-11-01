@@ -12,14 +12,25 @@ import { AuthService } from '../../core/services/auth';
 export class DashboardLayout {
   authService = inject(AuthService);
   private router = inject(Router);
+  isSidebarOpen = false;
+
+  toggleSidebar() {
+    this.isSidebarOpen = !this.isSidebarOpen;
+  }
+
+  closeSidebar() {
+    this.isSidebarOpen = false;
+  }
 
   logout(event: Event) {
     event.preventDefault();
+    this.closeSidebar();
     this.authService.logout();
     this.router.navigate(['/login'], { replaceUrl: true });
   }
 
   alternarVistaOperario() {
+    this.closeSidebar();
     this.authService.alternarVistaOperario();
     this.router.navigate(['/dashboard']);
   }
