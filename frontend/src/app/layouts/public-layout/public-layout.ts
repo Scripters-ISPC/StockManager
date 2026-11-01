@@ -1,6 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../core/services/auth';
+import { Component } from '@angular/core';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
@@ -9,14 +8,4 @@ import { AuthService } from '../../core/services/auth';
   templateUrl: './public-layout.html',
 })
 export class PublicLayout {
-
-  authService = inject(AuthService);
-    private router = inject(Router);
-
-    logout(event: Event) {
-      event.preventDefault();
-      this.authService.logout();
-      this.router.navigate(['/login'], { replaceUrl: true });
-    }
-
 }
