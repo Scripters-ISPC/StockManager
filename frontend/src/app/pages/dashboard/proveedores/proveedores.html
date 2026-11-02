@@ -13,9 +13,9 @@
 <div class="card shadow-sm border-0 mb-4">
     <div class="card-body">
         <form class="row g-2 align-items-end" (ngSubmit)="guardar()">
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label for="nombre-proveedor" class="form-label">
-                    {{ editandoId === null ? 'Nuevo proveedor' : 'Editar proveedor' }}
+                    {{ editandoId === null ? 'Nuevo proveedor' : 'Editar proveedor' }} <span class="text-danger">*</span>
                 </label>
                 <input
                     id="nombre-proveedor"
@@ -23,19 +23,31 @@
                     class="form-control"
                     [(ngModel)]="nombre"
                     placeholder="Ej: Papelera Central"
+                    required
                 >
             </div>
-            <div class="col-md-4">
-                <label for="contacto-proveedor" class="form-label">Contacto</label>
+            <div class="col-md-3">
+                <label for="telefono-proveedor" class="form-label">Teléfono</label>
                 <input
-                    id="contacto-proveedor"
-                    name="contacto"
+                    id="telefono-proveedor"
+                    name="telefono"
                     class="form-control"
-                    [(ngModel)]="contacto"
-                    placeholder="Teléfono o email"
+                    [(ngModel)]="telefono"
+                    placeholder="Ej: +54 11 4321-0000"
                 >
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
+                <label for="correo-proveedor" class="form-label">Correo electrónico</label>
+                <input
+                    id="correo-proveedor"
+                    name="correo"
+                    type="email"
+                    class="form-control"
+                    [(ngModel)]="correo"
+                    placeholder="Ej: ventas@proveedor.com"
+                >
+            </div>
+            <div class="col-md-1">
                 <div class="form-check mb-2">
                     <input
                         id="activo-proveedor"
@@ -47,7 +59,7 @@
                     <label class="form-check-label" for="activo-proveedor">Activo</label>
                 </div>
             </div>
-            <div class="col-md-auto">
+            <div class="col-md-2 text-end">
                 <button type="submit" class="btn btn-brand" [disabled]="guardando()">
                     {{ editandoId === null ? 'Agregar' : 'Guardar' }}
                 </button>
@@ -68,14 +80,39 @@
         <div class="table-responsive">
             <table class="table table-hover align-middle mb-0">
                 <thead>
-                    <tr><th>ID</th><th>Nombre</th><th>Contacto</th><th>Estado</th><th class="text-end">Acciones</th></tr>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Correo electrónico</th>
+                        <th>Estado</th>
+                        <th class="text-end">Acciones</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @for (proveedor of proveedores(); track proveedor.id) {
                         <tr>
                             <td>{{ proveedor.id }}</td>
                             <td>{{ proveedor.nombre }}</td>
-                            <td>{{ proveedor.contacto || 'Sin contacto' }}</td>
+                            <td>
+    @if (proveedor.telefono) {
+        <span>{{ proveedor.telefono }}</span>
+    } @else if (proveedor.contacto && !proveedor.correo && !proveedor.email) {
+        <span class="text-muted" title="Contacto anterior">
+            {{ proveedor.contacto }}
+        </span>
+    } @else {
+        <span class="text-muted">—</span>
+    }
+</td>
+
+<td>
+    @if (proveedor.correo || proveedor.email) {
+        <span>{{ proveedor.correo || proveedor.email }}</span>
+    } @else {
+        <span class="text-muted">—</span>
+    }
+</td>
                             <td>
                                 <span class="badge" [class.text-bg-success]="proveedor.activo" [class.text-bg-secondary]="!proveedor.activo">
                                     {{ proveedor.activo ? 'Activo' : 'Inactivo' }}
@@ -87,7 +124,7 @@
                             </td>
                         </tr>
                     } @empty {
-                        <tr><td colspan="5" class="text-center text-muted">No hay proveedores.</td></tr>
+                        <tr><td colspan="6" class="text-center text-muted">No hay proveedores.</td></tr>
                     }
                 </tbody>
             </table>

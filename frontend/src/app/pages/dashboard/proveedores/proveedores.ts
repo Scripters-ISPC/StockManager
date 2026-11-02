@@ -17,6 +17,8 @@ export class Proveedores implements OnInit {
 
   proveedores = signal<Proveedor[]>([]);
   nombre = '';
+  telefono = '';
+  correo = '';
   contacto = '';
   activo = true;
   editandoId: number | null = null;
@@ -45,7 +47,9 @@ export class Proveedores implements OnInit {
   editar(proveedor: Proveedor) {
     this.editandoId = proveedor.id;
     this.nombre = proveedor.nombre;
-    this.contacto = proveedor.contacto;
+    this.telefono = proveedor.telefono || '';
+    this.correo = proveedor.correo || proveedor.email || '';
+    this.contacto = proveedor.contacto || '';
     this.activo = proveedor.activo;
     this.error.set('');
   }
@@ -53,6 +57,8 @@ export class Proveedores implements OnInit {
   cancelar() {
     this.editandoId = null;
     this.nombre = '';
+    this.telefono = '';
+    this.correo = '';
     this.contacto = '';
     this.activo = true;
     this.error.set('');
@@ -65,10 +71,25 @@ export class Proveedores implements OnInit {
       return;
     }
 
+    const telefono = this.telefono.trim();
+    if (telefono && !/^[+0-9\s()./-]{6,30}$/.test(telefono)) {
+      this.error.set('El teléfono ingresado no tiene un formato válido (mínimo 6 dígitos).');
+      return;
+    }
+
+    const correo = this.correo.trim().toLowerCase();
+    if (correo && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) {
+      this.error.set('El correo electrónico ingresado no tiene un formato válido.');
+      return;
+    }
+
     this.guardando.set(true);
     const proveedor = {
       nombre,
-      contacto: this.contacto.trim(),
+      telefono,
+      correo,
+      email: correo,
+      contacto: this.contacto.trim() || [telefono, correo].filter(Boolean).join(' | '),
       activo: this.activo,
     };
     const request = this.editandoId === null
