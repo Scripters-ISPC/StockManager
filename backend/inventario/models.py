@@ -16,6 +16,8 @@ class Categoria(models.Model):
 class Proveedor(models.Model):
     nombre = models.CharField(max_length=120, unique=True)
     contacto = models.CharField(max_length=150, blank=True, default='')
+    telefono = models.CharField(max_length=50, blank=True, default='')
+    correo = models.EmailField(max_length=150, blank=True, default='')
     activo = models.BooleanField(default=True)
     creado_en = models.DateTimeField(auto_now_add=True)
 

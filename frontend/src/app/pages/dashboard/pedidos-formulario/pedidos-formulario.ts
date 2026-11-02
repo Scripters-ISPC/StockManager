@@ -28,7 +28,12 @@ export class PedidosFormulario implements OnInit {
 
   pedidoForm = new FormGroup({
     producto: new FormControl('', [Validators.required, Validators.minLength(3)]),
-    cantidad: new FormControl(1, [Validators.required, Validators.min(1)]),
+    cantidad: new FormControl<number | null>(1, [
+      Validators.required,
+      Validators.min(1),
+      Validators.max(9999),
+      Validators.pattern(/^[1-9]\d*$/),
+    ]),
     proveedor: new FormControl(''),
     urgencia: new FormControl<'baja' | 'media' | 'alta'>('media', [Validators.required]),
     comentario: new FormControl('')
