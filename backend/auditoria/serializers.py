@@ -1,4 +1,5 @@
 from django.utils import timezone
+from drf_spectacular.utils import extend_schema_field
 from rest_framework import serializers
 
 from inventario.models import Material
@@ -57,9 +58,11 @@ class RegistroAuditoriaSerializer(serializers.ModelSerializer):
     )
     usuarioNombre = serializers.SerializerMethodField()
 
+    @extend_schema_field(str)
     def get_materialNombre(self, obj):
         return obj.material.nombre if obj.material else obj.material_nombre
 
+    @extend_schema_field(str)
     def get_usuarioNombre(self, obj):
         if not obj.usuario:
             return ''

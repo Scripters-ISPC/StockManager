@@ -1,11 +1,8 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
-from .views import RegistroAuditoriaViewSet
-
-router = DefaultRouter()
-router.register('', RegistroAuditoriaViewSet, basename='auditoria')
+from .views import RegistroAuditoriaDetailAPIView, RegistroAuditoriaListAPIView
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', RegistroAuditoriaListAPIView.as_view(), name='auditoria-list'),
+    path('<int:pk>/', RegistroAuditoriaDetailAPIView.as_view(), name='auditoria-detail'),
 ]

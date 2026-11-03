@@ -1,0 +1,240 @@
+[
+  {
+    "model": "usuarios.usuario",
+    "pk": 1,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$38Flyiq1QsQoIK0YAXtmiP$3GoBYibtdqt0UWuCD6ONp8oq/jAQ3HdcgmfwFkcWfcA=",
+      "last_login": null,
+      "is_superuser": true,
+      "first_name": "Admin Principal",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-01-10T12:00:00Z",
+      "email": "admin@stockmanager.com",
+      "is_admin": true,
+      "username": "admin@stockmanager.com",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.usuario",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$38Flyiq1QsQoIK0YAXtmiP$3GoBYibtdqt0UWuCD6ONp8oq/jAQ3HdcgmfwFkcWfcA=",
+      "last_login": null,
+      "is_superuser": true,
+      "first_name": "Admin Secundario",
+      "last_name": "",
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2026-01-11T12:00:00Z",
+      "email": "admin2@stockmanager.com",
+      "is_admin": true,
+      "username": "admin2@stockmanager.com",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.usuario",
+    "pk": 3,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$38Flyiq1QsQoIK0YAXtmiP$3GoBYibtdqt0UWuCD6ONp8oq/jAQ3HdcgmfwFkcWfcA=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "Operario Uno",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-01-12T12:00:00Z",
+      "email": "operario@stockmanager.com",
+      "is_admin": false,
+      "username": "operario@stockmanager.com",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.usuario",
+    "pk": 4,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$38Flyiq1QsQoIK0YAXtmiP$3GoBYibtdqt0UWuCD6ONp8oq/jAQ3HdcgmfwFkcWfcA=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "Operario Dos",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-01-13T12:00:00Z",
+      "email": "operario2@stockmanager.com",
+      "is_admin": false,
+      "username": "operario2@stockmanager.com",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.usuario",
+    "pk": 5,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$38Flyiq1QsQoIK0YAXtmiP$3GoBYibtdqt0UWuCD6ONp8oq/jAQ3HdcgmfwFkcWfcA=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "Operario Tres",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-01-14T12:00:00Z",
+      "email": "operario3@stockmanager.com",
+      "is_admin": false,
+      "username": "operario3@stockmanager.com",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "usuarios.usuario",
+    "pk": 6,
+    "fields": {
+      "password": "pbkdf2_sha256$1500000$38Flyiq1QsQoIK0YAXtmiP$3GoBYibtdqt0UWuCD6ONp8oq/jAQ3HdcgmfwFkcWfcA=",
+      "last_login": null,
+      "is_superuser": false,
+      "first_name": "Operario Cuatro",
+      "last_name": "",
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2026-01-15T12:00:00Z",
+      "email": "operario4@stockmanager.com",
+      "is_admin": false,
+      "username": "operario4@stockmanager.com",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "inventario.categoria",
+    "pk": 1,
+    "fields": {"nombre": "Ferretería"}
+  },
+  {
+    "model": "inventario.categoria",
+    "pk": 2,
+    "fields": {"nombre": "Electricidad"}
+  },
+  {
+    "model": "inventario.proveedor",
+    "pk": 1,
+    "fields": {
+      "nombre": "Suministros Delta",
+      "contacto": "Laura Gómez",
+      "telefono": "+54 11 4100-1000",
+      "correo": "ventas@delta.example.com",
+      "activo": true,
+      "creado_en": "2026-01-10T12:00:00Z"
+    }
+  },
+  {
+    "model": "inventario.proveedor",
+    "pk": 2,
+    "fields": {
+      "nombre": "Materiales Norte",
+      "contacto": "Carlos Ruiz",
+      "telefono": "+54 11 4200-2000",
+      "correo": "contacto@norte.example.com",
+      "activo": true,
+      "creado_en": "2026-01-10T12:00:00Z"
+    }
+  },
+  {
+    "model": "inventario.material",
+    "pk": 1,
+    "fields": {"nombre": "Tornillo M6x20", "categoria": 1, "ubicacion": "A-01", "cantidad_actual": 120, "stock_minimo": 20, "proveedor": 1, "creado_en": "2026-01-16T12:00:00Z"}
+  },
+  {
+    "model": "inventario.material",
+    "pk": 2,
+    "fields": {"nombre": "Tuerca M6", "categoria": 1, "ubicacion": "A-02", "cantidad_actual": 95, "stock_minimo": 15, "proveedor": 1, "creado_en": "2026-01-16T12:00:00Z"}
+  },
+  {
+    "model": "inventario.material",
+    "pk": 3,
+    "fields": {"nombre": "Cable unipolar 2.5mm", "categoria": 2, "ubicacion": "B-01", "cantidad_actual": 60, "stock_minimo": 10, "proveedor": 2, "creado_en": "2026-01-16T12:00:00Z"}
+  },
+  {
+    "model": "inventario.material",
+    "pk": 4,
+    "fields": {"nombre": "Cinta aisladora negra", "categoria": 2, "ubicacion": "B-02", "cantidad_actual": 35, "stock_minimo": 8, "proveedor": 2, "creado_en": "2026-01-16T12:00:00Z"}
+  },
+  {
+    "model": "inventario.material",
+    "pk": 5,
+    "fields": {"nombre": "Arandela plana M6", "categoria": 1, "ubicacion": "A-03", "cantidad_actual": 140, "stock_minimo": 25, "proveedor": 1, "creado_en": "2026-01-16T12:00:00Z"}
+  },
+  {
+    "model": "inventario.material",
+    "pk": 6,
+    "fields": {"nombre": "Ficha RJ45", "categoria": 2, "ubicacion": "B-03", "cantidad_actual": 50, "stock_minimo": 10, "proveedor": null, "creado_en": "2026-01-16T12:00:00Z"}
+  },
+  {
+    "model": "pedidos.pedido",
+    "pk": 1,
+    "fields": {"producto": "Tornillo M6x20", "material": 1, "cantidad": 50, "proveedor": "Suministros Delta", "urgencia": "alta", "estado": "Pendiente", "fecha": "2026-01-20", "observaciones": "Reposición para mantenimiento.", "solicitante": 3, "solicitante_nombre": "Operario Uno", "comentario_resolucion": "", "comentario_ingreso": ""}
+  },
+  {
+    "model": "pedidos.pedido",
+    "pk": 2,
+    "fields": {"producto": "Tuerca M6", "material": 2, "cantidad": 30, "proveedor": "Suministros Delta", "urgencia": "media", "estado": "Aprobado", "fecha": "2026-01-21", "observaciones": "Pedido aprobado por administración.", "solicitante": 4, "solicitante_nombre": "Operario Dos", "comentario_resolucion": "Compra autorizada.", "comentario_ingreso": ""}
+  },
+  {
+    "model": "pedidos.pedido",
+    "pk": 3,
+    "fields": {"producto": "Cable unipolar 2.5mm", "material": 3, "cantidad": 20, "proveedor": "Materiales Norte", "urgencia": "alta", "estado": "En Camino", "fecha": "2026-01-22", "observaciones": "Uso en tablero eléctrico.", "solicitante": 5, "solicitante_nombre": "Operario Tres", "comentario_resolucion": "Enviado por proveedor.", "comentario_ingreso": ""}
+  },
+  {
+    "model": "pedidos.pedido",
+    "pk": 4,
+    "fields": {"producto": "Cinta aisladora negra", "material": 4, "cantidad": 12, "proveedor": "Materiales Norte", "urgencia": "baja", "estado": "Entregado", "fecha": "2026-01-23", "observaciones": "Entrega completa.", "solicitante": 6, "solicitante_nombre": "Operario Cuatro", "comentario_resolucion": "Recepcionado.", "comentario_ingreso": "Ingreso registrado."}
+  },
+  {
+    "model": "pedidos.pedido",
+    "pk": 5,
+    "fields": {"producto": "Arandela plana M6", "material": 5, "cantidad": 40, "proveedor": "Suministros Delta", "urgencia": "media", "estado": "Cancelado", "fecha": "2026-01-24", "observaciones": "Solicitud duplicada.", "solicitante": 3, "solicitante_nombre": "Operario Uno", "comentario_resolucion": "Cancelado por duplicidad.", "comentario_ingreso": ""}
+  },
+  {
+    "model": "pedidos.pedido",
+    "pk": 6,
+    "fields": {"producto": "Ficha RJ45", "material": 6, "cantidad": 25, "proveedor": null, "urgencia": "media", "estado": "Pendiente", "fecha": "2026-01-25", "observaciones": "Sin proveedor asignado.", "solicitante": 4, "solicitante_nombre": "Operario Dos", "comentario_resolucion": "", "comentario_ingreso": ""}
+  },
+  {
+    "model": "auditoria.registroauditoria",
+    "pk": 1,
+    "fields": {"material": 1, "material_nombre": "Tornillo M6x20", "tipo": "ingreso", "cantidad": 120, "stock_anterior": 0, "stock_nuevo": 120, "usuario": 1, "fecha": "2026-01-16", "fecha_hora": "2026-01-16T12:00:00Z", "observacion": "Carga inicial de inventario."}
+  },
+  {
+    "model": "auditoria.registroauditoria",
+    "pk": 2,
+    "fields": {"material": 2, "material_nombre": "Tuerca M6", "tipo": "ingreso", "cantidad": 95, "stock_anterior": 0, "stock_nuevo": 95, "usuario": 2, "fecha": "2026-01-16", "fecha_hora": "2026-01-16T12:05:00Z", "observacion": "Alta de material."}
+  },
+  {
+    "model": "auditoria.registroauditoria",
+    "pk": 3,
+    "fields": {"material": 3, "material_nombre": "Cable unipolar 2.5mm", "tipo": "egreso", "cantidad": 10, "stock_anterior": 70, "stock_nuevo": 60, "usuario": 3, "fecha": "2026-01-20", "fecha_hora": "2026-01-20T14:00:00Z", "observacion": "Entrega a mantenimiento."}
+  },
+  {
+    "model": "auditoria.registroauditoria",
+    "pk": 4,
+    "fields": {"material": 4, "material_nombre": "Cinta aisladora negra", "tipo": "edicion", "cantidad": 0, "stock_anterior": 35, "stock_nuevo": 35, "usuario": 4, "fecha": "2026-01-21", "fecha_hora": "2026-01-21T15:00:00Z", "observacion": "Actualización de ubicación."}
+  },
+  {
+    "model": "auditoria.registroauditoria",
+    "pk": 5,
+    "fields": {"material": 5, "material_nombre": "Arandela plana M6", "tipo": "ingreso", "cantidad": 140, "stock_anterior": 0, "stock_nuevo": 140, "usuario": 1, "fecha": "2026-01-22", "fecha_hora": "2026-01-22T10:00:00Z", "observacion": "Reposición de stock."}
+  },
+  {
+    "model": "auditoria.registroauditoria",
+    "pk": 6,
+    "fields": {"material": null, "material_nombre": "Material histórico eliminado", "tipo": "eliminacion", "cantidad": 0, "stock_anterior": 8, "stock_nuevo": 0, "usuario": null, "fecha": "2025-12-15", "fecha_hora": "2025-12-15T09:00:00Z", "observacion": "Registro histórico conservado tras eliminar el material y usuario."}
+  }
+]

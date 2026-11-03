@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, shareReplay, tap } from 'rxjs';
 import { API_BASE_URL } from '../config/api.config';
 
 export interface Material {
@@ -34,9 +34,19 @@ export interface Proveedor {
 export class InventoryService {
   private http = inject(HttpClient);
   private apiUrl = `${API_BASE_URL}/inventario/materiales/`;
+  private materiales$: Observable<Material[]> | null = null;
 
   getMateriales(): Observable<Material[]> {
-    return this.http.get<Material[]>(this.apiUrl);
+    if (!this.materiales$) {
+      this.materiales$ = this.http.get<Material[]>(this.apiUrl).pipe(
+        shareReplay({ bufferSize: 1, refCount: false }),
+      );
+    }
+    return this.materiales$;
+  }
+
+  private invalidarMateriales(): void {
+    this.materiales$ = null;
   }
 
   getCategorias(): Observable<Categoria[]> {
@@ -105,18 +115,26 @@ export class InventoryService {
   }
 
   agregarMaterial(nuevo: Omit<Material, 'id'>): Observable<Material> {
-    return this.http.post<Material>(this.apiUrl, nuevo);
+    return this.http.post<Material>(this.apiUrl, nuevo).pipe(
+      tap(() => this.invalidarMateriales()),
+    );
   }
 
   actualizarMaterial(id: number, material: Omit<Material, 'id'>): Observable<Material> {
-    return this.http.patch<Material>(`${this.apiUrl}${id}/`, material);
+    return this.http.patch<Material>(`${this.apiUrl}${id}/`, material).pipe(
+      tap(() => this.invalidarMateriales()),
+    );
   }
 
   actualizarStock(id: number, cantidadActual: number): Observable<Material> {
-    return this.http.patch<Material>(`${this.apiUrl}${id}/`, { cantidadActual });
+    return this.http.patch<Material>(`${this.apiUrl}${id}/`, { cantidadActual }).pipe(
+      tap(() => this.invalidarMateriales()),
+    );
   }
 
   eliminarMaterial(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}${id}/`);
+    return this.http.delete<void>(`${this.apiUrl}${id}/`).pipe(
+      tap(() => this.invalidarMateriales()),
+    );
   }
 }

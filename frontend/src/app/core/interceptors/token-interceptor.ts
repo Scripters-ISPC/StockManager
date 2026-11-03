@@ -18,6 +18,7 @@ import {
 } from 'rxjs';
 
 import { API_BASE_URL } from '../config/api.config';
+import { AuthService } from '../services/auth';
 
 interface RefreshResponse {
   access: string;
@@ -28,6 +29,7 @@ let refreshRequest$: Observable<string> | null = null;
 export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);
   const httpBackend = inject(HttpBackend);
+  const authService = inject(AuthService);
   const isApiRequest = req.url.startsWith(API_BASE_URL);
   const isAuthRequest = req.url.includes('/usuarios/login/');
 
@@ -48,7 +50,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
 
       const refreshToken = localStorage.getItem('refresh_token');
       if (!refreshToken) {
-        clearSessionAndRedirect(router);
+        expireSession(authService, router);
         return throwError(() => error);
       }
 
@@ -59,7 +61,7 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
           })),
         ),
         catchError((refreshError) => {
-          clearSessionAndRedirect(router);
+          expireSession(authService, router);
           return throwError(() => refreshError);
         }),
       );
@@ -98,9 +100,7 @@ function refreshAccessToken(
 
   return refreshRequest$;
 }
-function clearSessionAndRedirect(router: Router) {
-  localStorage.removeItem('access_token');
-  localStorage.removeItem('refresh_token');
-  localStorage.removeItem('usuario');
+function expireSession(authService: AuthService, router: Router) {
+  authService.logout();
   void router.navigate(['/login']);
 }

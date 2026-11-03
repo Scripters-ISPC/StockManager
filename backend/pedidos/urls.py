@@ -1,11 +1,8 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
+from django.urls import path
 
-from .views import PedidoViewSet
-
-router = DefaultRouter()
-router.register('', PedidoViewSet, basename='pedidos')
+from .views import PedidoDetailAPIView, PedidoListAPIView
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('', PedidoListAPIView.as_view(), name='pedidos-list'),
+    path('<int:pk>/', PedidoDetailAPIView.as_view(), name='pedidos-detail'),
 ]

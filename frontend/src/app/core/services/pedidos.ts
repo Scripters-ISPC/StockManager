@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay, tap } from 'rxjs';
 import { API_BASE_URL } from '../config/api.config';
 
 export interface Pedido {
@@ -26,9 +26,19 @@ export interface Pedido {
 export class PedidosService {
   private http = inject(HttpClient);
   private apiUrl = `${API_BASE_URL}/pedidos/`;
+  private pedidos$: Observable<Pedido[]> | null = null;
 
   getPedidos(): Observable<Pedido[]> {
-    return this.http.get<Pedido[]>(this.apiUrl);
+    if (!this.pedidos$) {
+      this.pedidos$ = this.http.get<Pedido[]>(this.apiUrl).pipe(
+        shareReplay({ bufferSize: 1, refCount: false }),
+      );
+    }
+    return this.pedidos$;
+  }
+
+  private invalidarPedidos(): void {
+    this.pedidos$ = null;
   }
 
   getPedidoById(id: number): Observable<Pedido> {
@@ -41,14 +51,20 @@ export class PedidosService {
       estado: 'Pendiente',
       fecha: new Date().toISOString().split('T')[0]
     };
-    return this.http.post<Pedido>(this.apiUrl, pedidoCompleto);
+    return this.http.post<Pedido>(this.apiUrl, pedidoCompleto).pipe(
+      tap(() => this.invalidarPedidos()),
+    );
   }
 
   cambiarEstado(id: number, estado: Pedido['estado'], comentarioResolucion = ''): Observable<Pedido> {
-    return this.http.patch<Pedido>(`${this.apiUrl}${id}/`, { estado, comentarioResolucion });
+    return this.http.patch<Pedido>(`${this.apiUrl}${id}/`, { estado, comentarioResolucion }).pipe(
+      tap(() => this.invalidarPedidos()),
+    );
   }
 
   confirmarIngreso(id: number, comentarioIngreso = ''): Observable<Pedido> {
-    return this.http.patch<Pedido>(`${this.apiUrl}${id}/`, { estado: 'Entregado', comentarioIngreso });
+    return this.http.patch<Pedido>(`${this.apiUrl}${id}/`, { estado: 'Entregado', comentarioIngreso }).pipe(
+      tap(() => this.invalidarPedidos()),
+    );
   }
 }
