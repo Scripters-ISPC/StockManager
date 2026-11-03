@@ -1,13 +1,15 @@
 # Backend de StockManager
 
-## Requisitos
+API REST modular desarrollada con Django REST Framework. Gestiona usuarios,
+inventario, pedidos y auditoría sobre una base de datos relacional MySQL.
 
-- Python 3.14 recomendado (Python 3.12+ compatible).
-- Django 6.1.2.
-- Django REST Framework 3.18.3.
-- MySQL 8.0 o superior.
+## Requisitos previos
 
-## Instalación rápida
+- Python 3.10 o superior.
+- MySQL Server 8.4 o superior.
+- Git.
+
+## Instalación paso a paso
 
 Desde la carpeta `backend/`:
 
@@ -17,11 +19,22 @@ python -m venv venv
 pip install -r requirements.txt
 ```
 
-Configurar las variables de conexión a MySQL en `backend/.env` (`DB_NAME`,
-`DB_USER`, `DB_PASSWORD`, `DB_HOST` y `DB_PORT`). La base puede prepararse con
-`database/init_db.sql`.
+Configurar las variables de conexión en `backend/.env`:
 
-## Configuración, migraciones y datos de prueba
+```env
+DB_NAME=stockmanager_db
+DB_USER=root
+DB_PASSWORD=tu_clave
+DB_HOST=127.0.0.1
+DB_PORT=3306
+```
+
+La base puede crearse previamente ejecutando `database/init_db.sql` desde
+MySQL.
+
+## Configuración e inicialización
+
+Con el entorno virtual activo y ubicados en `backend/`:
 
 ```powershell
 python manage.py makemigrations
@@ -30,30 +43,38 @@ python manage.py loaddata initial_data.json
 python manage.py runserver
 ```
 
-El fixture debe cargarse una sola vez sobre una base limpia. Si se reutiliza
-una base con los mismos identificadores, limpiar los datos o recrear la base
-antes de ejecutar `loaddata`.
+La API estará disponible en `http://localhost:8000/`.
 
-## Documentación de la base de datos
+El fixture debe cargarse una sola vez sobre una base limpia. Si la base ya
+contiene los mismos registros, eliminarla y recrearla antes de ejecutar
+`loaddata`.
+
+La documentación interactiva de la API está disponible en:
+
+- Swagger UI: `http://localhost:8000/api/v1/docs/`
+- Esquema OpenAPI: `http://localhost:8000/api/schema/`
+
+## Estructura relacional
 
 La carpeta `backend/database/` contiene:
 
-- `init_db.sql`: crea la base MySQL y describe el orden de inicialización.
-- `schema.sql`: documenta las tablas, claves primarias, claves foráneas,
-  índices y reglas `ON DELETE` del diseño relacional.
+- `init_db.sql`: crea la base MySQL y describe la inicialización del entorno.
+- `schema.sql`: documenta el diseño físico completo, incluyendo tablas,
+  claves primarias, índices, claves foráneas y reglas `ON DELETE`.
 
-Las migraciones de Django son la fuente operativa recomendada para crear el
-esquema, mientras que `schema.sql` permite auditarlo directamente en SQL.
+Las migraciones de Django son la fuente operativa recomendada para construir
+el esquema. Los scripts SQL se incluyen para la auditoría docente del diseño
+relacional.
 
 ## Credenciales de prueba
 
-Todas las contraseñas del fixture son hashes Django válidos de `Admin123!`.
+Todas las cuentas del fixture utilizan la contraseña `Admin123!`.
 
 | Usuario | Rol | Contraseña |
 |---|---|---|
-| admin@stockmanager.com | Administrador | `Admin123!` |
-| admin2@stockmanager.com | Administrador | `Admin123!` |
-| operario@stockmanager.com | Operario | `Admin123!` |
-| operario2@stockmanager.com | Operario | `Admin123!` |
-| operario3@stockmanager.com | Operario | `Admin123!` |
-| operario4@stockmanager.com | Operario | `Admin123!` |
+| `admin@stockmanager.com` | Administrador | `Admin123!` |
+| `admin2@stockmanager.com` | Administrador | `Admin123!` |
+| `operario@stockmanager.com` | Operario | `Admin123!` |
+| `operario2@stockmanager.com` | Operario | `Admin123!` |
+| `operario3@stockmanager.com` | Operario | `Admin123!` |
+| `operario4@stockmanager.com` | Operario | `Admin123!` |
