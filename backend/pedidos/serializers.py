@@ -58,4 +58,8 @@ class PedidoSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'La cantidad debe ser mayor que cero.'
             )
+        if value > 9999:
+            raise serializers.ValidationError(
+                'La cantidad no puede superar las 9999 unidades.'
+            )
         return value

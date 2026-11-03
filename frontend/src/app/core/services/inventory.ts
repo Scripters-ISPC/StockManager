@@ -21,7 +21,10 @@ export interface Categoria {
 export interface Proveedor {
   id: number;
   nombre: string;
-  contacto: string;
+  contacto?: string;
+  telefono?: string;
+  correo?: string;
+  email?: string;
   activo: boolean;
 }
 

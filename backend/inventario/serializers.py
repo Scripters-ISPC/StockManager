@@ -10,9 +10,65 @@ class CategoriaSerializer(serializers.ModelSerializer):
 
 
 class ProveedorSerializer(serializers.ModelSerializer):
+    telefono = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        default='',
+    )
+    correo = serializers.EmailField(
+        required=False,
+        allow_blank=True,
+        default='',
+    )
+    email = serializers.EmailField(
+        source='correo',
+        required=False,
+        allow_blank=True,
+    )
+
     class Meta:
         model = Proveedor
-        fields = ['id', 'nombre', 'contacto', 'activo']
+        fields = [
+            'id', 'nombre', 'contacto', 'telefono', 'correo', 'email', 'activo'
+        ]
+
+    def validate_telefono(self, value):
+        if value:
+            import re
+            val = value.strip()
+            if not re.match(r'^[+0-9\s()./-]{6,30}$', val):
+                raise serializers.ValidationError(
+                    'Ingrese un formato de teléfono válido (ej: +54 11 4321-0000).'
+                )
+            return val
+        return ''
+
+    def validate_correo(self, value):
+        if value:
+            return value.strip().lower()
+        return ''
+
+    def to_representation(self, instance):
+        data = super().to_representation(instance)
+        data['telefono'] = instance.telefono or ''
+        data['correo'] = instance.correo or ''
+        data['email'] = instance.correo or ''
+        return data
+
+    def create(self, validated_data):
+        if not validated_data.get('contacto'):
+            tel = validated_data.get('telefono', '').strip()
+            cor = validated_data.get('correo', '').strip()
+            validated_data['contacto'] = ' | '.join(filter(None, [tel, cor]))
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if 'contacto' not in validated_data or not validated_data['contacto']:
+            tel = validated_data.get('telefono', instance.telefono).strip()
+            cor = validated_data.get('correo', instance.correo).strip()
+            if not instance.contacto:
+                validated_data['contacto'] = ' | '.join(filter(None, [tel, cor]))
+        return super().update(instance, validated_data)
 
 
 class MaterialSerializer(serializers.ModelSerializer):
