@@ -77,7 +77,7 @@
                         <td>{{ mostrarFecha(reg) }}</td>
                         <td>{{ mostrarHora(reg) }}</td>
                         <td class="fw-semibold">{{ reg.materialNombre }}</td>
-                        <td>{{ reg.usuario }}</td>
+                        <td>{{ reg.usuarioNombre || 'Sin usuario' }}</td>
                         <td>
                             @if (reg.tipo === 'ingreso' || reg.tipo === 'creacion') {
                                 <span class="badge bg-success">{{ etiquetaAccion(reg) }}</span>

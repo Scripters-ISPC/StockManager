@@ -72,8 +72,8 @@
                     {{ authService.isAdmin() ? '👑' : '📦' }}
                 </div>
                 <div class="user-details">
-                    <span class="user-role-title">ROL ACTIVO</span>
-                    <span class="user-role-name">{{ authService.rolEtiqueta() }}</span>
+                    <span class="user-role-title">{{ authService.rolEtiqueta() }}</span>
+                    <span class="user-role-name">{{ authService.usuarioActual()?.nombre | uppercase }}</span>
                 </div>
             </div>
             @if (authService.esAdministradorReal()) {

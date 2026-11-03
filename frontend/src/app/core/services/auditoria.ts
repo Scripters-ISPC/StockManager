@@ -5,13 +5,14 @@ import { API_BASE_URL } from '../config/api.config';
 
 export interface RegistroAuditoria {
   id?: number;
-  materialId: number;
+  materialId: number | null;
   materialNombre: string;
+  usuarioId?: number | null;
+  usuarioNombre?: string;
   tipo: 'ingreso' | 'egreso' | 'creacion' | 'edicion' | 'eliminacion';
   cantidad: number;
   stockAnterior: number;
   stockNuevo: number;
-  usuario: string;
   fecha: string;
   fechaHora?: string;
   observacion?: string;
@@ -34,7 +35,9 @@ export class AuditoriaService {
     );
   }
 
-  registrar(registro: Omit<RegistroAuditoria, 'id'>): Observable<RegistroAuditoria> {
+  registrar(registro: Omit<RegistroAuditoria, 'id' | 'materialNombre'> & {
+    materialNombre?: string;
+  }): Observable<RegistroAuditoria> {
     return this.http.post<RegistroAuditoria>(this.apiUrl, registro);
   }
 }

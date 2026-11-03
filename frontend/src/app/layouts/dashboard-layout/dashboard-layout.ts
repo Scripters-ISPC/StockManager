@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
+import { UpperCasePipe } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth';
 
 @Component({
   selector: 'app-dashboard-layout',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, UpperCasePipe],
   templateUrl: './dashboard-layout.html',
   styleUrl: './dashboard-layout.css'
 })

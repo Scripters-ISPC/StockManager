@@ -54,7 +54,7 @@ class MaterialViewSet(viewsets.ModelViewSet):
             cantidad=abs(stock_nuevo - stock_anterior),
             stock_anterior=stock_anterior,
             stock_nuevo=stock_nuevo,
-            usuario=user.get_full_name() or user.email or user.get_username(),
+            usuario=user,
             fecha=timezone.localdate(),
             fecha_hora=timezone.now(),
             observacion=detalle,
@@ -70,7 +70,7 @@ class MaterialViewSet(viewsets.ModelViewSet):
         material = serializer.save()
         self._registrar_cambio(
             material,
-            RegistroAuditoria.Tipo.CREACION,
+            RegistroAuditoria.Tipo.INGRESO,
             0,
             material.cantidad_actual,
             f'Material creado. {self._describir_snapshot(self._snapshot(material))}',

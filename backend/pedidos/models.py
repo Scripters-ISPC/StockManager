@@ -1,5 +1,8 @@
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
+
+from inventario.models import Material
 
 
 class Pedido(models.Model):
@@ -16,6 +19,11 @@ class Pedido(models.Model):
         CANCELADO = 'Cancelado', 'Cancelado'
 
     producto = models.CharField(max_length=120)
+    material = models.ForeignKey(
+        Material,
+        on_delete=models.CASCADE,
+        related_name='pedidos',
+    )
     cantidad = models.PositiveIntegerField()
     proveedor = models.CharField(
         max_length=120,
@@ -35,7 +43,13 @@ class Pedido(models.Model):
     )
     fecha = models.DateField(default=timezone.localdate)
     observaciones = models.TextField(blank=True, default='')
-    solicitante_id = models.PositiveBigIntegerField(null=True, blank=True)
+    solicitante = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='pedidos_solicitados',
+    )
     solicitante_nombre = models.CharField(max_length=150, blank=True, default='')
     comentario_resolucion = models.TextField(blank=True, default='')
     comentario_ingreso = models.TextField(blank=True, default='')

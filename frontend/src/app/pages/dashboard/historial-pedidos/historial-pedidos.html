@@ -53,7 +53,7 @@
                             <tr>
                                 <td>{{ ped.fecha }}</td>
                                 <td class="fw-bold">#{{ ped.id }}</td>
-                                <td>{{ ped.producto }}</td>
+                                <td>{{ ped.materialNombre || ped.producto }}</td>
                                 <td>{{ ped.cantidad }}</td>
                                 <td class="small text-muted">{{ ped.proveedor || 'Sin especificar' }}</td>
                                 <td><span class="badge" [ngClass]="urgenciaBadge(ped.urgencia)">{{ ped.urgencia | titlecase }}</span></td>

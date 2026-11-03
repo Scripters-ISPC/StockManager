@@ -13,16 +13,16 @@
         <div class="card-body p-4">
             <form [formGroup]="pedidoForm" (ngSubmit)="onSubmit()">
                 <div class="mb-3">
-                    <label for="producto" class="form-label">Producto <span class="text-danger">*</span></label>
-                    <select id="producto" formControlName="producto" class="form-select"
-                        [class.is-invalid]="productoCtrl?.invalid && productoCtrl?.touched"
+                    <label for="materialId" class="form-label">Material <span class="text-danger">*</span></label>
+                    <select id="materialId" formControlName="materialId" class="form-select"
+                        [class.is-invalid]="materialIdCtrl?.invalid && materialIdCtrl?.touched"
                         [disabled]="cargandoCatalogo()">
                         <option value="">@if (cargandoCatalogo()) { Cargando productos... } @else { Seleccione un producto... }</option>
                         @for (mat of materiales(); track mat.id) {
-                            <option [value]="mat.nombre">{{ mat.nombre }}</option>
+                            <option [ngValue]="mat.id">{{ mat.nombre }}</option>
                         }
                     </select>
-                    @if (productoCtrl?.invalid && productoCtrl?.touched) {
+                    @if (materialIdCtrl?.invalid && materialIdCtrl?.touched) {
                         <div class="invalid-feedback d-block"><small>Seleccioná un producto.</small></div>
                     }
                 </div>

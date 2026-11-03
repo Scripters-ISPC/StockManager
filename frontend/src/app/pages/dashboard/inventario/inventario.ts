@@ -104,7 +104,7 @@ export class Inventario implements OnInit {
     const stockNuevo = esIngreso
       ? stockAnterior + cantidad
       : stockAnterior - cantidad;
-    const usuario = this.authService.usuarioActual()?.nombre ?? 'Administrador';
+    const usuarioId = this.authService.usuarioActual()?.id ?? null;
     this.guardandoAjuste.set(true);
     this.errorAjuste.set('');
 
@@ -117,7 +117,7 @@ export class Inventario implements OnInit {
           cantidad,
           stockAnterior,
           stockNuevo,
-          usuario,
+          usuarioId,
           fecha: new Date().toISOString().split('T')[0],
           fechaHora: new Date().toISOString(),
           observacion: motivo,
@@ -172,7 +172,7 @@ export class Inventario implements OnInit {
 
     const stockAnterior = item.cantidadActual;
     const stockNuevo = stockAnterior - cantidad;
-    const usuario = this.authService.usuarioActual()?.nombre ?? 'Operario';
+    const usuarioId = this.authService.usuarioActual()?.id ?? null;
 
     this.inventoryService.actualizarStock(item.id, stockNuevo).subscribe({
       next: () => {
@@ -183,7 +183,7 @@ export class Inventario implements OnInit {
           cantidad,
           stockAnterior,
           stockNuevo,
-          usuario,
+          usuarioId,
           fecha: new Date().toISOString().split('T')[0],
           fechaHora: new Date().toISOString(),
           observacion: motivo,

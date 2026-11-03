@@ -54,7 +54,7 @@ class MaterialUpdateTests(APITestCase):
         self.assertEqual(self.material.proveedor.nombre, 'Nuevo proveedor')
         registro = RegistroAuditoria.objects.get(tipo=RegistroAuditoria.Tipo.EDICION)
         self.assertEqual(registro.material_id, self.material.id)
-        self.assertEqual(registro.usuario, self.admin.email)
+        self.assertEqual(registro.usuario, self.admin)
         self.assertIn('nombre', registro.observacion)
         self.assertIn('Taladro', registro.observacion)
         self.assertIn('Taladro industrial', registro.observacion)
@@ -85,11 +85,11 @@ class MaterialUpdateTests(APITestCase):
         }, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        registro = RegistroAuditoria.objects.get(tipo=RegistroAuditoria.Tipo.CREACION)
+        registro = RegistroAuditoria.objects.get(tipo=RegistroAuditoria.Tipo.INGRESO)
         self.assertEqual(registro.material_id, response.data['id'])
         self.assertEqual(registro.stock_nuevo, 3)
         self.assertIn('Martillo', registro.observacion)
-        self.assertEqual(registro.usuario, self.admin.email)
+        self.assertEqual(registro.usuario, self.admin)
 
     def test_delete_material_registers_audit(self):
         self.client.force_authenticate(user=self.admin)
@@ -98,7 +98,7 @@ class MaterialUpdateTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         registro = RegistroAuditoria.objects.get(tipo=RegistroAuditoria.Tipo.ELIMINACION)
-        self.assertEqual(registro.material_id, self.material.id)
+        self.assertIsNone(registro.material_id)
         self.assertEqual(registro.material_nombre, self.material.nombre)
         self.assertEqual(registro.stock_anterior, 4)
         self.assertEqual(registro.stock_nuevo, 0)
