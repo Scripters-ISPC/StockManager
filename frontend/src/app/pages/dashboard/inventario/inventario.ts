@@ -21,6 +21,13 @@ export class Inventario implements OnInit {
   materiales = signal<Material[]>([]);
   cargando = signal(true);
   errorApi = signal(false);
+  mensajeAjuste = signal('');
+  materialParaAjuste = signal<Material | null>(null);
+  tipoAjuste = signal<'ingreso' | 'egreso'>('ingreso');
+  cantidadAjuste = 1;
+  motivoAjuste = '';
+  errorAjuste = signal('');
+  guardandoAjuste = signal(false);
   materialParaEgreso = signal<Material | null>(null);
   cantidadEgreso = 1;
   motivoEgreso = '';
@@ -57,32 +64,80 @@ export class Inventario implements OnInit {
       return;
     }
 
-    const stockAnterior = item.cantidadActual;
-    const stockNuevo = Math.max(0, stockAnterior + cambio);
-    if (stockNuevo === stockAnterior) {
+    this.mensajeAjuste.set('');
+    this.materialParaAjuste.set(item);
+    this.tipoAjuste.set(cambio > 0 ? 'ingreso' : 'egreso');
+    this.cantidadAjuste = 1;
+    this.motivoAjuste = '';
+    this.errorAjuste.set('');
+  }
+
+  cerrarAjusteStock() {
+    if (this.guardandoAjuste()) {
+      return;
+    }
+    this.materialParaAjuste.set(null);
+    this.cantidadAjuste = 1;
+    this.motivoAjuste = '';
+    this.errorAjuste.set('');
+  }
+
+  confirmarAjusteStock() {
+    const item = this.materialParaAjuste();
+    const cantidad = Number(this.cantidadAjuste);
+    const motivo = this.motivoAjuste.trim();
+    const esIngreso = this.tipoAjuste() === 'ingreso';
+
+    if (!item?.id || !Number.isInteger(cantidad) || cantidad < 1 ||
+        (!esIngreso && cantidad > item.cantidadActual)) {
+      this.errorAjuste.set(esIngreso
+        ? 'Ingresá una cantidad entera mayor que cero.'
+        : 'La cantidad debe ser mayor que cero y no superar el stock disponible.');
+      return;
+    }
+    if (!motivo) {
+      this.errorAjuste.set('Indicá el motivo del ajuste.');
       return;
     }
 
-    const usuario =
-      this.authService.usuarioActual()?.nombre ??
-      (this.authService.isAdmin() ? 'Administrador' : 'Operario');
+    const stockAnterior = item.cantidadActual;
+    const stockNuevo = esIngreso
+      ? stockAnterior + cantidad
+      : stockAnterior - cantidad;
+    const usuario = this.authService.usuarioActual()?.nombre ?? 'Administrador';
+    this.guardandoAjuste.set(true);
+    this.errorAjuste.set('');
 
-    this.inventoryService.actualizarStock(item.id!, stockNuevo).subscribe({
+    this.inventoryService.actualizarStock(item.id, stockNuevo).subscribe({
       next: () => {
-        this.auditoriaService
-          .registrar({
-            materialId: item.id!,
-            materialNombre: item.nombre,
-            tipo: cambio > 0 ? 'ingreso' : 'egreso',
-            cantidad: Math.abs(cambio),
-            stockAnterior,
-            stockNuevo,
-            usuario,
-            fecha: new Date().toISOString().split('T')[0],
-            fechaHora: new Date().toISOString(),
-            observacion: 'Ajuste manual desde inventario',
-          })
-          .subscribe({ complete: () => this.cargarMateriales() });
+        this.auditoriaService.registrar({
+          materialId: item.id!,
+          materialNombre: item.nombre,
+          tipo: this.tipoAjuste(),
+          cantidad,
+          stockAnterior,
+          stockNuevo,
+          usuario,
+          fecha: new Date().toISOString().split('T')[0],
+          fechaHora: new Date().toISOString(),
+          observacion: motivo,
+        }).subscribe({
+          next: () => {
+            this.guardandoAjuste.set(false);
+            this.cerrarAjusteStock();
+            this.cargarMateriales();
+          },
+          error: () => {
+            this.guardandoAjuste.set(false);
+            this.materialParaAjuste.set(null);
+            this.mensajeAjuste.set('El stock se actualizó, pero no se pudo guardar el registro de auditoría.');
+            this.cargarMateriales();
+          },
+        });
+      },
+      error: () => {
+        this.guardandoAjuste.set(false);
+        this.errorAjuste.set('No se pudo actualizar el stock. Revisá la conexión e intentá nuevamente.');
       },
     });
   }

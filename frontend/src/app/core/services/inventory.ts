@@ -105,6 +105,10 @@ export class InventoryService {
     return this.http.post<Material>(this.apiUrl, nuevo);
   }
 
+  actualizarMaterial(id: number, material: Omit<Material, 'id'>): Observable<Material> {
+    return this.http.patch<Material>(`${this.apiUrl}${id}/`, material);
+  }
+
   actualizarStock(id: number, cantidadActual: number): Observable<Material> {
     return this.http.patch<Material>(`${this.apiUrl}${id}/`, { cantidadActual });
   }

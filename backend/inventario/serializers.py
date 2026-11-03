@@ -56,8 +56,11 @@ class MaterialSerializer(serializers.ModelSerializer):
         return validated_data
 
     def _resolve_relations(self, validated_data):
-        self._resolve_relation(validated_data, 'categoria', Categoria)
-        return self._resolve_relation(validated_data, 'proveedor', Proveedor)
+        if 'categoria' in validated_data:
+            self._resolve_relation(validated_data, 'categoria', Categoria)
+        if 'proveedor' in validated_data:
+            self._resolve_relation(validated_data, 'proveedor', Proveedor)
+        return validated_data
 
     def create(self, validated_data):
         return super().create(self._resolve_relations(validated_data))

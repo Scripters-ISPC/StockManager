@@ -53,8 +53,18 @@ export class Auditoria implements OnInit {
   }
 
   etiquetaAccion(reg: RegistroAuditoria): string {
-    const signo = reg.tipo === 'ingreso' ? '+' : '-';
-    return `${reg.tipo === 'ingreso' ? 'Ingreso' : 'Egreso'} (${signo}${reg.cantidad})`;
+    switch (reg.tipo) {
+      case 'ingreso':
+        return `Ingreso (+${reg.cantidad})`;
+      case 'egreso':
+        return `Egreso (-${reg.cantidad})`;
+      case 'creacion':
+        return 'Creación de material';
+      case 'edicion':
+        return 'Edición de material';
+      case 'eliminacion':
+        return 'Eliminación de material';
+    }
   }
 
   fechaMovimiento(reg: RegistroAuditoria): number {
