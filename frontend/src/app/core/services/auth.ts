@@ -64,6 +64,17 @@ export class AuthService {
     );
   }
 
+  cambiarContrasena(datos: {
+    contrasena_actual: string;
+    nueva_contrasena: string;
+    confirmar_contrasena: string;
+  }): Observable<{ detail: string }> {
+    return this.http.post<{ detail: string }>(
+      `${this.apiUrl}/usuarios/cambiar-contrasena/`,
+      datos,
+    );
+  }
+
   private establecerSesion(u: UsuarioAuth) {
     const rol = u.rol === 'Administrador' ? 'admin' : 'operario';
     this.usuarioActual.set(u);

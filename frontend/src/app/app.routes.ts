@@ -26,6 +26,7 @@ import { HistorialPedidos } from './pages/dashboard/historial-pedidos/historial-
 import { DetalleMaterial } from './pages/dashboard/detalle-material/detalle-material';
 import { Categorias } from './pages/dashboard/categorias/categorias';
 import { Proveedores } from './pages/dashboard/proveedores/proveedores';
+import { CambiarContrasena } from './pages/dashboard/cambiar-contrasena/cambiar-contrasena';
 
 // Página 404
 import { NotFound } from './shared/not-found/not-found';
@@ -64,6 +65,8 @@ export const routes: Routes = [
             { path: 'proveedores', component: Proveedores, canActivate: [roleGuard] },
             { path: 'pedidos-formulario', component: PedidosFormulario },
             { path: 'usuarios-formulario', component: UsuariosFormulario, canActivate: [roleGuard] },
+            { path: 'usuarios-formulario/:id', component: UsuariosFormulario, canActivate: [roleGuard] },
+            { path: 'cambiar-contrasena', component: CambiarContrasena },
             { path: 'historial-pedidos', component: HistorialPedidos },
             { path: 'detalle-material/:id', component: DetalleMaterial }
         ]

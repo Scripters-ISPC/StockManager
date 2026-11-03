@@ -1,13 +1,18 @@
 from django.contrib.auth import authenticate
 from rest_framework import permissions, status, viewsets
 from rest_framework.exceptions import AuthenticationFailed
+from rest_framework.views import APIView
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import Usuario
-from .serializers import LoginSerializer, UsuarioSerializer
+from .serializers import (
+    CambiarContrasenaSerializer,
+    LoginSerializer,
+    UsuarioSerializer,
+)
 
 
 class LoginView(TokenObtainPairView):
@@ -37,3 +42,20 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     queryset = Usuario.objects.all().order_by('id')
     serializer_class = UsuarioSerializer
     permission_classes = [permissions.IsAdminUser]
+
+
+class CambiarContrasenaView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request: Request) -> Response:
+        serializer = CambiarContrasenaSerializer(
+            data=request.data,
+            context={'request': request},
+        )
+        serializer.is_valid(raise_exception=True)
+        request.user.set_password(serializer.validated_data['nueva_contrasena'])
+        request.user.save(update_fields=['password'])
+        return Response(
+            {'detail': 'La contraseña se actualizó correctamente.'},
+            status=status.HTTP_200_OK,
+        )
