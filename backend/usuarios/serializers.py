@@ -1,5 +1,7 @@
 from datetime import date
 
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
@@ -75,3 +77,35 @@ class LoginSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
         data['usuario'] = UsuarioSerializer(self.user).data
         return data
+
+
+class CambiarContrasenaSerializer(serializers.Serializer):
+    contrasena_actual = serializers.CharField(write_only=True, trim_whitespace=False)
+    nueva_contrasena = serializers.CharField(write_only=True, trim_whitespace=False)
+    confirmar_contrasena = serializers.CharField(write_only=True, trim_whitespace=False)
+
+    def validate(self, attrs):
+        usuario = self.context['request'].user
+        if not usuario.check_password(attrs['contrasena_actual']):
+            raise serializers.ValidationError({
+                'contrasena_actual': 'La contraseña actual es incorrecta.'
+            })
+
+        if attrs['nueva_contrasena'] != attrs['confirmar_contrasena']:
+            raise serializers.ValidationError({
+                'confirmar_contrasena': 'Las contraseñas nuevas no coinciden.'
+            })
+
+        if attrs['nueva_contrasena'] == attrs['contrasena_actual']:
+            raise serializers.ValidationError({
+                'nueva_contrasena': 'La nueva contraseña debe ser diferente a la actual.'
+            })
+
+        try:
+            validate_password(attrs['nueva_contrasena'], user=usuario)
+        except DjangoValidationError as error:
+            raise serializers.ValidationError({
+                'nueva_contrasena': error.messages
+            }) from error
+
+        return attrs

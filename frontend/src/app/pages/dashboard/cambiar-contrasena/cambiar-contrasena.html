@@ -1,0 +1,76 @@
+<div class="mb-3">
+    <a routerLink="/dashboard" class="btn btn-outline-secondary btn-sm">← Volver al inicio</a>
+</div>
+<h1>Cambiar contraseña</h1>
+<p class="page-lead">Actualizá la contraseña de tu cuenta.</p>
+
+<div class="card shadow-sm border-0" style="max-width: 560px;">
+    <div class="card-body p-4">
+        @if (errorMensaje()) {
+            <div class="alert alert-danger" role="alert">{{ errorMensaje() }}</div>
+        }
+        @if (exitoMensaje()) {
+            <div class="alert alert-success" role="status">{{ exitoMensaje() }}</div>
+        }
+
+        <form [formGroup]="formulario" (ngSubmit)="onSubmit()">
+            <div class="mb-3">
+                <label for="contrasena_actual" class="form-label">Contraseña actual <span class="text-danger">*</span></label>
+                <input
+                    type="password"
+                    id="contrasena_actual"
+                    formControlName="contrasena_actual"
+                    class="form-control"
+                    autocomplete="current-password"
+                    [class.is-invalid]="formulario.controls.contrasena_actual.invalid && formulario.controls.contrasena_actual.touched"
+                >
+                @if (formulario.controls.contrasena_actual.hasError('required') && formulario.controls.contrasena_actual.touched) {
+                    <div class="invalid-feedback">Ingresá tu contraseña actual.</div>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label for="nueva_contrasena" class="form-label">Nueva contraseña <span class="text-danger">*</span></label>
+                <input
+                    type="password"
+                    id="nueva_contrasena"
+                    formControlName="nueva_contrasena"
+                    class="form-control"
+                    autocomplete="new-password"
+                    [class.is-invalid]="formulario.controls.nueva_contrasena.invalid && formulario.controls.nueva_contrasena.touched"
+                >
+                @if (formulario.controls.nueva_contrasena.invalid && formulario.controls.nueva_contrasena.touched) {
+                    <div class="invalid-feedback">
+                        @if (formulario.controls.nueva_contrasena.hasError('required')) { <span>Ingresá una nueva contraseña.</span> }
+                        @if (formulario.controls.nueva_contrasena.hasError('minlength')) { <span>Debe tener al menos 8 caracteres.</span> }
+                    </div>
+                }
+            </div>
+
+            <div class="mb-4">
+                <label for="confirmar_contrasena" class="form-label">Confirmar nueva contraseña <span class="text-danger">*</span></label>
+                <input
+                    type="password"
+                    id="confirmar_contrasena"
+                    formControlName="confirmar_contrasena"
+                    class="form-control"
+                    autocomplete="new-password"
+                    [class.is-invalid]="formulario.controls.confirmar_contrasena.invalid && formulario.controls.confirmar_contrasena.touched || formulario.hasError('contrasenasNoCoinciden') && formulario.controls.confirmar_contrasena.touched"
+                >
+                @if (formulario.controls.confirmar_contrasena.hasError('required') && formulario.controls.confirmar_contrasena.touched) {
+                    <div class="invalid-feedback">Confirmá la nueva contraseña.</div>
+                } @else if (formulario.hasError('contrasenasNoCoinciden') && formulario.controls.confirmar_contrasena.touched) {
+                    <div class="invalid-feedback">Las contraseñas nuevas no coinciden.</div>
+                }
+            </div>
+
+            <button type="submit" class="btn btn-brand w-100 py-2" [disabled]="formulario.invalid || guardando()">
+                @if (guardando()) {
+                    <span class="spinner-border spinner-border-sm me-2"></span> Guardando...
+                } @else {
+                    Actualizar contraseña
+                }
+            </button>
+        </form>
+    </div>
+</div>

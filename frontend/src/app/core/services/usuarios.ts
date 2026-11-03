@@ -37,6 +37,13 @@ export class UsuariosService {
     return this.http.post<Usuario>(this.apiUrl, usuarioCompleto);
   }
 
+  actualizarUsuario(
+    id: number,
+    cambios: { nombre: string; correo: string; password?: string; rol: 'Administrador' | 'Operario' },
+  ): Observable<Usuario> {
+    return this.http.patch<Usuario>(`${this.apiUrl}${id}/`, cambios);
+  }
+
   toggleEstado(id: number, estadoActual: 'Activo' | 'Inactivo'): Observable<Usuario> {
     const nuevoEstado = estadoActual === 'Activo' ? 'Inactivo' : 'Activo';
     return this.http.patch<Usuario>(`${this.apiUrl}${id}/`, { estado: nuevoEstado });

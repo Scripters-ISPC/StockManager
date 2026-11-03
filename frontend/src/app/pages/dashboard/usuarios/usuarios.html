@@ -41,13 +41,14 @@
                         </td>
                         <td class="small text-muted">{{ usr.fechaRegistro }}</td>
                         <td>
+                            <a [routerLink]="['/dashboard/usuarios-formulario', usr.id]" class="btn btn-sm btn-outline-primary me-1">Editar</a>
                             @if (usr.rol !== 'Administrador') {
                                 <button type="button" (click)="toggleEstado(usr.id!, usr.estado)" class="btn btn-sm btn-outline-warning me-1">
                                     {{ usr.estado === 'Activo' ? 'Desactivar' : 'Reactivar' }}
                                 </button>
                                 <button type="button" (click)="eliminar(usr.id!)" class="btn btn-sm btn-outline-danger">Eliminar</button>
                             } @else {
-                                <span class="text-muted small">Protegido</span>
+                                <span class="text-muted small">Protegido para desactivar/eliminar</span>
                             }
                         </td>
                     </tr>
