@@ -1,15 +1,17 @@
-from django.urls import include, path
-from rest_framework.routers import DefaultRouter
-from rest_framework_simplejwt.views import TokenRefreshView
+from django.urls import path
 
-from .views import CambiarContrasenaView, LoginView, UsuarioViewSet
-
-router = DefaultRouter()
-router.register('', UsuarioViewSet, basename='usuarios')
+from .views import (
+    CambiarContrasenaView,
+    LoginView,
+    RefreshTokenAPIView,
+    UsuarioDetailAPIView,
+    UsuarioListAPIView,
+)
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name='usuario-login'),
-    path('login/refresh/', TokenRefreshView.as_view(), name='usuario-login-refresh'),
+    path('login/refresh/', RefreshTokenAPIView.as_view(), name='usuario-login-refresh'),
     path('cambiar-contrasena/', CambiarContrasenaView.as_view(), name='usuario-cambiar-contrasena'),
-    path('', include(router.urls)),
+    path('', UsuarioListAPIView.as_view(), name='usuarios-list'),
+    path('<int:pk>/', UsuarioDetailAPIView.as_view(), name='usuarios-detail'),
 ]

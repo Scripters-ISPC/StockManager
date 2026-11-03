@@ -65,18 +65,19 @@
                                 @if (puedeAprobar(pedido)) {
                                     <button type="button" (click)="abrirAccion(pedido, 'aprobar')" class="btn btn-outline-success">Aprobar</button>
                                 }
-                                @if (puedeCancelar(pedido)) {
-                                    <button type="button" (click)="abrirAccion(pedido, 'cancelar')" class="btn btn-outline-danger">Cancelar</button>
+                                @if (puedeMarcarEnCamino(pedido)) {
+                                    <button type="button" (click)="abrirAccion(pedido, 'enCamino')" class="btn btn-outline-primary">En camino</button>
                                 }
                                 @if (puedeConfirmarIngreso(pedido)) {
                                     <button type="button" (click)="abrirAccion(pedido, 'confirmarIngreso')" class="btn btn-outline-primary">Confirmar ingreso</button>
                                 }
+                                @if (puedeCancelar(pedido)) {
+                                    <button type="button" (click)="abrirAccion(pedido, 'cancelar')" class="btn btn-outline-danger">Cancelar</button>
+                                }
                                 @if (pedido.estado === 'Pendiente' && !puedeAprobar(pedido) && !puedeCancelar(pedido)) {
                                     <span class="text-muted small">Pendiente de administración</span>
-                                } @else {
-                                    @if (pedido.estado !== 'Pendiente') {
-                                        <span class="text-muted small">Sin acciones disponibles</span>
-                                    }
+                                } @else if (!puedeAprobar(pedido) && !puedeCancelar(pedido) && !puedeMarcarEnCamino(pedido) && !puedeConfirmarIngreso(pedido)) {
+                                    <span class="text-muted small">Sin acciones disponibles</span>
                                 }
                             </div>
                         </td>
@@ -89,7 +90,7 @@
         <section class="card border-0 shadow-sm mt-3" aria-live="polite">
             <div class="card-body">
                 <h2 class="h6 mb-2">
-                    @if (accion.tipo === 'aprobar') { Aprobar } @else if (accion.tipo === 'cancelar') { Cancelar } @else { Confirmar ingreso de }
+                    @if (accion.tipo === 'aprobar') { Aprobar } @else if (accion.tipo === 'enCamino') { Marcar en camino } @else if (accion.tipo === 'cancelar') { Cancelar } @else { Confirmar ingreso de }
                     solicitud #{{ accion.pedido.id }}
                 </h2>
                 @if (accion.tipo === 'confirmarIngreso') {
@@ -102,7 +103,7 @@
                 }
                 <div class="d-flex gap-2 mt-3">
                     <button type="button" (click)="confirmarAccion()" class="btn" [ngClass]="accion.tipo === 'aprobar' ? 'btn-success' : accion.tipo === 'cancelar' ? 'btn-danger' : 'btn-primary'">
-                        Confirmar {{ accion.tipo === 'aprobar' ? 'aprobación' : accion.tipo === 'cancelar' ? 'cancelación' : 'ingreso' }}
+                        Confirmar {{ accion.tipo === 'aprobar' ? 'aprobación' : accion.tipo === 'enCamino' ? 'envío' : accion.tipo === 'cancelar' ? 'cancelación' : 'ingreso' }}
                     </button>
                     <button type="button" (click)="cerrarAccion()" class="btn btn-outline-secondary">Volver</button>
                 </div>

@@ -80,11 +80,51 @@ Atendiendo a las buenas prácticas de desarrollo, el repositorio concentra los a
 
 ## 🚀 Instrucciones de Ejecución (Angular + Django REST API)
 
-1. Clonar el repositorio.
-2. `cd frontend` → `npm install`
-3. **Terminal 1:** `cd backend` → `python manage.py runserver 8000`
-4. **Terminal 2:** `cd frontend` → `npm start` → **http://localhost:4200/**
-5. Iniciar sesión con un usuario creado mediante `python manage.py createsuperuser`.
+### Backend
+
+1. Clonar el repositorio:
+   ```bash
+   git clone <URL_DEL_REPOSITORIO>
+   cd StockManager
+   ```
+2. Crear y activar un entorno virtual:
+   ```bash
+   python -m venv .venv
+   # Windows PowerShell
+   .\.venv\Scripts\Activate.ps1
+   # Linux/macOS
+   source .venv/bin/activate
+   ```
+3. Instalar dependencias:
+   ```bash
+   pip install -r backend/requirements.txt
+   ```
+4. Crear la base MySQL y configurar `backend/.env`:
+   ```env
+   DB_NAME=stockmanager_db
+   DB_USER=root
+   DB_PASSWORD=tu_clave
+   DB_HOST=127.0.0.1
+   DB_PORT=3306
+   ```
+   Opcionalmente ejecutar `database/init_db.sql` para crear la base.
+5. Crear el esquema y cargar datos demo:
+   ```bash
+   cd backend
+   python manage.py migrate
+   python manage.py loaddata fixtures/initial_data.json
+   python manage.py runserver 8000
+   ```
+
+### Frontend
+
+6. En otra terminal, instalar dependencias y levantar Angular:
+   ```bash
+   cd frontend
+   npm install
+   npx ng serve
+   ```
+7. Abrir **http://localhost:4200/**.
 
 | Perfil | Creación |
 | :--- | :--- | :--- |
@@ -107,13 +147,17 @@ Atendiendo a las buenas prácticas de desarrollo, el repositorio concentra los a
 
 ## 🗄️ Base de Datos MySQL
 
-Se incluye el script SQL para la inicialización y carga de datos semilla (seeders) en la base de datos relacional MySQL, manteniendo estricta coherencia con las entidades de `db.json` y el DER.
+El esquema relacional se crea con las migraciones de Django. El script
+`database/init_db.sql` crea la base MySQL y
+`backend/fixtures/initial_data.json` contiene un usuario administrador,
+materiales, un pedido y un registro de auditoría de prueba.
 
-### Instrucciones para importar el script de base de datos
+El usuario demo es:
 
-1. **Desde la consola interactiva de MySQL:**
-   ```bash
-   mysql -u root -p
+```text
+Correo: admin@stockmanager.com
+Clave: Admin123!
+```
 
 ## 👥 Integrantes del Equipo (ISPC Datalab)
 

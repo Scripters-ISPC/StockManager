@@ -1,7 +1,8 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, DestroyRef, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PedidosService } from '../../../core/services/pedidos';
 import { InventoryService, Material, Proveedor } from '../../../core/services/inventory';
 import { AuthService } from '../../../core/services/auth';
@@ -18,6 +19,7 @@ export class PedidosFormulario implements OnInit {
   private inventoryService = inject(InventoryService);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private destroyRef = inject(DestroyRef);
 
   materiales = signal<Material[]>([]);
   proveedores = signal<Proveedor[]>([]);
@@ -53,7 +55,9 @@ export class PedidosFormulario implements OnInit {
       error: () => this.proveedores.set([]),
     });
 
-    this.pedidoForm.get('materialId')?.valueChanges.subscribe(materialId => {
+    this.pedidoForm.get('materialId')?.valueChanges.pipe(
+      takeUntilDestroyed(this.destroyRef),
+    ).subscribe(materialId => {
       const material = this.materiales().find(m => m.id === materialId);
       this.pedidoForm.patchValue({
         producto: material?.nombre ?? '',

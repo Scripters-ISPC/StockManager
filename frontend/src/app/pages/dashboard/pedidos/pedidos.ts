@@ -22,7 +22,7 @@ export class Pedidos implements OnInit {
 
   pedidos = signal<Pedido[]>([]);
   cargando = signal(true);
-  accionPendiente = signal<{ pedido: Pedido; tipo: 'aprobar' | 'cancelar' | 'confirmarIngreso' } | null>(null);
+  accionPendiente = signal<{ pedido: Pedido; tipo: 'aprobar' | 'enCamino' | 'cancelar' | 'confirmarIngreso' } | null>(null);
   comentarioAccion = '';
   errorAccion = signal('');
 
@@ -47,14 +47,19 @@ export class Pedidos implements OnInit {
 
   puedeCancelar(pedido: Pedido): boolean {
     const esPropio = pedido.solicitanteId === this.authService.usuarioActual()?.id;
-    return pedido.estado === 'Pendiente' && (this.authService.isAdmin() || esPropio);
+    return ['Pendiente', 'Aprobado', 'En Camino'].includes(pedido.estado)
+      && (this.authService.isAdmin() || (pedido.estado === 'Pendiente' && esPropio));
+  }
+
+  puedeMarcarEnCamino(pedido: Pedido): boolean {
+    return this.authService.isAdmin() && pedido.estado === 'Aprobado';
   }
 
   puedeConfirmarIngreso(pedido: Pedido): boolean {
-    return pedido.estado === 'Aprobado';
+    return pedido.estado === 'En Camino';
   }
 
-  abrirAccion(pedido: Pedido, tipo: 'aprobar' | 'cancelar' | 'confirmarIngreso') {
+  abrirAccion(pedido: Pedido, tipo: 'aprobar' | 'enCamino' | 'cancelar' | 'confirmarIngreso') {
     this.comentarioAccion = '';
     this.errorAccion.set('');
     this.accionPendiente.set({ pedido, tipo });
@@ -77,7 +82,11 @@ export class Pedidos implements OnInit {
       return;
     }
 
-    const estado: Pedido['estado'] = accion.tipo === 'aprobar' ? 'Aprobado' : 'Cancelado';
+    const estado: Pedido['estado'] = accion.tipo === 'aprobar'
+      ? 'Aprobado'
+      : accion.tipo === 'enCamino'
+        ? 'En Camino'
+        : 'Cancelado';
     this.pedidosService.cambiarEstado(accion.pedido.id, estado, this.comentarioAccion.trim()).subscribe(() => {
       this.cerrarAccion();
       this.cargarPedidos();

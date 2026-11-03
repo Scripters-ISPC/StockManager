@@ -137,6 +137,10 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+FIXTURE_DIRS = [
+    BASE_DIR / 'fixtures',
+]
+
 
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
@@ -165,8 +169,8 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'AUTH_HEADER_TYPES': ('Bearer',),
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(hours=4),
 }
 
 SPECTACULAR_SETTINGS = {
@@ -174,14 +178,35 @@ SPECTACULAR_SETTINGS = {
     'DESCRIPTION': 'API modular para gestión de inventarios y usuarios',
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
-    'SECURITY': [{'BearerAuth': []}],
-    'APPEND_COMPONENTS': {
-        'securitySchemes': {
-            'BearerAuth': {
-                'type': 'http',
-                'scheme': 'bearer',
-                'bearerFormat': 'JWT',
-            },
+    # Swagger UI conserva este orden al no configurar un ordenamiento alfabético.
+    'TAGS': [
+        {
+            'name': 'Autenticación',
+            'description': 'Inicio de sesión y renovación de tokens JWT.',
         },
-    },
+        {
+            'name': 'Usuarios',
+            'description': 'Gestión de cuentas y credenciales.',
+        },
+        {
+            'name': 'Inventario - Materiales',
+            'description': 'Gestión de materiales y existencias.',
+        },
+        {
+            'name': 'Inventario - Categorías',
+            'description': 'Gestión de categorías de inventario.',
+        },
+        {
+            'name': 'Inventario - Proveedores',
+            'description': 'Gestión de proveedores.',
+        },
+        {
+            'name': 'Pedidos',
+            'description': 'Gestión de solicitudes y pedidos.',
+        },
+        {
+            'name': 'Auditoría',
+            'description': 'Historial de movimientos y cambios.',
+        },
+    ],
 }
