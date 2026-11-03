@@ -1,10 +1,10 @@
 # Especificación de Casos de Uso — StockManager
 
-**Proyecto:** StockManager — Sistema de Gestión y Control Inteligente de Inventarios  
-**Versión:** 1.0.0  
-**Fecha de Documentación:** Octubre 2026  
-**Estado:** Oficial / Base de Referencia  
-**Autores:** Equipo de Desarrollo & Arquitectura de Software  
+**Proyecto:** StockManager — Sistema de Gestión y Control Inteligente de Inventarios
+**Versión:** 1.0.0
+**Fecha de Documentación:** Octubre 2026
+**Estado:** Oficial / Base de Referencia
+**Autores:** Equipo de Desarrollo & Arquitectura de Software
 
 ---
 
@@ -13,7 +13,7 @@
 El presente documento define la especificación formal de los **Casos de Uso (CU)** nucleares del sistema **StockManager**. La plataforma implementa una arquitectura desacoplada orientada a servicios, conformada por:
 - **Frontend (Capa de Presentación):** Aplicación de Página Única (*SPA*) desarrollada en **Angular** con Angular Material / Bootstrap y TailwindCSS.
 - **Backend (Capa de Negocio y API):** Servicio API REST desarrollado sobre **Django & Django REST Framework (DRF)** con autenticación delegada mediante tokens criptográficos **JWT** (*JSON Web Tokens*).
-- **Base de Datos (Capa de Persistencia):** Base de datos relacional **MySQL 8.0+** (`stockmanager_db`) motorizada bajo **InnoDB**, con soporte estricto de transacciones ACID y restricciones de integridad referencial.
+- **Base de Datos (Capa de Persistencia):** Base de datos relacional **MySQL 8.4+** (`stockmanager_db`) motorizada bajo **InnoDB**, con soporte estricto de transacciones ACID y restricciones de integridad referencial.
 
 ---
 
@@ -51,24 +51,24 @@ El presente documento define la especificación formal de los **Casos de Uso (CU
 - **Actor Principal:** Administrador / Operario
 - **Actor Secundario:** Servicio de Autenticación Django (SimpleJWT), Base de Datos MySQL
 - **Precondiciones:**
-  1. El usuario debe existir previamente registrado en la tabla `usuarios` de MySQL con un correo electrónico único y contraseña con hash seguro.
+  1. El usuario debe existir previamente registrado en la tabla `usuarios_usuario` de MySQL con un correo electrónico único y contraseña con hash seguro.
   2. La aplicación cliente Angular debe estar en ejecución y con conectividad al backend Django (`/api/v1/usuarios/login/`).
 
 #### 2. Disparador (*Trigger*)
 El usuario accede a la ruta de inicio `/login` de la SPA en Angular e introduce sus credenciales.
 
 #### 3. Flujo Principal (*Happy Path*)
-1. El usuario ingresa su `email` y `password` en el formulario reactivo de inicio de sesión de Angular.
+1. El usuario ingresa su `correo` y `password` en el formulario reactivo de inicio de sesión de Angular.
 2. El usuario presiona el botón **"Iniciar Sesión"**.
 3. El cliente Angular valida la consistencia sintáctica del formulario (formato de correo válido y campo de contraseña no vacío).
 4. Angular despacha una solicitud HTTP `POST /api/v1/usuarios/login/` con el cuerpo JSON:
    ```json
    {
-     "email": "usuario@stockmanager.com",
+     "correo": "usuario@stockmanager.com",
      "password": "********"
    }
    ```
-5. El backend Django intercepta la petición, verifica la correspondencia criptográfica de la contraseña contra el hash almacenado en la tabla `usuarios` de MySQL.
+5. El backend Django intercepta la petición, verifica la correspondencia criptográfica de la contraseña contra el hash almacenado en la tabla `usuarios_usuario` de MySQL.
 6. Al autenticar exitosamente, Django genera un par de tokens criptográficos JWT (`access` y `refresh`) e incluye en el payload los claims de identidad: `user_id`, `nombre`, `email` y rol (`is_admin` / `rol`).
 7. Django retorna una respuesta HTTP `200 OK` con los tokens y datos de perfil.
 8. La SPA en Angular almacena el token JWT de forma segura (localStorage/sessionStorage y en el estado global), configura el interceptor HTTP para adjuntar el encabezado `Authorization: Bearer <access_token>` en solicitudes subsecuentes y redirige al usuario al panel principal (*Dashboard*).
@@ -101,7 +101,7 @@ El usuario accede a la ruta de inicio `/login` de la SPA en Angular e introduce 
 - **Actor Secundario:** Django REST API (Módulo Inventario y Auditoría), Base de Datos MySQL
 - **Precondiciones:**
   1. El usuario se encuentra autenticado con un token JWT válido.
-  2. El material sobre el cual se efectuará el movimiento existe registrado en la tabla `materiales` (`id`, `nombre`, `cantidad_actual`, `stock_minimo`).
+  2. El material sobre el cual se efectuará el movimiento existe registrado en `inventario_material` (`id`, `nombre`, `cantidad_actual`, `stock_minimo`).
 
 #### 2. Disparador (*Trigger*)
 El usuario ingresa a la vista de Inventario o a la pantalla de Movimientos de Stock y selecciona la opción **"Registrar Movimiento"**.
@@ -114,7 +114,7 @@ El usuario ingresa a la vista de Inventario o a la pantalla de Movimientos de St
    - **Cantidad:** Valor numérico entero estrictamente mayor a 0 (`cantidad > 0`).
    - **Observación o Motivo:** Justificación del movimiento (ej. *"Recepción de proveedor"*, *"Asignación a línea de montaje"*).
 4. El usuario confirma la operación pulsando **"Guardar Movimiento"**.
-5. Angular despacha una solicitud HTTP `POST /api/v1/inventario/materiales/{id}/movimiento/` con el payload:
+5. Angular actualiza el stock mediante `PATCH /api/v1/inventario/materiales/{id}/` y registra el movimiento mediante `POST /api/v1/auditoria/`.
    ```json
    {
      "tipo": "ingreso",
@@ -122,20 +122,10 @@ El usuario ingresa a la vista de Inventario o a la pantalla de Movimientos de St
      "observacion": "Lote recibido s/remito 4091"
    }
    ```
-6. Django inicia una transacción atómica (`transaction.atomic()`):
-   - Recupera el registro del material con bloqueo de fila (`SELECT ... FOR UPDATE`).
-   - Valida la disponibilidad de stock si el tipo es `Egreso`.
-   - Si el tipo es `Ingreso`: `nuevo_stock = cantidad_actual + cantidad`.
-   - Si el tipo es `Egreso`: `nuevo_stock = cantidad_actual - cantidad`.
-   - Actualiza el campo `cantidad_actual` en la tabla `materiales`.
-   - Inserta de forma obligatoria un registro en la tabla `auditoria`:
-     - `usuario_id`: ID del usuario extraído del JWT.
-     - `accion`: `'INGRESO_STOCK'` o `'EGRESO_STOCK'`.
-     - `detalle`: Descripción del movimiento (material afectado, cantidad, stock previo, stock nuevo y motivo).
-     - `fecha`: Marca temporal del servidor.
-   - Ejecuta el `COMMIT` de la transacción en MySQL.
-7. Django retorna una respuesta HTTP `200 OK` con los datos actualizados del material y el balance final.
-8. Angular actualiza la fila del material en la tabla reactiva, recalcula visualmente los indicadores de stock y emite un mensaje de éxito: *"Movimiento registrado satisfactoriamente"*.
+6. Django valida y persiste el nuevo stock en `inventario_material`, y responde `200 OK`.
+7. Angular envía el registro a `POST /api/v1/auditoria/` con `materialId`, `tipo`, `cantidad`, `stockAnterior`, `stockNuevo` y `observacion`.
+8. Django crea `auditoria_registroauditoria` y responde `201 Created`.
+9. Angular actualiza la fila del material, recalcula los indicadores y muestra el resultado al usuario.
 
 #### 4. Flujos Alternativos y Excepciones
 - **FA-1.1: Stock Insuficiente en Operación de Egreso**
@@ -152,8 +142,8 @@ El usuario ingresa a la vista de Inventario o a la pantalla de Movimientos de St
   - Si el token JWT caducó, el backend responde `401 Unauthorized`. El interceptor de Angular captura el evento, intenta el refresco del token vía `/api/v1/usuarios/login/refresh/`, y en caso de fallo redirige a `/login`.
 
 #### 5. Postcondiciones
-- La columna `cantidad_actual` del insumo en la tabla `materiales` queda actualizada en MySQL.
-- Queda registrado un nuevo evento histórico en la tabla `auditoria` garantizando la trazabilidad.
+- La columna `cantidad_actual` del insumo en la tabla `inventario_material` queda actualizada en MySQL.
+- Queda registrado un nuevo evento histórico en la tabla `auditoria_registroauditoria` garantizando la trazabilidad.
 
 ---
 
@@ -166,7 +156,7 @@ El usuario ingresa a la vista de Inventario o a la pantalla de Movimientos de St
 - **Actor Secundario:** API REST Django, Base de Datos MySQL
 - **Precondiciones:**
   1. El usuario se encuentra autenticado en el sistema.
-  2. Existen registros de insumos en la tabla `materiales`.
+  2. Existen registros de insumos en la tabla `inventario_material`.
 
 #### 2. Disparador (*Trigger*)
 El usuario inicia sesión y visualiza el *Dashboard* general o hace clic en la sección **"Alertas de Stock"**.
@@ -175,8 +165,8 @@ El usuario inicia sesión y visualiza el *Dashboard* general o hace clic en la s
 1. Al cargar la vista del Dashboard en Angular, la aplicación despacha una petición HTTP `GET /api/v1/inventario/materiales/alertas/` (o consulta general de catálogo).
 2. Django ejecuta una consulta optimizada contra MySQL:
    ```sql
-   SELECT id, nombre, categoria, ubicacion, cantidad_actual, stock_minimo, proveedor
-   FROM materiales
+   SELECT id, nombre, categoria_id, ubicacion, cantidad_actual, stock_minimo, proveedor_id
+   FROM inventario_material
    WHERE cantidad_actual <= stock_minimo
    ORDER BY (cantidad_actual - stock_minimo) ASC;
    ```
@@ -211,7 +201,7 @@ El usuario inicia sesión y visualiza el *Dashboard* general o hace clic en la s
 - **Actor Secundario:** API REST Django, Base de Datos MySQL
 - **Precondiciones:**
   1. El usuario se encuentra debidamente autenticado en el sistema.
-  2. El material a reponer existe en la tabla `materiales`.
+  2. El material a reponer existe en la tabla `inventario_material`.
 
 #### 2. Disparador (*Trigger*)
 El usuario pulsa el botón **"Solicitar Reposición"** desde la tarjeta de alerta de stock (CU-02) o navega a la sección **"Pedidos / Nueva Solicitud"**.
@@ -235,8 +225,8 @@ El usuario pulsa el botón **"Solicitar Reposición"** desde la tarjeta de alert
    ```
 6. El backend Django ejecuta la lógica dentro de una transacción atómica:
    - Extrae el `usuario_id` del token JWT autenticado para asociarlo al pedido.
-   - Valida la existencia del `material_id` en la tabla `materiales`.
-   - Inserta un nuevo registro en la tabla `pedidos` con:
+   - Valida la existencia del `material_id` en la tabla `inventario_material`.
+   - Inserta un nuevo registro en la tabla `pedidos_pedido` con:
      - `material_id`: ID del insumo.
      - `usuario_id`: ID del solicitante.
      - `cantidad`: Cantidad pedida.
@@ -244,7 +234,7 @@ El usuario pulsa el botón **"Solicitar Reposición"** desde la tarjeta de alert
      - `urgencia`: Nivel de urgencia establecido.
      - `estado`: Valor por defecto `'Pendiente'`.
      - `fecha_solicitud`: Marca temporal del servidor (`CURRENT_TIMESTAMP`).
-   - Inserta simultáneamente un registro en la tabla `auditoria`:
+   - Inserta simultáneamente un registro en la tabla `auditoria_registroauditoria`:
      - `usuario_id`: ID del solicitante.
      - `accion`: `'SOLICITUD_PEDIDO'`.
      - `detalle`: `"Generación de pedido de reposición para el material ID: 1, Cantidad: 100, Proveedor: Ferretería Central, Urgencia: Alta"`.
@@ -262,16 +252,16 @@ El usuario pulsa el botón **"Solicitar Reposición"** desde la tarjeta de alert
   - El usuario puede presionar el botón "Cancelar" en cualquier momento antes del envío. El sistema descarta los datos introducidos sin alterar ninguna tabla ni registrar eventos en auditoría.
 
 #### 5. Postcondiciones
-- Se persiste un nuevo registro con estado `'Pendiente'` en la tabla `pedidos` de MySQL.
-- Se registra el evento en la tabla `auditoria` con el usuario emisor y los detalles de la orden.
+- Se persiste un nuevo registro con estado `'Pendiente'` en la tabla `pedidos_pedido` de MySQL.
+- Se registra el evento en la tabla `auditoria_registroauditoria` con el usuario emisor y los detalles de la orden.
 - El panel de control de pedidos refleja la nueva solicitud para posterior revisión y aprobación por parte del Administrador.
 
 ---
 
 ## 5. Reglas de Negocio Vinculadas (RN)
 
-1. **RN-01: Autenticación Mandatoria y RBAC:** Todo acceso a las rutas operativas (`inventario`, `pedidos`, `auditoria`) requiere un token JWT válido y no revocado. Determinadas acciones (como la eliminación de materiales o visualización de bitácoras de auditoría completas) están reservadas al rol `Admin`.
-2. **RN-02: Integridad Estricta de Existencias (No Negatividad):** Bajo ningún concepto la columna `cantidad_actual` de un insumo puede descender de cero (`CHECK (cantidad_actual >= 0)`). Toda operación de egreso que vulnere esta condición debe ser abortada de forma atómica.
+1. **RN-01: Autenticación Mandatoria y RBAC:** Todo acceso a las rutas operativas (`inventario`, `pedidos`, `auditoria`) requiere un token JWT válido. Las operaciones de escritura del inventario y la gestión de usuarios están reservadas a administradores.
+2. **RN-02: Integridad Estricta de Existencias (No Negatividad):** Los serializers validan que `cantidad_actual` y `stock_minimo` no sean negativos.
 3. **RN-03: Determinación Proactiva de Alertas de Stock:** Un material entra en condición de alerta de stock en el instante en que `cantidad_actual <= stock_minimo`. La severidad es catalogada como crítica si la existencia es nula o representa menos de un tercio del stock mínimo de seguridad.
-4. **RN-04: Auditoría Transaccional Obligatoria e Inmutable:** Toda mutación de estado que involucre existencias físicas o creación de pedidos de compra debe registrar de manera concurrente e inescindible un registro en la tabla `auditoria`. Los registros de auditoría no pueden ser editados ni eliminados por ningún usuario regular.
-5. **RN-05: Ciclo de Vida Controlado de Pedidos:** Todo pedido nace en estado `'Pendiente'`. Solamente un usuario con rol `Admin` posee la potestad de transicionar el pedido hacia los estados `'Aprobado'`, `'Completado'` o `'Cancelado'`. Al completarse una recepción, se debe disparar automáticamente el ingreso correspondiente de existencias (CU-01).
+4. **RN-04: Auditoría de Movimientos:** Los movimientos de stock se registran en `auditoria_registroauditoria` con snapshots de material y usuario para conservar el contexto histórico.
+5. **RN-05: Ciclo de Vida Controlado de Pedidos:** Todo pedido nace en estado `'Pendiente'` y utiliza los estados `'Aprobado'`, `'En Camino'`, `'Entregado'` o `'Cancelado'`. La confirmación de ingreso actualiza el stock, registra la auditoría y luego marca el pedido como `'Entregado'`.

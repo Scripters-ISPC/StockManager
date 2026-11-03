@@ -1,217 +1,242 @@
-# Diagramas de Arquitectura y Diseño — StockManager
+# Diagramas de arquitectura y diseño — StockManager
 
-**Proyecto:** StockManager  
-**Documento:** Diagramas de Especificación Técnica (Mermaid.js)  
-**Versión:** 1.0.0  
-**Fecha:** Octubre 2026  
+**Arquitectura:** Angular SPA + Django REST Framework + MySQL 8.4+
+**Prefijo API:** `/api/v1/`
+**Autenticación:** JWT Bearer
+**Fuente de verdad del modelo:** `backend/*/models.py` y migraciones Django
 
----
+## 1. Diagrama de componentes
 
-## 1. Introducción
+```mermaid
+flowchart LR
+    U[Administrador / Operario]
+    SPA[Frontend Angular SPA]
+    AUTH[authGuard / roleGuard]
+    API[API Django REST Framework]
+    USU[App usuarios]
+    INV[App inventario]
+    PED[App pedidos]
+    AUD[App auditoria]
+    DB[(MySQL stockmanager_db)]
 
-El presente documento complementa la documentación arquitectural y funcional de **StockManager**, proporcionando la representación visual estandarizada mediante diagramas renderizables con **Mermaid.js**. Se incluyen tres modelos fundamentales:
+    U --> SPA
+    SPA --> AUTH
+    AUTH --> API
+    API --> USU
+    API --> INV
+    API --> PED
+    API --> AUD
+    USU --> DB
+    INV --> DB
+    PED --> DB
+    AUD --> DB
+```
 
-1. **Diagrama Entidad-Relación (DER):** Modelado físico de la base de datos relacional MySQL (`stockmanager_db`).
-2. **Diagrama de Clases (UML):** Estructura del modelo de dominio orientado a objetos en Python / Django.
-3. **Diagrama de Secuencia:** Flujo temporal y transaccional del caso de uso nuclear *"Generar Solicitud de Reposición"*.
+### Responsabilidades modulares
 
----
+- **`usuarios`:** login, refresh JWT, usuarios y cambio de contraseña.
+- **`inventario`:** materiales, categorías, proveedores y stock.
+- **`pedidos`:** solicitudes, estados y comentarios de resolución/ingreso.
+- **`auditoria`:** historial de movimientos y snapshots históricos.
 
-## 2. Diagrama Entidad-Relación (DER)
+Todas las vistas funcionales propias heredan de `APIView`. La renovación JWT
+utiliza `RefreshTokenView` de SimpleJWT mediante la clase adaptadora del módulo
+`usuarios`.
 
-Representa el esquema relacional normalizado implementado en `database/init_db.sql`. Se explicitan las entidades, atributos, claves primarias (`PK`), claves foráneas (`FK`), restricciones únicas (`UK`) y cardinalidades de cardinalidad 1 a N:
-
-- Un **usuario** puede emitir de 0 a muchos **pedidos** (`1:N`).
-- Un **usuario** puede generar de 0 a muchos registros de **auditoría** (`1:N`).
-- Un **material** puede estar involucrado en 0 a muchos **pedidos** de reposición (`1:N`).
+## 2. Diagrama entidad-relación
 
 ```mermaid
 erDiagram
-    USUARIOS ||--o{ PEDIDOS : "solicita (1:N)"
-    USUARIOS ||--o{ AUDITORIA : "ejecuta (1:N)"
-    MATERIALES ||--o{ PEDIDOS : "referencia (1:N)"
+    USUARIOS_USUARIO ||--o{ PEDIDOS_PEDIDO : solicita
+    USUARIOS_USUARIO ||--o{ AUDITORIA_REGISTRO : genera
+    INVENTARIO_CATEGORIA ||--o{ INVENTARIO_MATERIAL : clasifica
+    INVENTARIO_PROVEEDOR ||--o{ INVENTARIO_MATERIAL : abastece
+    INVENTARIO_MATERIAL ||--o{ PEDIDOS_PEDIDO : referencia
+    INVENTARIO_MATERIAL ||--o{ AUDITORIA_REGISTRO : registra
 
-    USUARIOS {
-        int id PK "Identificador único"
-        string nombre "Nombre y apellido del usuario"
-        string email UK "Correo corporativo único"
-        string password "Hash seguro de contraseña"
-        enum rol "Admin o User"
-        timestamp creado_en "Fecha de registro"
+    USUARIOS_USUARIO {
+        bigint id PK
+        varchar email UK
+        varchar username UK
+        varchar first_name
+        boolean is_admin
+        boolean is_active
     }
 
-    MATERIALES {
-        int id PK "Identificador único del insumo"
-        string nombre "Denominación del material"
-        string categoria "Clasificación o rubro"
-        string ubicacion "Ubicación en almacén"
-        int cantidad_actual "Existencia actual (>= 0)"
-        int stock_minimo "Umbral mínimo de alerta (>= 0)"
-        string proveedor "Proveedor predeterminado"
-        timestamp creado_en "Fecha de alta"
+    INVENTARIO_CATEGORIA {
+        bigint id PK
+        varchar nombre UK
     }
 
-    PEDIDOS {
-        int id PK "Número de orden de pedido"
-        int material_id FK "Referencia a materiales.id"
-        int usuario_id FK "Referencia a usuarios.id"
-        int cantidad "Cantidad solicitada (> 0)"
-        string proveedor "Razón social del proveedor"
-        enum urgencia "Baja, Media o Alta"
-        enum estado "Pendiente, Completado o Cancelado"
-        timestamp fecha_solicitud "Fecha de emisión"
+    INVENTARIO_PROVEEDOR {
+        bigint id PK
+        varchar nombre UK
+        varchar contacto
+        varchar telefono
+        varchar correo
+        boolean activo
     }
 
-    AUDITORIA {
-        int id PK "Identificador único del log"
-        int usuario_id FK "Referencia a usuarios.id"
-        string accion "Código de acción realizada"
-        text detalle "Descripción de la transacción"
-        timestamp fecha "Marca temporal del evento"
+    INVENTARIO_MATERIAL {
+        bigint id PK
+        varchar nombre
+        bigint categoria_id FK
+        bigint proveedor_id FK
+        varchar ubicacion
+        unsigned_int cantidad_actual
+        unsigned_int stock_minimo
+    }
+
+    PEDIDOS_PEDIDO {
+        bigint id PK
+        bigint material_id FK
+        bigint solicitante_id FK
+        varchar producto
+        unsigned_int cantidad
+        varchar urgencia
+        varchar estado
+        date fecha
+        text comentario_resolucion
+        text comentario_ingreso
+    }
+
+    AUDITORIA_REGISTRO {
+        bigint id PK
+        bigint material_id FK
+        bigint usuario_id FK
+        varchar material_nombre
+        varchar tipo
+        unsigned_int cantidad
+        unsigned_int stock_anterior
+        unsigned_int stock_nuevo
+        datetime fecha_hora
     }
 ```
 
----
+Reglas:
 
-## 3. Diagrama de Clases del Dominio (UML)
+- `Pedido.material`: `CASCADE`.
+- `Pedido.solicitante`: `SET_NULL`.
+- `RegistroAuditoria.material`: `SET_NULL`.
+- `RegistroAuditoria.usuario`: `SET_NULL`.
 
-Representa las entidades del modelo de datos y lógica de negocio en el backend (Python / Django ORM), detallando atributos tipados, modificadores de acceso y métodos de dominio para el control de inventario y pedidos:
+## 3. Diagrama de clases del dominio
 
 ```mermaid
 classDiagram
     class Usuario {
-        +int id
-        +string nombre
-        +string email
-        +string password
-        +string rol
-        +datetime creado_en
-        +bool is_admin
-        +set_password(raw_password: str) void
-        +check_password(raw_password: str) bool
-        +es_administrador() bool
+        +BigInt id
+        +String first_name
+        +String email
+        +Boolean is_admin
+        +Boolean is_active
+    }
+
+    class Categoria {
+        +BigInt id
+        +String nombre
+    }
+
+    class Proveedor {
+        +BigInt id
+        +String nombre
+        +String contacto
+        +String telefono
+        +String correo
+        +Boolean activo
     }
 
     class Material {
-        +int id
-        +string nombre
-        +string categoria
-        +string ubicacion
-        +int cantidad_actual
-        +int stock_minimo
-        +string proveedor
-        +datetime creado_en
-        +actualizar_stock(tipo: str, cantidad: int) void
-        +verificar_disponibilidad(cantidad: int) bool
-        +es_stock_bajo() bool
-        +es_stock_critico() bool
+        +BigInt id
+        +String nombre
+        +Categoria categoria
+        +Proveedor proveedor
+        +String ubicacion
+        +UInt cantidad_actual
+        +UInt stock_minimo
     }
 
     class Pedido {
-        +int id
-        +int material_id
-        +int usuario_id
-        +int cantidad
-        +string proveedor
-        +string urgencia
-        +string estado
-        +datetime fecha_solicitud
-        +cambiar_estado(nuevo_estado: str) void
-        +aprobar_pedido() void
-        +completar_recepcion() void
-        +cancelar_pedido() void
+        +BigInt id
+        +Material material
+        +Usuario solicitante
+        +UInt cantidad
+        +String urgencia
+        +String estado
+        +String comentario_resolucion
+        +String comentario_ingreso
     }
 
-    class Auditoria {
-        +int id
-        +int usuario_id
-        +string accion
-        +string detalle
-        +datetime fecha
-        +registrar_evento(usuario_id: int, accion: str, detalle: str) void
+    class RegistroAuditoria {
+        +BigInt id
+        +Material material
+        +Usuario usuario
+        +String material_nombre
+        +String tipo
+        +UInt stock_anterior
+        +UInt stock_nuevo
+        +DateTime fecha_hora
     }
 
-    Usuario "1" --> "0..*" Pedido : emite
-    Usuario "1" --> "0..*" Auditoria : protagoniza
-    Material "1" --> "0..*" Pedido : es_solicitado
+    Categoria "1" --> "0..*" Material
+    Proveedor "1" --> "0..*" Material
+    Material "1" --> "0..*" Pedido
+    Usuario "1" --> "0..*" Pedido
+    Material "1" --> "0..*" RegistroAuditoria
+    Usuario "1" --> "0..*" RegistroAuditoria
 ```
 
-### Descripción de Responsabilidades de Clases:
-- **`Usuario`:** Encapsula la gestión de identidad, encriptación de credenciales y autorización RBAC (`Admin` / `Operario`).
-- **`Material`:** Aplica invariantes de inventario (regla de no negatividad en stock), evalúa umbrales dinámicos de severidad y gestiona altas/bajas de existencias.
-- **`Pedido`:** Implementa la máquina de estados de las solicitudes de reabastecimiento (Pendiente $\rightarrow$ Aprobado / Cancelado $\rightarrow$ Completado).
-- **`Auditoria`:** Servicio transversal para registrar de forma inmutable todas las operaciones transaccionales realizadas en el sistema.
+El modelo no declara métodos de dominio artificiales. Las operaciones CRUD,
+las actualizaciones de estado y el registro de auditoría se ejecutan en
+serializers, APIViews y servicios Angular.
 
----
+## 4. Diagrama de secuencia: confirmar ingreso de pedido
 
-## 4. Diagrama de Secuencia: Generar Solicitud de Reposición
-
-Describe la secuencia temporal y el intercambio de mensajes sincrónicos y asincrónicos entre los componentes del sistema para el caso de uso **CU-03 ("Generar Solicitud de Reposición de Materiales")**:
-
-- **Actores y Participantes:**
-  - **Operario / Admin:** Usuario final que detecta el stock bajo e inicia la solicitud.
-  - **Frontend (Angular SPA):** Formulario reactivo con validaciones y manejo de token JWT.
-  - **API REST (Django / DRF):** Controlador, serializadores, validaciones de negocio y transaccionalidad atómica.
-  - **Base de Datos (MySQL):** Motor relacional con motor InnoDB y llaves foráneas.
+El flujo real implementado para confirmar un pedido en estado `En Camino` es
+coordinado por Angular. No existe un endpoint independiente
+`/aprobar/` ni `/movimiento/`.
 
 ```mermaid
 sequenceDiagram
     autonumber
-    actor User as Operario / Admin
-    participant SPA as Frontend (Angular SPA)
-    participant API as API REST (Django / DRF)
-    participant DB as Motor BD (MySQL)
+    actor User as Administrador / Operario
+    participant SPA as Angular SPA
+    participant API as Django REST API
+    participant DB as MySQL
 
-    Note over User, SPA: 1. Detección y Carga de Formulario
-    User ->> SPA: Selecciona material en alerta y pulsa "Solicitar Reposición"
-    SPA ->> SPA: Carga formulario con datos predeterminados (material_id, proveedor)
-    User ->> SPA: Ingresa cantidad requerida y selecciona urgencia ("Alta")
-    User ->> SPA: Clic en "Confirmar y Enviar Solicitud"
+    User ->> SPA: Pulsa "Confirmar ingreso"
+    SPA ->> API: GET /api/v1/inventario/materiales/
+    API ->> DB: Consulta material relacionado
+    DB -->> API: Material y stock actual
+    API -->> SPA: 200 OK
 
-    Note over SPA, API: 2. Validación y Despacho HTTP
-    SPA ->> SPA: Validar formulario reactivo (cantidad > 0)
-    SPA ->> API: POST /api/v1/pedidos/<br/>[Header: Authorization Bearer JWT]<br/>{ material_id: 1, cantidad: 100, proveedor: "Ferretería Central", urgencia: "Alta" }
+    SPA ->> API: PATCH /api/v1/inventario/materiales/{id}/
+    Note right of SPA: { cantidadActual: stockNuevo }
+    API ->> DB: Actualiza cantidad_actual
+    DB -->> API: Material actualizado
+    API -->> SPA: 200 OK
 
-    Note over API: 3. Intercepción y Autenticación
-    API ->> API: Validar firma y vigencia del Token JWT
+    SPA ->> API: POST /api/v1/auditoria/
+    Note right of SPA: materialId, tipo, cantidad,<br/>stockAnterior, stockNuevo, observacion
+    API ->> DB: Inserta RegistroAuditoria
+    DB -->> API: Auditoría creada
+    API -->> SPA: 201 Created
 
-    alt Token JWT Inválido o Expirado
-        API -->> SPA: HTTP 401 Unauthorized { "detail": "Token inválido" }
-        SPA -->> User: Alerta: "Sesión expirada. Inicie sesión nuevamente"
-    else Token Válido
-        Note over API, DB: 4. Transacción Atómica de Negocio
-        API ->> DB: BEGIN TRANSACTION
-        
-        API ->> DB: SELECT id, nombre FROM materiales WHERE id = 1
-        DB -->> API: Retorna registro de material
-
-        alt Material No Encontrado
-            API ->> DB: ROLLBACK
-            API -->> SPA: HTTP 404 Not Found { "error": "Material inexistente" }
-            SPA -->> User: Alerta visual: "El material especificado no existe"
-        else Material Válido
-            API ->> DB: INSERT INTO pedidos (material_id, usuario_id, cantidad, proveedor, urgencia, estado, fecha_solicitud)<br/>VALUES (1, 2, 100, 'Ferretería Central', 'Alta', 'Pendiente', NOW())
-            DB -->> API: OK (Retorna nuevo ID: 15)
-
-            API ->> DB: INSERT INTO auditoria (usuario_id, accion, detalle, fecha)<br/>VALUES (2, 'SOLICITUD_PEDIDO', 'Generación de pedido para material ID: 1, Cant: 100', NOW())
-            DB -->> API: OK
-
-            API ->> DB: COMMIT
-            DB -->> API: Transacción exitosa consolidada
-
-            Note over API, User: 5. Respuesta y Actualización de UI
-            API -->> SPA: HTTP 201 Created { id: 15, estado: "Pendiente", ... }
-            SPA ->> SPA: Actualizar estado reactivo y refrescar lista de pedidos
-            SPA -->> User: Notificación Toast de Éxito:<br/>"Pedido #15 creado exitosamente en estado Pendiente"
-        end
-    end
+    SPA ->> API: PATCH /api/v1/pedidos/{id}/
+    Note right of SPA: { estado: "Entregado",<br/>comentarioIngreso: "..." }
+    API ->> DB: Actualiza estado y comentario_ingreso
+    DB -->> API: Pedido actualizado
+    API -->> SPA: 200 OK
+    SPA -->> User: Refresca el listado
 ```
 
----
+Los estados de pedido vigentes son:
 
-## 5. Conclusiones y Trazabilidad
+```text
+Pendiente → Aprobado → En Camino → Entregado
+                         ↘ Cancelado
+Pendiente/Aprobado ───────→ Cancelado
+```
 
-Los diagramas expuestos aseguran que tanto el equipo de desarrollo frontend, backend y administración de base de datos mantengan una referencia unívoca y rigurosa sobre:
-1. **Esquema Relacional:** La exactitud de tipos, restricciones `CHECK`, valores por defecto y claves foráneas en MySQL.
-2. **Arquitectura Orientada a Objetos:** El comportamiento encapsulado en los modelos de Django.
-3. **Flujo de Ejecución:** La robustez transaccional requerida en la creación de órdenes de compra con auditoría vinculada.
+> El estado `Rechazado` no existe en el código actual. La cancelación se
+> representa mediante `Cancelado`.
