@@ -1,54 +1,79 @@
-# StockManager — Frontend
+# Frontend de StockManager
 
-Aplicación SPA de gestión de inventario desarrollada con Angular. El
-frontend consume exclusivamente la API REST de Django.
+Aplicación SPA desarrollada con Angular. Consume exclusivamente la API REST
+de Django mediante `HttpClient`, servicios y Observables.
 
-## Requisitos
+## Requisitos previos
 
-- Node.js 20+
-- npm
-- Backend Django ejecutándose en `http://localhost:8000`
+- Node.js compatible con Angular 17 o superior.
+- npm.
+- Angular CLI.
+- Backend Django ejecutándose en `http://localhost:8000/`.
 
-## Instalación y ejecución
+Verificar las herramientas instaladas:
 
-```bash
+```powershell
+node --version
+npm --version
+ng version
+```
+
+## Instalación paso a paso
+
+Desde la carpeta `frontend/`:
+
+```powershell
 npm install
+```
+
+La URL base de la API se encuentra en:
+
+```text
+src/app/core/config/api.config.ts
+```
+
+Por defecto apunta a:
+
+```text
+http://localhost:8000/api/v1
+```
+
+## Ejecución del servidor
+
+```powershell
+ng serve
+```
+
+También puede utilizarse el script configurado en el proyecto:
+
+```powershell
 npm start
 ```
 
-La aplicación estará disponible en `http://localhost:4200`.
+La aplicación estará disponible en:
 
-La URL base de la API se configura en
-`src/app/core/config/api.config.ts`:
-
-```typescript
-export const API_BASE_URL = 'http://localhost:8000/api/v1';
+```text
+http://localhost:4200/
 ```
 
-## Endpoints utilizados
+## Estructura de la SPA
 
-- `POST /api/v1/usuarios/login/`
-- `/api/v1/usuarios/`
-- `/api/v1/inventario/materiales/`
-- `/api/v1/pedidos/`
-- `/api/v1/auditoria/`
+La aplicación utiliza componentes standalone, rutas protegidas, formularios
+reactivos y control de acceso por roles.
 
-El access token JWT se guarda en `localStorage` como `access_token` y el
-interceptor Angular lo envía automáticamente como `Bearer`.
+- **Landing Page:** página pública de inicio del sistema.
+- **Quiénes Somos:** presentación institucional del proyecto.
+- **Login:** autenticación mediante correo y contraseña con JWT.
+- **Dashboard dinámico por roles:** navegación y acciones diferenciadas para
+  administradores y operarios.
+- **Inventario:** materiales, categorías, proveedores, stock y alertas.
+- **Pedidos:** creación, aprobación, cancelación, seguimiento y confirmación
+  de ingreso.
+- **Auditoría e historial:** consulta de movimientos y pedidos registrados.
+- **Página 404 personalizada:** respuesta visual para rutas inexistentes.
 
-## Usuarios
+Para generar una compilación de producción:
 
-Las cuentas se crean desde Django mediante un superusuario:
-
-```bash
-cd ../backend
-python manage.py createsuperuser
-```
-
-Los usuarios administradores pueden crear cuentas operarias desde el panel.
-
-## Build
-
-```bash
+```powershell
 npm run build
 ```

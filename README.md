@@ -1,175 +1,55 @@
-<div align="center">
-
 # 📦 StockManager
 
-*Sistema integral de gestión de inventario interno desarrollado como una Aplicación de Página Única (SPA) en Angular (v17+), diseñado para optimizar la administración de recursos, el control de stock crítico y la trazabilidad de reposiciones.*
+Sistema web desacoplado para la gestión de inventario, materiales, pedidos y
+auditoría de movimientos. La aplicación permite controlar el stock, gestionar
+solicitudes de reposición y consultar el historial de operaciones según el
+rol del usuario.
 
-![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
-![Angular](https://img.shields.io/badge/angular-%23DD0031.svg?style=for-the-badge&logo=angular&logoColor=white)
-![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
-![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
-![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
+## Arquitectura
 
-</div>
+StockManager utiliza una arquitectura cliente-servidor separada:
 
----
+- **Frontend:** SPA desarrollada con Angular 17+ y TypeScript.
+- **Backend:** API REST desarrollada con Django REST Framework.
+- **Base de datos:** MySQL, con modelos relacionales y claves foráneas.
+- **Comunicación:** HTTP/JSON mediante endpoints versionados bajo `/api/v1/`.
+- **Autenticación:** JWT con autorización Bearer.
+- **Documentación API:** Swagger/OpenAPI mediante `drf-spectacular`.
 
-## 🎯 Descripción General del Proyecto
-
-> **StockManager** es una aplicación web enfocada en la gestión eficiente del inventario y la logística de un almacén, garantizando la escalabilidad y la toma de decisiones basada en datos.
-
-El sistema está desarrollado con componentes standalone y rutas dinámicas, incorporando un control de acceso basado en roles (RBAC) con dos perfiles principales: **Administrador** y **Operario**.
-
-**Funcionalidades principales:**
-* 📥 Registro de ingreso y egreso de materiales con historial de modificaciones.
-* ⚠️ Monitoreo visual y alertas críticas para materiales con stock bajo.
-* 📝 Generación de solicitudes formales de reposición de mercadería mediante formularios reactivos validados.
-* 🔒 Protección de rutas y vistas sensibles mediante Guardianes de Angular (*Guards*).
-
----
-
-## 🛠️ Tecnologías Utilizadas
-
-* **HTML5:** Estructuración semántica de las vistas principales.
-* **CSS3:** Estilos visuales externalizados y diseño responsivo.
-* **Bootstrap 5:** Sistema de grillas y componentes para garantizar la adaptabilidad móvil (*mobile-first*).
-* **Angular (v17+):** Framework principal basado en componentes *standalone*, Signals y sistema avanzado de ruteo.
-* **TypeScript:** Lenguaje base para la lógica de componentes, servicios y validación de formularios reactivos.
-* **Bootstrap 5:** Sistema de grillas y componentes para garantizar la adaptabilidad móvil (*mobile-first*).
-* **Git y GitHub:** Control de versiones bajo un modelo de ramas (`feat/`, `docs/`) y confirmaciones atómicas (*Conventional Commits*).
-
----
-
-## 📂 Estructura de Carpetas
-
-Atendiendo a las buenas prácticas de desarrollo, el repositorio concentra los archivos en una única aplicación principal, separando claramente las vistas públicas del módulo de gestión:
+## Estructura del repositorio
 
 ```text
-/StockManager
-│
-├── /frontend               # Aplicación completa desarrollada en Angular (SPA)
-│   ├── /src                # Código fuente (componentes, servicios, guards, rutas)
-│   ├── angular.json        # Configuración del proyecto Angular
-│   └── package.json        # Dependencias y scripts de ejecución
-│
-└── /maqueta                # Archivos estáticos originales de las fases previas (HTML/CSS)├──/maqueta
-    │
-    ├── /assets                     # Recursos multimedia globales
-    │   ├── /icons                  # Íconos de la interfaz
-    │   └── /img                    # Imágenes estáticas
-    │
-    ├── /css                        # Hojas de estilo de las páginas públicas
-    │
-    ├── /dashboard                  # Módulo de administración (Panel de control)
-    │   ├── /css                    # Estilos específicos del panel
-    │   ├── /js                     # Lógica funcional e interactividad
-    │   ├── alertas.html            # Vista de notificaciones de stock crítico
-    │   ├── historial-pedidos.html  # Registro de reposiciones anteriores
-    │   ├── index.html              # Resumen principal del panel (Home Dashboard)
-    │   ├── inventario.html         # Gestión de stock y auditoría
-    │   ├── pedidos-formulario.html # Formulario de nueva solicitud
-    │   └── pedidos.html            # Gestión de pedidos activos
-    │
-    ├── index.html                  # Landing Page / Inicio público
-    ├── quienes-somos.html          # Página institucional del equipo
-    └── template.html               # Plantilla base para creación de nuevas vistas
-```
----
-
-## 🚀 Instrucciones de Ejecución (Angular + Django REST API)
-
-### Backend
-
-1. Clonar el repositorio:
-   ```bash
-   git clone <URL_DEL_REPOSITORIO>
-   cd StockManager
-   ```
-2. Crear y activar un entorno virtual:
-   ```bash
-   python -m venv .venv
-   # Windows PowerShell
-   .\.venv\Scripts\Activate.ps1
-   # Linux/macOS
-   source .venv/bin/activate
-   ```
-3. Instalar dependencias:
-   ```bash
-   pip install -r backend/requirements.txt
-   ```
-4. Crear la base MySQL y configurar `backend/.env`:
-   ```env
-   DB_NAME=stockmanager_db
-   DB_USER=root
-   DB_PASSWORD=tu_clave
-   DB_HOST=127.0.0.1
-   DB_PORT=3306
-   ```
-   Opcionalmente ejecutar `database/init_db.sql` para crear la base.
-5. Crear el esquema y cargar datos demo:
-   ```bash
-   cd backend
-   python manage.py migrate
-   python manage.py loaddata fixtures/initial_data.json
-   python manage.py runserver 8000
-   ```
-
-### Frontend
-
-6. En otra terminal, instalar dependencias y levantar Angular:
-   ```bash
-   cd frontend
-   npm install
-   npx ng serve
-   ```
-7. Abrir **http://localhost:4200/**.
-
-| Perfil | Creación |
-| :--- | :--- | :--- |
-| Administrador | `python manage.py createsuperuser` |
-| Operario | Creado por un administrador desde el panel |
-
-**Vista operario (solo admin):** logueado como administrador, en el panel lateral usar **「Ver como operario」** para ocultar menús de admin sin cerrar sesión; **「Volver a vista administrador」** restaura permisos.
-
-
----
-
-## 🤖 Herramientas o IA Utilizadas
-
-* **Editor de Código:** Visual Studio Code.
-* **Validación de Código:** W3C Markup Validation Service, Lighthouse y compilador estricto de Angular. 
-* **Inteligencia Artificial:** Asistencia de Gemini y ChatGPT para la refactorización de código estático a componentes SPA en Angular 17, estructuración de rutas hijas, lógica de Guardianes (Guards), soporte en la redacción de documentación técnica y revision de buenas practicas. *Todo el código resultante fue auditado y comprendido íntegramente por el equipo de desarrollo.*
-
----
----
-
-## 🗄️ Base de Datos MySQL
-
-El esquema relacional se crea con las migraciones de Django. El script
-`database/init_db.sql` crea la base MySQL y
-`backend/fixtures/initial_data.json` contiene un usuario administrador,
-materiales, un pedido y un registro de auditoría de prueba.
-
-El usuario demo es:
-
-```text
-Correo: admin@stockmanager.com
-Clave: Admin123!
+StockManager/
+├── backend/                 # API Django REST Framework
+│   ├── database/            # Scripts SQL de inicialización y auditoría
+│   ├── fixtures/            # Datos iniciales de prueba
+│   └── README.md            # Guía técnica del backend
+├── frontend/                # Aplicación SPA Angular
+│   └── README.md            # Guía técnica del frontend
+└── README.md                # Presentación general del proyecto
 ```
 
-## 👥 Integrantes del Equipo (ISPC Datalab)
+## Cómo empezar
 
-| Nombre y Apellido | Rol / Especialidad |
-| :--- | :--- |
-| **Angelo, Yamila Noelia Belen** | Desarrolladora Front-End |
-| **Catalas, Luis Gerardo** | Desarrollador Front-End |
-| **Mazur, Luciana Del Milagro** | Desarrolladora Front-End |
-| **Murua, Hector Marcelo** | Desarrollador Front-End |
+1. Consultar la guía del [backend](./backend/README.md) para configurar
+   Python, MySQL, migraciones y datos de prueba.
+2. Consultar la guía del [frontend](./frontend/README.md) para instalar
+   dependencias y levantar Angular.
+3. Ejecutar ambos servicios en terminales separadas:
+   - API Django: `http://localhost:8000/`
+   - Aplicación Angular: `http://localhost:4200/`
 
-<br>
+## Tecnologías clave
 
-<div align="center">
-  <small>Instituto Superior Politécnico de Córdoba (ISPC) | Tecnicatura Superior en Desarrollo de Software</small>
-</div>
+![Angular](https://img.shields.io/badge/Angular-17%2B-DD0031?logo=angular&logoColor=white)
+![Django](https://img.shields.io/badge/Django-6.1-092E20?logo=django&logoColor=white)
+![DRF](https://img.shields.io/badge/Django%20REST%20Framework-3.18-red)
+![MySQL](https://img.shields.io/badge/MySQL-8.4%2B-4479A1?logo=mysql&logoColor=white)
+![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?logo=swagger&logoColor=black)
+
+## Módulos principales
+
+- **Usuarios:** autenticación, roles, cuentas y cambio de contraseña.
+- **Inventario:** materiales, categorías, proveedores y control de stock.
+- **Pedidos:** solicitudes de reposición y seguimiento de estados.
+- **Auditoría:** historial persistente de ingresos, egresos y cambios.
