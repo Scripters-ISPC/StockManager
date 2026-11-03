@@ -59,6 +59,7 @@ export const routes: Routes = [
             { path: 'usuarios', component: Usuarios, canActivate: [roleGuard] },
             { path: 'auditoria', component: Auditoria },
             { path: 'material-formulario', component: MaterialFormulario, canActivate: [roleGuard] },
+            { path: 'material-formulario/:id', component: MaterialFormulario, canActivate: [roleGuard] },
             { path: 'categorias', component: Categorias, canActivate: [roleGuard] },
             { path: 'proveedores', component: Proveedores, canActivate: [roleGuard] },
             { path: 'pedidos-formulario', component: PedidosFormulario },

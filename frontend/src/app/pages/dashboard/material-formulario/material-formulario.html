@@ -1,8 +1,16 @@
 <div class="mb-3">
     <a routerLink="/dashboard/inventario" class="btn btn-outline-secondary btn-sm">← Volver al Inventario</a>
 </div>
-<h1>🧾 Agregar Material</h1>
-<p class="page-lead">Alta de insumos y umbrales de stock crítico.</p>
+<h1>{{ editando() ? '✏️ Editar Material' : '🧾 Agregar Material' }}</h1>
+<p class="page-lead">{{ editando() ? 'Actualizá toda la información del material.' : 'Alta de insumos y umbrales de stock crítico.' }}</p>
+@if (cargandoMaterial()) {
+    <div class="text-center py-5">
+        <span class="spinner-border text-secondary"></span>
+        <p class="text-muted mt-2">Cargando material...</p>
+    </div>
+} @else if (errorCarga()) {
+    <div class="alert alert-warning" role="alert">{{ errorCarga() }}</div>
+} @else {
 <div class="card shadow-sm border-0" style="max-width: 640px;">
     <div class="card-body p-4">
         <form [formGroup]="materialForm" (ngSubmit)="onSubmit()">
@@ -54,9 +62,10 @@
                 @if (enviando()) {
                     <span class="spinner-border spinner-border-sm me-2"></span> Guardando...
                 } @else {
-                    Guardar Material
+                    {{ editando() ? 'Guardar Cambios' : 'Guardar Material' }}
                 }
             </button>
         </form>
     </div>
 </div>
+}

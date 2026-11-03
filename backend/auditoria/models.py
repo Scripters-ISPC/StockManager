@@ -6,10 +6,13 @@ class RegistroAuditoria(models.Model):
     class Tipo(models.TextChoices):
         INGRESO = 'ingreso', 'Ingreso'
         EGRESO = 'egreso', 'Egreso'
+        CREACION = 'creacion', 'Creación'
+        EDICION = 'edicion', 'Edición'
+        ELIMINACION = 'eliminacion', 'Eliminación'
 
     material_id = models.PositiveBigIntegerField()
     material_nombre = models.CharField(max_length=120)
-    tipo = models.CharField(max_length=7, choices=Tipo.choices)
+    tipo = models.CharField(max_length=11, choices=Tipo.choices)
     cantidad = models.PositiveIntegerField()
     stock_anterior = models.PositiveIntegerField()
     stock_nuevo = models.PositiveIntegerField()

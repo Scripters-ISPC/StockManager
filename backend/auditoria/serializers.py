@@ -42,7 +42,10 @@ class RegistroAuditoriaSerializer(serializers.ModelSerializer):
         }
 
     def validate_cantidad(self, value):
-        if value < 1:
+        if value < 1 and self.initial_data.get('tipo') in (
+            RegistroAuditoria.Tipo.INGRESO,
+            RegistroAuditoria.Tipo.EGRESO,
+        ):
             raise serializers.ValidationError(
                 'La cantidad debe ser mayor que cero.'
             )

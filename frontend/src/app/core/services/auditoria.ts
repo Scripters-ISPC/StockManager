@@ -7,7 +7,7 @@ export interface RegistroAuditoria {
   id?: number;
   materialId: number;
   materialNombre: string;
-  tipo: 'ingreso' | 'egreso';
+  tipo: 'ingreso' | 'egreso' | 'creacion' | 'edicion' | 'eliminacion';
   cantidad: number;
   stockAnterior: number;
   stockNuevo: number;

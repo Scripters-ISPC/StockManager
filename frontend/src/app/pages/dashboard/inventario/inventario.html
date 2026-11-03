@@ -13,6 +13,9 @@
         de Django esté disponible e intentá nuevamente.
     </div>
 }
+@if (mensajeAjuste()) {
+    <div class="alert alert-warning" role="alert">{{ mensajeAjuste() }}</div>
+}
 
 @if (cargando()) {
     <div class="text-center py-5">
@@ -47,11 +50,11 @@
                         <td>
                             <div class="d-flex align-items-center gap-2">
                                 @if (authService.isAdmin()) {
-                                    <button type="button" (click)="ajustarStock(item, -1)" class="btn btn-sm btn-outline-secondary px-2 py-0">-</button>
+                                    <button type="button" (click)="ajustarStock(item, -1)" class="btn btn-sm btn-outline-secondary px-2 py-0" [attr.aria-label]="'Disminuir stock de ' + item.nombre">-</button>
                                 }
                                 <span class="fw-bold fs-6">{{ item.cantidadActual }}</span>
                                 @if (authService.isAdmin()) {
-                                    <button type="button" (click)="ajustarStock(item, 1)" class="btn btn-sm btn-outline-secondary px-2 py-0">+</button>
+                                    <button type="button" (click)="ajustarStock(item, 1)" class="btn btn-sm btn-outline-secondary px-2 py-0" [attr.aria-label]="'Aumentar stock de ' + item.nombre">+</button>
                                 }
                             </div>
                         </td>
@@ -65,6 +68,7 @@
                         <td>
                             <div class="d-flex gap-1">
                                 @if (authService.isAdmin()) {
+                                    <a [routerLink]="['/dashboard/material-formulario', item.id]" class="btn btn-sm btn-outline-primary">Editar</a>
                                     <button type="button" (click)="eliminar(item.id!)" class="btn btn-sm btn-outline-danger">Eliminar</button>
                                 } @else {
                                     <button type="button" (click)="abrirRegistroEgreso(item)" class="btn btn-sm btn-outline-warning">Registrar egreso</button>
@@ -76,6 +80,86 @@
             </tbody>
         </table>
     </div>
+    @if (materialParaAjuste(); as item) {
+        <div class="stock-modal-backdrop" (click)="cerrarAjusteStock()" (keydown.escape)="cerrarAjusteStock()">
+            <section
+                class="stock-modal"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="stock-modal-title"
+                (click)="$event.stopPropagation()">
+                <header class="stock-modal-header">
+                    <div>
+                        <p class="stock-modal-eyebrow">Ajuste manual de inventario</p>
+                        <h2 id="stock-modal-title" class="h5 mb-1">
+                            {{ tipoAjuste() === 'ingreso' ? 'Agregar unidades' : 'Disminuir unidades' }}
+                        </h2>
+                        <p class="text-muted small mb-0">{{ item.nombre }}</p>
+                    </div>
+                    <button
+                        type="button"
+                        class="stock-modal-close"
+                        aria-label="Cerrar modal"
+                        [disabled]="guardandoAjuste()"
+                        (click)="cerrarAjusteStock()">×</button>
+                </header>
+                <div class="stock-modal-body">
+                    <div class="stock-current">
+                        <span class="text-muted small">Stock actual</span>
+                        <strong>{{ item.cantidadActual }} <span>unidades</span></strong>
+                    </div>
+                    <div class="mb-3">
+                        <label for="cantidad-ajuste" class="form-label">
+                            Cantidad a {{ tipoAjuste() === 'ingreso' ? 'agregar' : 'disminuir' }}
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input
+                            id="cantidad-ajuste"
+                            type="number"
+                            min="1"
+                            [max]="tipoAjuste() === 'egreso' ? item.cantidadActual : null"
+                            [(ngModel)]="cantidadAjuste"
+                            class="form-control stock-modal-input"
+                            [disabled]="guardandoAjuste()"
+                            autofocus>
+                        @if (tipoAjuste() === 'egreso') {
+                            <div class="form-text">No puede superar las {{ item.cantidadActual }} unidades disponibles.</div>
+                        }
+                    </div>
+                    <div class="mb-2">
+                        <label for="motivo-ajuste" class="form-label">Motivo <span class="text-danger">*</span></label>
+                        <textarea
+                            id="motivo-ajuste"
+                            [(ngModel)]="motivoAjuste"
+                            class="form-control stock-modal-input"
+                            rows="3"
+                            maxlength="500"
+                            placeholder="Ej.: recepción de compra, corrección de inventario..."
+                            [disabled]="guardandoAjuste()"></textarea>
+                    </div>
+                    @if (errorAjuste()) {
+                        <p class="text-danger small mb-0" role="alert">{{ errorAjuste() }}</p>
+                    }
+                </div>
+                <footer class="stock-modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" [disabled]="guardandoAjuste()" (click)="cerrarAjusteStock()">Cancelar</button>
+                    <button
+                        type="button"
+                        class="btn"
+                        [class.btn-brand]="tipoAjuste() === 'ingreso'"
+                        [class.btn-warning]="tipoAjuste() === 'egreso'"
+                        [disabled]="guardandoAjuste()"
+                        (click)="confirmarAjusteStock()">
+                        @if (guardandoAjuste()) {
+                            <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span> Guardando...
+                        } @else {
+                            {{ tipoAjuste() === 'ingreso' ? 'Registrar ingreso' : 'Registrar egreso' }}
+                        }
+                    </button>
+                </footer>
+            </section>
+        </div>
+    }
     @if (materialParaEgreso(); as item) {
         <section class="card border-0 shadow-sm mt-3" aria-live="polite" style="max-width: 640px;">
             <div class="card-body">

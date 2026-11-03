@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-2">
     <h1 class="mb-0">🕒 Auditoría de Inventario</h1>
 </div>
-<p class="page-lead">Registro de trazabilidad de ingresos, egresos y ajustes de stock.</p>
+<p class="page-lead">Registro de trazabilidad de ingresos, egresos, altas, ediciones y eliminaciones de materiales.</p>
 
 @if (cargando()) {
     <div class="text-center py-5">
@@ -36,6 +36,9 @@
                         <option value="todos">Todas</option>
                         <option value="ingreso">Ingresos</option>
                         <option value="egreso">Egresos</option>
+                        <option value="creacion">Creaciones</option>
+                        <option value="edicion">Ediciones</option>
+                        <option value="eliminacion">Eliminaciones</option>
                     </select>
                 </div>
                 <div class="col-sm-4 col-lg-2">
@@ -76,10 +79,12 @@
                         <td class="fw-semibold">{{ reg.materialNombre }}</td>
                         <td>{{ reg.usuario }}</td>
                         <td>
-                            @if (reg.tipo === 'ingreso') {
+                            @if (reg.tipo === 'ingreso' || reg.tipo === 'creacion') {
                                 <span class="badge bg-success">{{ etiquetaAccion(reg) }}</span>
-                            } @else {
+                            } @else if (reg.tipo === 'egreso' || reg.tipo === 'eliminacion') {
                                 <span class="badge bg-danger">{{ etiquetaAccion(reg) }}</span>
+                            } @else {
+                                <span class="badge bg-primary">{{ etiquetaAccion(reg) }}</span>
                             }
                         </td>
                         <td class="small text-muted">{{ reg.stockAnterior }} → {{ reg.stockNuevo }}</td>
