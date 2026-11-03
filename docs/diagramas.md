@@ -190,7 +190,91 @@ El modelo no declara métodos de dominio artificiales. Las operaciones CRUD,
 las actualizaciones de estado y el registro de auditoría se ejecutan en
 serializers, APIViews y servicios Angular.
 
-## 4. Diagrama de secuencia: confirmar ingreso de pedido
+## 4. Modelado BPMN: gestionar solicitud de reposición
+
+### 4.1 Identificación del proceso
+
+- **Nombre del proceso:** Gestionar solicitud de reposición de material.
+- **Objetivo:** Registrar una necesidad de reposición, validarla, autorizarla,
+  acompañar su entrega y actualizar el stock con trazabilidad histórica.
+- **Evento que lo inicia:** Un operario o administrador identifica una necesidad
+  de reposición y abre el formulario de nuevo pedido.
+- **Participantes:** Operario, Administrador, SPA Angular, API Django REST,
+  base de datos MySQL y proveedor.
+- **Resultado:** Pedido entregado, stock actualizado y movimiento registrado en
+  auditoría; alternativamente, pedido cancelado o solicitud corregida.
+
+El proceso se representa con lanes para distinguir quién ejecuta cada
+actividad. Incluye dos gateways principales: validación de datos y decisión
+administrativa. También contempla una segunda decisión sobre la disponibilidad
+del proveedor y un retorno al formulario cuando la validación falla.
+
+### 4.2 Diagrama BPMN horizontal
+
+El siguiente modelo utiliza la notación de flujo de Mermaid para representar
+los elementos BPMN: evento de inicio, tareas, gateways, flujos de secuencia,
+lanes y eventos de fin.
+
+```mermaid
+flowchart LR
+    subgraph L1["Lane: Operario / Administrador"]
+        S((Inicio: necesidad de reposición))
+        A1["1. Abrir formulario de pedido"]
+        A2["2. Seleccionar material y completar cantidad"]
+        A8["8. Revisar estado de entrega"]
+        A9["9. Confirmar ingreso recibido"]
+        E1((Fin: pedido cancelado))
+    end
+
+    subgraph L2["Lane: SPA Angular"]
+        A3["3. Validar formulario reactivo"]
+        G1{"¿Datos válidos?"}
+        A4["4. Enviar POST /api/v1/pedidos/"]
+        A10["10. Enviar PATCH de confirmación"]
+        R1["Corregir datos del formulario"]
+    end
+
+    subgraph L3["Lane: API Django / MySQL"]
+        A5["5. Validar serializer y crear pedido Pendiente"]
+        G2{"¿Administrador aprueba?"}
+        A6["6. Cambiar estado a Aprobado"]
+        A7["7. Cambiar estado a Cancelado"]
+        G3{"¿Entrega disponible?"}
+        A11["11. Cambiar estado a En Camino"]
+        A12["12. Actualizar stock"]
+        A13["13. Registrar auditoría"]
+        A14["14. Cambiar estado a Entregado"]
+        E2((Fin: pedido entregado y auditado))
+    end
+
+    subgraph L4["Lane: Proveedor"]
+        A15["Confirmar disponibilidad y despachar pedido"]
+    end
+
+    S --> A1 --> A2 --> A3 --> G1
+    G1 -- "No" --> R1 --> A2
+    G1 -- "Sí" --> A4 --> A5 --> G2
+    G2 -- "No: cancelar" --> A7 --> E1
+    G2 -- "Sí" --> A6 --> A11 --> A15 --> G3
+    G3 -- "No: reprogramar" --> A8 --> A15
+    G3 -- "Sí: disponible" --> A8
+    A8 --> A9 --> A10 --> A12 --> A13 --> A14 --> E2
+```
+
+El gateway `¿Datos válidos?` representa el retorno a la actividad anterior
+cuando Angular detecta errores en el formulario reactivo. El gateway
+`¿Administrador aprueba?` deriva en aprobación o cancelación. La decisión
+`¿Entrega disponible?` permite reprogramar la entrega o continuar con el
+estado `En Camino`. La confirmación final actualiza el stock, registra la
+auditoría y cambia el pedido a `Entregado`.
+
+El proceso contiene más de ocho actividades, tres decisiones, cuatro lanes,
+dos caminos derivados de decisiones, un retorno a una actividad anterior y
+dos eventos de fin posibles. Los nombres de endpoints utilizados corresponden
+al contrato vigente de la API; no existe un endpoint independiente
+`/aprobar/` ni `/movimiento/`.
+
+## 5. Diagrama de secuencia: confirmar ingreso de pedido
 
 El flujo real implementado para confirmar un pedido en estado `En Camino` es
 coordinado por Angular. No existe un endpoint independiente
