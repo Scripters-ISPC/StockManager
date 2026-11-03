@@ -29,7 +29,7 @@
                 @for (pedido of pedidos(); track pedido.id) {
                     <tr>
                         <td class="fw-bold">#{{ pedido.id }}</td>
-                        <td>{{ pedido.producto }}</td>
+                        <td>{{ pedido.materialNombre || pedido.producto }}</td>
                         <td><span class="badge bg-light text-dark border">{{ pedido.cantidad }} unidades</span></td>
                         <td class="text-muted small">{{ pedido.proveedor || 'Sin especificar' }}</td>
                         <td>
@@ -93,7 +93,7 @@
                     solicitud #{{ accion.pedido.id }}
                 </h2>
                 @if (accion.tipo === 'confirmarIngreso') {
-                    <p class="small text-muted mb-2">Se ingresarán <strong>{{ accion.pedido.cantidad }} unidades</strong> de {{ accion.pedido.producto }} al inventario.</p>
+                    <p class="small text-muted mb-2">Se ingresarán <strong>{{ accion.pedido.cantidad }} unidades</strong> de {{ accion.pedido.materialNombre || accion.pedido.producto }} al inventario.</p>
                 }
                 <label for="comentario-accion" class="form-label">Comentario (opcional)</label>
                 <textarea id="comentario-accion" [(ngModel)]="comentarioAccion" class="form-control" rows="2" placeholder="Dejá una observación sobre esta decisión..."></textarea>

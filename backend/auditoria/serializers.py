@@ -1,12 +1,19 @@
 from django.utils import timezone
 from rest_framework import serializers
 
+from inventario.models import Material
+from usuarios.models import Usuario
 from .models import RegistroAuditoria
 
 
 class RegistroAuditoriaSerializer(serializers.ModelSerializer):
-    materialId = serializers.IntegerField(source='material_id')
-    materialNombre = serializers.CharField(source='material_nombre')
+    materialId = serializers.PrimaryKeyRelatedField(
+        source='material',
+        queryset=Material.objects.all(),
+        required=False,
+        allow_null=True,
+    )
+    materialNombre = serializers.SerializerMethodField()
     stockAnterior = serializers.IntegerField(
         source='stock_anterior',
         min_value=0,
@@ -31,15 +38,32 @@ class RegistroAuditoriaSerializer(serializers.ModelSerializer):
             'cantidad',
             'stockAnterior',
             'stockNuevo',
-            'usuario',
+            'usuarioId',
+            'usuarioNombre',
             'fecha',
             'fechaHora',
             'observacion',
         ]
         extra_kwargs = {
-            'usuario': {'read_only': True},
             'fecha': {'required': False},
         }
+
+    usuarioId = serializers.PrimaryKeyRelatedField(
+        source='usuario',
+        queryset=Usuario.objects.all(),
+        required=False,
+        allow_null=True,
+        write_only=True,
+    )
+    usuarioNombre = serializers.SerializerMethodField()
+
+    def get_materialNombre(self, obj):
+        return obj.material.nombre if obj.material else obj.material_nombre
+
+    def get_usuarioNombre(self, obj):
+        if not obj.usuario:
+            return ''
+        return obj.usuario.get_full_name().strip() or obj.usuario.email
 
     def validate_cantidad(self, value):
         if value < 1 and self.initial_data.get('tipo') in (
@@ -58,8 +82,9 @@ class RegistroAuditoriaSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 'Se requiere un usuario autenticado para registrar auditoría.'
             )
-        validated_data['usuario'] = (
-            user.get_full_name() or user.email or user.get_username()
-        )
+        validated_data.setdefault('usuario', user)
+        material = validated_data.get('material')
+        if material and not validated_data.get('material_nombre'):
+            validated_data['material_nombre'] = material.nombre
         validated_data.setdefault('fecha_hora', timezone.now())
         return super().create(validated_data)

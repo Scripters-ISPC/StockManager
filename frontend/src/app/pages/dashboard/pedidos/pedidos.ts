@@ -87,7 +87,8 @@ export class Pedidos implements OnInit {
   private confirmarIngreso(pedido: Pedido) {
     this.inventoryService.getMateriales().subscribe({
       next: (materiales) => {
-        const material = materiales.find((item) => item.nombre === pedido.producto);
+        const material = materiales.find((item) => item.id === pedido.materialId)
+          ?? materiales.find((item) => item.nombre === pedido.producto);
         if (!material?.id) {
           this.errorAccion.set('No se encontró el material solicitado en el inventario.');
           return;
@@ -95,7 +96,7 @@ export class Pedidos implements OnInit {
 
         const stockAnterior = material.cantidadActual;
         const stockNuevo = stockAnterior + pedido.cantidad;
-        const usuario = this.authService.usuarioActual()?.nombre ?? 'Usuario';
+        const usuarioId = this.authService.usuarioActual()?.id ?? null;
         const observacion = this.comentarioAccion.trim() || 'Ingreso confirmado desde la solicitud #' + pedido.id;
 
         this.inventoryService.actualizarStock(material.id, stockNuevo).subscribe({
@@ -107,7 +108,7 @@ export class Pedidos implements OnInit {
               cantidad: pedido.cantidad,
               stockAnterior,
               stockNuevo,
-              usuario,
+              usuarioId,
               fecha: new Date().toISOString().split('T')[0],
               fechaHora: new Date().toISOString(),
               observacion,

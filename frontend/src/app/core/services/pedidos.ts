@@ -6,13 +6,15 @@ import { API_BASE_URL } from '../config/api.config';
 export interface Pedido {
   id?: number;
   producto: string;
+  materialId: number;
+  materialNombre?: string;
   cantidad: number;
   proveedor: string | null;
   urgencia: 'baja' | 'media' | 'alta';
   estado: 'Pendiente' | 'Aprobado' | 'En Camino' | 'Entregado' | 'Cancelado';
   fecha: string;
   comentario?: string;
-  solicitanteId?: number;
+  solicitanteId?: number | null;
   solicitanteNombre?: string;
   comentarioResolucion?: string;
   comentarioIngreso?: string;

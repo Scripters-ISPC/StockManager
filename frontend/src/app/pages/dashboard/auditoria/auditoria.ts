@@ -22,7 +22,7 @@ export class Auditoria implements OnInit {
   orden = signal<'recientes' | 'antiguos'>('recientes');
 
   materiales = computed(() => [...new Set(this.registros().map((reg) => reg.materialNombre))].sort());
-  usuarios = computed(() => [...new Set(this.registros().map((reg) => reg.usuario))].sort());
+  usuarios = computed(() => [...new Set(this.registros().map((reg) => reg.usuarioNombre || 'Sin usuario'))].sort());
   registrosVisibles = computed(() => {
     const material = this.filtroMaterial();
     const usuario = this.filtroUsuario();
@@ -32,7 +32,7 @@ export class Auditoria implements OnInit {
     return this.registros()
       .filter((reg) =>
         (!material || reg.materialNombre === material) &&
-        (!usuario || reg.usuario === usuario) &&
+        (!usuario || (reg.usuarioNombre || 'Sin usuario') === usuario) &&
         (tipo === 'todos' || reg.tipo === tipo) &&
         (!fecha || reg.fecha === fecha)
       )

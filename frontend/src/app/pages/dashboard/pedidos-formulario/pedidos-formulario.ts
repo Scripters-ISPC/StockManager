@@ -27,7 +27,8 @@ export class PedidosFormulario implements OnInit {
   exito = false;
 
   pedidoForm = new FormGroup({
-    producto: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    materialId: new FormControl<number | null>(null, Validators.required),
+    producto: new FormControl('', [Validators.required]),
     cantidad: new FormControl<number | null>(1, [
       Validators.required,
       Validators.min(1),
@@ -52,11 +53,12 @@ export class PedidosFormulario implements OnInit {
       error: () => this.proveedores.set([]),
     });
 
-    this.pedidoForm.get('producto')?.valueChanges.subscribe(nombre => {
-      const material = this.materiales().find(m => m.nombre === nombre);
-      if (material?.proveedor) {
-        this.pedidoForm.patchValue({ proveedor: material.proveedor }, { emitEvent: false });
-      }
+    this.pedidoForm.get('materialId')?.valueChanges.subscribe(materialId => {
+      const material = this.materiales().find(m => m.id === materialId);
+      this.pedidoForm.patchValue({
+        producto: material?.nombre ?? '',
+        proveedor: material?.proveedor ?? '',
+      }, { emitEvent: false });
     });
   }
 
@@ -71,6 +73,7 @@ export class PedidosFormulario implements OnInit {
 
     this.pedidosService.crearPedido({
       producto: vals.producto!,
+      materialId: vals.materialId!,
       cantidad: vals.cantidad!,
       proveedor: vals.proveedor?.trim() || null,
       urgencia: vals.urgencia!,
@@ -91,6 +94,7 @@ export class PedidosFormulario implements OnInit {
   }
 
   get productoCtrl() { return this.pedidoForm.get('producto'); }
+  get materialIdCtrl() { return this.pedidoForm.get('materialId'); }
   get cantidadCtrl() { return this.pedidoForm.get('cantidad'); }
   get proveedorCtrl() { return this.pedidoForm.get('proveedor'); }
 }
